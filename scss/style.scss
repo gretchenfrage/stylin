@@ -7,13 +7,19 @@ body, html {
 }
 
 /*
- * The main column acts like this:
+ * The main column, which is where content goes, acts like this:
  *
  * - spans entire height of container
  * - horizontally centered
  * - wants to fill the width of the screen
- * - width cannot be
- *
+ * - width cannot be less than $main-column-min-width
+ *   - this will trigger horizontal scrolling
+ * - width cannot exceed $main-column-max-width
+ *   - this will trigger margins
+ * - width cannot exceed $main-column-max-aspect times the screen height
+ *   - this will trigger margins
+ *   - by setting $main-column-max-aspect to a value below 1, you can constrain
+ *     the main column (its visible part) into portrait mode.
  *
  *
  */
