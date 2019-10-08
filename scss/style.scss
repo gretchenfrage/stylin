@@ -6,23 +6,9 @@ body, html {
   margin: 0;
 }
 
-/*
- * The main column, which is where content goes, acts like this:
- *
- * - spans entire height of container
- * - horizontally centered
- * - wants to fill the width of the screen
- * - width cannot be less than $main-column-min-width
- *   - this will trigger horizontal scrolling
- * - width cannot exceed $main-column-max-width
- *   - this will trigger margins
- * - width cannot exceed $main-column-max-aspect times the screen height
- *   - this will trigger margins
- *   - by setting $main-column-max-aspect to a value below 1, you can constrain
- *     the main column (its visible part) into landscape mode.
- *
- *
- */
+@function minus-scrollbar-width($width) {
+  @return calc(#{$width} - (100vw - 100%));
+}
 
 $main-column-max-aspect: 2.0;
 $main-column-min-width: 7in;
@@ -41,7 +27,7 @@ div.main-column {
   //
   // subtract the scrollbar width:
   // https://stackoverflow.com/questions/33606565/is-it-possible-to-calculate-the-viewport-width-vw-without-scrollbar
-  min-width: calc(#{$main-column-min-width} - (100vw - 100%));
+  min-width: minus-scrollbar-width($main-column-min-width);
   @media only screen
       and (max-height: $main-column-max-width * $main-column-max-aspect)
       and (min-height: $main-column-min-width * $main-column-max-aspect) {
