@@ -19,13 +19,13 @@ body, html {
  * - width cannot exceed $main-column-max-aspect times the screen height
  *   - this will trigger margins
  *   - by setting $main-column-max-aspect to a value below 1, you can constrain
- *     the main column (its visible part) into portrait mode.
+ *     the main column (its visible part) into landscape mode.
  *
  *
  */
 
-$main-column-max-aspect: 0.6;
-$main-column-min-width: 4in;
+$main-column-max-aspect: 2.0;
+$main-column-min-width: 7in;
 $main-column-max-width: 10in;
 
 div.main-column {
@@ -42,11 +42,6 @@ div.main-column {
   // subtract the scrollbar width:
   // https://stackoverflow.com/questions/33606565/is-it-possible-to-calculate-the-viewport-width-vw-without-scrollbar
   min-width: calc(#{$main-column-min-width} - (100vw - 100%));
-  /*
-  @media only screen and (max-height: $main-column-min-width * $main-column-max-aspect) {
-
-  }
-  */
   @media only screen
       and (max-height: $main-column-max-width * $main-column-max-aspect)
       and (min-height: $main-column-min-width * $main-column-max-aspect) {
@@ -58,6 +53,30 @@ div.main-column {
     // width cannot exceed 10 inches
     max-width: calc(#{$main-column-max-width} - (100vw - 100%));
   }
+
+  @media only screen
+    and (max-height: $main-column-min-width / $main-column-max-aspect) {
+
+    // too narrow, horizontal scroll
+    // width = $main-column-min-width
+
+    background-color: green;
+  }
+  @media only screen
+    and (min-width: $main-column-min-width)
+    and (max-width: $main-column-max-width) {
+
+    // aspect ratio
+
+    background-color: red;
+  }
+  @media only screen
+    and (min-height: $main-column-max-width * $main-column-max-aspect)
+    and (min-height: $main-column-min-width * $main-column-max-aspect) {
+
+    background-color: blue;
+  }
+
 
   // width: min(100%, min(10in, 100vh));
 
@@ -71,7 +90,7 @@ div.main-column {
     }
   }
 
-  background-color: green;
+  // background-color: green;
 }
 
 #miku {
@@ -82,5 +101,14 @@ div.main-column {
 }
 
 @for $i from 1 through 5 {
+
+  .image-#{$i}uh {
+    min-height: 1in;
+    height: 10vh * $i;
+
+
+
+  }
+
 
 }
