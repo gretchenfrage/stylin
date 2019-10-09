@@ -9,12 +9,12 @@ body, html {
 // subtract the scrollbar width:
 // https://stackoverflow.com/questions/33606565/is-it-possible-to-calculate-the-viewport-width-vw-without-scrollbar
 @function minus-scrollbar-width($width) {
-  @return calc(#{$width} - (100vw - 100%));
+  @return calc((#{$width}) - (100vw - 100%));
 }
 
 $min-uh: 1in !default;
 $max-uh: 2in !default;
-$min-uw: 1in !default; // TODO: lower
+$min-uw: 0.5in !default; // TODO: lower
 $num-columns: 5 !default;
 $preferred-visible-rows: 6 !default;
 $max-ratio-uw-uh: 2 !default;
@@ -26,6 +26,10 @@ $max-ratio-uw-uh: 2 !default;
   max-height: $max-uh * $n;
 }
 
+@mixin uw($n) {
+  width: 100% / $num-columns * $n;
+}
+
 div.main-column {
   // extend entirety of page
   height: 100%;
@@ -34,8 +38,8 @@ div.main-column {
   margin: auto;
 
   // calculate width
-  min-width: $min-uw * $num-columns;
-  width: 100vw;
+  min-width: minus-scrollbar-width($min-uw * $num-columns);
+  width: 100%;
   // max-width = $num-columns * (max-uw = uh * max-ratio-uw-uh)
   @media all and (max-height: $min-uh * $preferred-visible-rows) {
     // uh = $min-uh
@@ -54,7 +58,7 @@ div.main-column {
   @media all and (min-height: $max-uh * $preferred-visible-rows) {
     // uh = $max-uh
     max-width: minus-scrollbar-width(
-      $min-uh * $max-ratio-uw-uh * $num-columns
+      $max-uh * $max-ratio-uw-uh * $num-columns
     );
   }
 
@@ -76,8 +80,8 @@ div.main-column {
 }
 
 .cell {
-  width: 20%;
   @include uh(1.0);
+  @include uw(1.0);
   display: inline-block;
   margin: 0;
   padding: 0;
