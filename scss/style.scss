@@ -1,95 +1,18 @@
 
-body, html {
-  // body flush with borders of screen
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
+$max-ratio-uw-uh: 2;
 
-// subtract the scrollbar width:
-// https://stackoverflow.com/questions/33606565/is-it-possible-to-calculate-the-viewport-width-vw-without-scrollbar
-@function minus-scrollbar-width($width) {
-  @return calc((#{$width}) - (100vw - 100%));
-}
+@import "stylin/layout";
+@import "stylin/image";
 
-$min-uh: 1in !default;
-$max-uh: 2in !default;
-$min-uw: 0.5in !default;
-$num-columns: 5 !default;
-$preferred-visible-rows: 6 !default;
-$max-ratio-uw-uh: 2 !default;
+@import "colors";
+@import "fonts";
 
-/// give the element $n height units
-@mixin uh($n) {
-  min-height: $min-uh * $n;
-  height: 100vh / $preferred-visible-rows * $n;
-  max-height: $max-uh * $n;
-}
-
-@mixin uw($n) {
-  width: 100% / $num-columns * $n;
+html {
+  font-family: "inconsolata", serif;
+  color: white;
+  background-color: $diesel-color;
 }
 
 div.main-column {
-  // extend entirety of page
-  height: 100%;
-
-  // centered
-  margin: auto;
-
-  // calculate width
-  min-width: minus-scrollbar-width($min-uw * $num-columns);
-  width: 100%;
-  // max-width = $num-columns * (max-uw = uh * max-ratio-uw-uh)
-  @media all and (max-height: $min-uh * $preferred-visible-rows) {
-    // uh = $min-uh
-    max-width: minus-scrollbar-width(
-      $min-uh * $max-ratio-uw-uh * $num-columns
-    );
-  }
-  @media all
-    and (min-height: $min-uh * $preferred-visible-rows)
-    and (max-height: $max-uh * $preferred-visible-rows) {
-    // uh = 100vh / $preferred-visible-rows
-    max-width: minus-scrollbar-width(
-      (100vh / $preferred-visible-rows) * $max-ratio-uw-uh * $num-columns
-    );
-  }
-  @media all and (min-height: $max-uh * $preferred-visible-rows) {
-    // uh = $max-uh
-    max-width: minus-scrollbar-width(
-      $max-uh * $max-ratio-uw-uh * $num-columns
-    );
-  }
-
-  // layout fix, keeps images inside of this, including their margins
-  // see:
-  // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
-  @each $psuedo in before, after {
-    &:#{$psuedo} {
-      clear: both;
-      content: "";
-      display: table;
-    }
-  }
-}
-
-// debug stuff
-div.main-column {
-  font-size: 0;
-}
-
-.cell {
-  @include uh(1.0);
-  @include uw(1.0);
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-
-#miku {
-  width: 50%;
-  margin: 10px 50%;
-  display: block;
-  transform: translateX(-50%);
+  background-color: #2c3e507f;
 }

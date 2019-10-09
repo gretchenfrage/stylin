@@ -1,0 +1,17 @@
+
+@import "layout";
+
+$img-break-margin: 10px !default;
+
+@for $n from 0 through $preferred-visible-rows - 1 {
+  img.img-break-#{$n}uh {
+
+    @include uh($n);
+
+    display: block;
+    margin: $img-break-margin 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+
+  }
+}
