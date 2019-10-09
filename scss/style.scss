@@ -24,20 +24,25 @@ body, html {
 
   @media all
     and (max-height: 1in * 6) {
-    max-width: (1in * $n) * 2;
+    max-width: minus-scrollbar-width((1in * $n) * 2);
+
+    background-color: red;
   }
 
   @media all
     and (min-height: 1in * 6)
     and (max-height: 2in * 6) {
-    max-width: (100vh / 6 * $n) * 2;
+    max-width: minus-scrollbar-width((100vh / 6 * $n) * 2);
+
+    background-color: green;
   }
 
   @media all
     and (min-height: 2in * 6) {
-    max-width: (2in * $n) * 2;
-  }
+    max-width: minus-scrollbar-width((2in * $n) * 2);
 
+    background-color: blue;
+  }
 }
 
 div.main-column {
@@ -45,6 +50,7 @@ div.main-column {
   @include uw(5);
 
   margin: auto;
+  //background-color: blue;
 
   // layout fix, see:
   // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
