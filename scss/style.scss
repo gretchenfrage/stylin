@@ -12,12 +12,14 @@ body, html {
   @return calc(#{$width} - (100vw - 100%));
 }
 
+/// $n height units
 @mixin uh($n) {
   min-height: 1in * $n;
   height: 100vh / 6 * $n;
   max-height: 2in * $n;
 }
 
+/// $n width units
 @mixin uw($n) {
   min-width: 1in * $n;
   width: 100vw / 5 * $n;
@@ -49,6 +51,8 @@ div.main-column {
   height: 100%;
   @include uw(5);
 
+  font-size: 0;
+
   margin: auto;
   //background-color: blue;
 
@@ -61,6 +65,14 @@ div.main-column {
       display: table;
     }
   }
+}
+
+.cell {
+  width: 20%;
+  @include uh(1.0);
+  display: inline-block;
+  margin: 0;
+  padding: 0;
 }
 
 #miku {
