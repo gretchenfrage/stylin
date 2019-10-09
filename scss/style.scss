@@ -12,48 +12,54 @@ body, html {
   @return calc(#{$width} - (100vw - 100%));
 }
 
-/// $n height units
+$min-uh: 1in !default;
+$max-uh: 2in !default;
+$min-uw: 1in !default; // TODO: lower
+$num-columns: 5 !default;
+$preferred-visible-rows: 6 !default;
+$max-ratio-uw-uh: 2 !default;
+
+/// give the element $n height units
 @mixin uh($n) {
-  min-height: 1in * $n;
-  height: 100vh / 6 * $n;
-  max-height: 2in * $n;
-}
-
-/// $n width units
-@mixin uw($n) {
-  min-width: 1in * $n;
-  width: 100vw / 5 * $n;
-
-  @media all
-    and (max-height: 1in * 6) {
-
-    max-width: minus-scrollbar-width((1in * $n) * 2);
-  }
-
-  @media all
-    and (min-height: 1in * 6)
-    and (max-height: 2in * 6) {
-
-    max-width: minus-scrollbar-width((100vh / 6 * $n) * 2);
-  }
-
-  @media all
-    and (min-height: 2in * 6) {
-
-    max-width: minus-scrollbar-width((2in * $n) * 2);
-  }
+  min-height: $min-uh * $n;
+  height: 100vh / $preferred-visible-rows * $n;
+  max-height: $max-uh * $n;
 }
 
 div.main-column {
+  // extend entirety of page
   height: 100%;
-  @include uw(5);
 
-  font-size: 0;
-
+  // centered
   margin: auto;
-  //background-color: blue;
 
-  // layout fix, see:
+  // calculate width
+  min-width: $min-uw * $num-columns;
+  width: 100vw;
+  // max-width = $num-columns * (max-uw = uh * max-ratio-uw-uh)
+  @media all and (max-height: $min-uh * $preferred-visible-rows) {
+    // uh = $min-uh
+    max-width: minus-scrollbar-width(
+      $min-uh * $max-ratio-uw-uh * $num-columns
+    );
+  }
+  @media all
+    and (min-height: $min-uh * $preferred-visible-rows)
+    and (max-height: $max-uh * $preferred-visible-rows) {
+    // uh = 100vh / $preferred-visible-rows
+    max-width: minus-scrollbar-width(
+      (100vh / $preferred-visible-rows) * $max-ratio-uw-uh * $num-columns
+    );
+  }
+  @media all and (min-height: $max-uh * $preferred-visible-rows) {
+    // uh = $max-uh
+    max-width: minus-scrollbar-width(
+      $min-uh * $max-ratio-uw-uh * $num-columns
+    );
+  }
+
+  // layout fix, keeps images inside of this, including their margins
+  // see:
   // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
   @each $psuedo in before, after {
     &:#{$psuedo} {
@@ -62,6 +68,11 @@ div.main-column {
       display: table;
     }
   }
+}
+
+// debug stuff
+div.main-column {
+  font-size: 0;
 }
 
 .cell {
