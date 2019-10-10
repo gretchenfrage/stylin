@@ -1,0 +1,33 @@
+
+@import "layout";
+
+$text-padding: 0.5em !default;
+
+// useful for debugging
+// as well as actually giving them borders if you want
+$par-border-width: 0px !default;
+
+@for $n from 1 through $num-columns {
+  .par-#{$n}wu {
+
+    padding: $text-padding;
+    width: calc(
+            (
+              100% / #{$num-columns} * #{$n}
+            ) - (
+              #{$text-padding} * 2
+            ) - (
+              #{$par-border-width} * 2
+            )
+    );
+    clear: none;
+    float: left;
+
+    border-width: $par-border-width;
+
+    border-style: solid;
+    border-color: black;
+
+
+  }
+}

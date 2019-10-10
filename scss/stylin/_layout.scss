@@ -1,7 +1,6 @@
 
 body, html {
   // body flush with borders of screen
-  //border: 0;
   padding: 0;
   margin: 0;
 
@@ -68,14 +67,16 @@ div.main-column {
   }
 }
 
-/// Give the element $n height units
+/// Give the element $n height units.
 @mixin uh($n) {
   min-height: $min-uh * $n;
   height: 100vh / $preferred-visible-rows * $n;
   max-height: $max-uh * $n;
 }
 
-/// The the element, in the main column, $n width units.
+/// Give the element $n width units.
+///
+/// The element should be a direct child of the main column.
 @mixin uw($n) {
   width: 100% / $num-columns * $n;
 }

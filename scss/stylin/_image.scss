@@ -3,7 +3,7 @@
 
 $img-break-margin: 10px !default;
 
-@for $n from 0 through $preferred-visible-rows - 1 {
+@for $n from 1 through $preferred-visible-rows - 1 {
   img.img-break-#{$n}uh {
 
     @include uh($n);

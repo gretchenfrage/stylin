@@ -1,8 +1,10 @@
 
 $max-ratio-uw-uh: 2;
+$par-border-width: 1px;
 
 @import "stylin/layout";
 @import "stylin/image";
+@import "stylin/content";
 
 @import "colors";
 @import "fonts";
