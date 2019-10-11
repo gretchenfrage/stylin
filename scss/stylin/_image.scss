@@ -12,6 +12,7 @@ $img-break-margin: 10px !default;
     margin: $img-break-margin 50%;
     transform: translateX(-50%);
     border-radius: 5px;
+    clear: both;
 
   }
 }

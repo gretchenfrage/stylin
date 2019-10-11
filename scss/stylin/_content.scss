@@ -8,7 +8,7 @@ $text-padding: 0.5em !default;
 $par-border-width: 0px !default;
 
 @for $n from 1 through $num-columns {
-  .par-#{$n}wu {
+  .par-#{$n}uw {
 
     padding: $text-padding;
     width: calc(
