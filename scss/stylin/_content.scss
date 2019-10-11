@@ -10,7 +10,10 @@ $par-border-width: 0px !default;
 @for $n from 1 through $num-columns {
   .par-#{$n}uw {
 
-    padding: $text-padding;
+    padding: 0 $text-padding;
+    margin-top: $text-padding;
+    margin-bottom: $text-padding;
+
     width: calc(
             (
               100% / #{$num-columns} * #{$n}
@@ -24,10 +27,8 @@ $par-border-width: 0px !default;
     float: left;
 
     border-width: $par-border-width;
-
-    border-style: solid;
-    border-color: black;
-
+    border-color: #FFFFFFFF;
+    border-style: dashed;
 
   }
 }

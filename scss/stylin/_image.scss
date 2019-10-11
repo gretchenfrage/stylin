@@ -1,7 +1,8 @@
 
 @import "layout";
 
-$img-break-margin: 10px !default;
+$img-break-padding: 10px !default;
+$img-break-border-radius: 0 !default;
 
 @for $n from 1 through $preferred-visible-rows - 1 {
   img.img-break-#{$n}uh {
@@ -9,10 +10,12 @@ $img-break-margin: 10px !default;
     @include uh($n);
 
     display: block;
-    margin: $img-break-margin 50%;
-    transform: translateX(-50%);
-    border-radius: 5px;
-    clear: both;
 
+    margin: 0 50%;
+    padding: $img-break-padding $img-break-padding;
+
+    transform: translateX(-50%);
+    border-radius: $img-break-border-radius;
+    clear: both;
   }
 }

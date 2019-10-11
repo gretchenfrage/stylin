@@ -1,6 +1,7 @@
 
 $max-ratio-uw-uh: 2;
-$par-border-width: 1px;
+$par-border-width: 0px;
+$img-break-border-radius: 13px;
 
 @import "stylin/layout";
 @import "stylin/image";
@@ -10,11 +11,55 @@ $par-border-width: 1px;
 @import "fonts";
 
 html {
-  font-family: "inconsolata", serif;
-  color: white;
-  background-color: $diesel-color;
+  font-family: Inconsolata, serif;
+  color: #1f2b38;
+  background-color: #c7c7d1;
+  //background-color: #a1a1b5;
 }
 
 div.main-column {
-  background-color: #2c3e507f;
+  background-color: #dbdbe1;
+}
+
+div.header {
+  padding: 10px 5px;
+  text-align: center;
+  background-color: $diesel-color;
+
+  /*
+  left: 0;
+  right: 0;
+  position: absolute;
+  */
+
+  width: 100vw;
+  position: relative;
+  margin-left: -50vw;
+  left: 50%;
+
+  color: $sunflower-color;
+  font-size: 1.3rem;
+  font-family: ArvoBold;
+
+}
+.header-sep {
+  display: inline-block;
+
+  width: 1em;
+  margin: auto;
+
+}
+.header-major, .header-minor {
+  display: inline-block;
+  width: calc(50% - 1em);
+}
+.header-major {
+  text-align: right;
+}
+.header-minor {
+  text-align: left;
+}
+.header-text {
+  display: inline-block;
+  transform: scale(0.9, 1.0);
 }
