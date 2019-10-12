@@ -8,6 +8,14 @@ body, html {
   height: 100%;
 }
 
+body {
+  // ios safari font size fix
+  // see: https://stackoverflow.com/questions/3226001/some-font-sizes-rendered-larger-on-safari-iphone
+  @media screen and (max-device-width: 480px){
+    -webkit-text-size-adjust: none;
+  }
+}
+
 // subtract the scrollbar width:
 // https://stackoverflow.com/questions/33606565/is-it-possible-to-calculate-the-viewport-width-vw-without-scrollbar
 @function minus-scrollbar-width($width) {

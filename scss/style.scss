@@ -7,15 +7,25 @@ $img-break-border-radius: 13px;
 @import "stylin/image";
 @import "stylin/content";
 
-
-
 @import "colors";
 @import "fonts";
 
+$font-size-desktop: 13pt;
+$font-size-mobile: 22pt;
+$mobile-phone-width-cutoff: 480px;
+
 html {
   font-family: Alegreya, serif;
-
   background-color: $color2;
+
+  @media screen and (min-width: $mobile-phone-width-cutoff) {
+    font-size: $font-size-desktop;
+  }
+
+  @media screen and (max-width: $mobile-phone-width-cutoff) {
+    font-size: $font-size-mobile;
+  }
+
 }
 
 div.main-column {
@@ -23,7 +33,7 @@ div.main-column {
   color: $text-color1;
 }
 
-$header-font-size: 16pt;
+$header-font-size: 1rem / 3 * 4;
 $header-path-size: $header-font-size * 0.75;
 $header-frame-size: $header-font-size / 2;
 
@@ -56,21 +66,25 @@ $header-frame-size: $header-font-size / 2;
   border-radius: 2px;
 }
 
-#header-path-head {
-  //text-shadow: 0 0 4px transparentize($color3, 0.4);
-  text-shadow: 0 0 7px $color4, 0 0 7px $color4, 0 0 7px $color4;
-}
-
-.header-path-sep {
-  //color: #B8B8B8;
-  color: #787878;
-}
-
 .header-path {
   font-size: $header-path-size;
 
   display: inline-block;
   vertical-align: middle;
+
+  color: #F2F2F2;
+}
+
+.header-path-sep {
+  color: #787878;
+}
+.header-path-part {
+  color: #F2F2F2;
+}
+
+#header-path-head {
+  //text-shadow: 0 0 4px transparentize($color3, 0.4);
+  text-shadow: 0 0 7px $color4, 0 0 7px $color4, 0 0 7px $color4;
 
   color: #F2F2F2;
 }
@@ -84,48 +98,3 @@ $header-frame-size: $header-font-size / 2;
   margin: 0 2em;
   color: $color3;
 }
-
-/*
-div.header {
-  padding: 10px 5px;
-  text-align: center;
-  background-color: $diesel-color;
-
-  *//*
-  left: 0;
-  right: 0;
-  position: absolute;
-  *//*
-
-  width: 100vw;
-  position: relative;
-  margin-left: -50vw;
-  left: 50%;
-
-  color: $sunflower-color;
-  font-size: 1.3rem;
-  font-family: ArvoBold, serif;
-
-}
-.header-sep {
-  display: inline-block;
-
-  width: 1em;
-  margin: auto;
-
-}
-.header-major, .header-minor {
-  display: inline-block;
-  width: calc(50% - 1em);
-}
-.header-major {
-  text-align: right;
-}
-.header-minor {
-  text-align: left;
-}
-.header-text {
-  display: inline-block;
-  transform: scale(0.9, 1.0);
-}
-*/
