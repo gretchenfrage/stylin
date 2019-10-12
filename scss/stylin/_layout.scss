@@ -29,6 +29,23 @@ $num-columns: 5 !default;
 $preferred-visible-rows: 6 !default;
 $max-ratio-uw-uh: 2 !default;
 
+@mixin containment-pseudotables() {
+  // layout fix, keeps images inside of this, including their margins
+  // see:
+  // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
+  @each $psuedo in before, after {
+    &:#{$psuedo} {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  }
+}
+
+.margin-container {
+  @include containment-pseudotables();
+}
+
 div.main-column {
   // extend entirety of page
   min-height: 100%;
@@ -61,16 +78,7 @@ div.main-column {
     );
   }
 
-  // layout fix, keeps images inside of this, including their margins
-  // see:
-  // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
-  @each $psuedo in before, after {
-    &:#{$psuedo} {
-      clear: both;
-      content: "";
-      display: table;
-    }
-  }
+  @include containment-pseudotables();
 }
 
 /// Give the element $n height units.

@@ -1,7 +1,7 @@
 
 $max-ratio-uw-uh: 1.5;
 $par-border-width: 0px;
-$img-break-border-radius: 13px;
+$img-break-padding: 20px;
 
 @import "stylin/layout";
 @import "stylin/image";
@@ -25,12 +25,22 @@ html {
   @media screen and (max-width: $mobile-phone-width-cutoff) {
     font-size: $font-size-mobile;
   }
-
 }
 
-div.main-column {
+img.img-pretty {
+  border-radius: 3px;
+  box-shadow: 0 0 8px 4px transparentize($color1, 0.7);
+}
+
+#content {
   background-color: $color5;
   color: $text-color1;
+
+  box-shadow: 0 0 8px 4px $color1;
+
+  margin-bottom: 0.6in;
+
+  @include containment-pseudotables;
 }
 
 $header-font-size: 1rem / 3 * 4;
@@ -42,14 +52,7 @@ $header-frame-size: $header-font-size / 2;
 
   background-color: $color2;
 
-  @each $psuedo in before, after {
-    &:#{$psuedo} {
-      clear: both;
-      content: "";
-      display: table;
-    }
-  }
-
+  @include containment-pseudotables;
 }
 
 .header-text {

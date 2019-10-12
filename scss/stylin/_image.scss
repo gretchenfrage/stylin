@@ -1,19 +1,17 @@
 
 $img-break-padding: 10px !default;
-$img-break-border-radius: 0 !default;
 
 @for $n from 1 through $preferred-visible-rows - 1 {
-  img.img-break-#{$n}uh {
+  .img-break-#{$n}uh {
 
     @include uh($n);
 
     display: block;
 
-    margin: 0 50%;
-    padding: $img-break-padding $img-break-padding;
+    margin: $img-break-padding 50%;
+    //padding: $img-break-padding $img-break-padding;
 
     transform: translateX(-50%);
-    border-radius: $img-break-border-radius;
     clear: both;
   }
 }
