@@ -7,18 +7,82 @@ $img-break-border-radius: 13px;
 @import "stylin/image";
 @import "stylin/content";
 
+
+
 @import "colors";
 @import "fonts";
 
 html {
   font-family: Alegreya, serif;
 
-  background-color: $color1;
+  background-color: $color2;
 }
 
 div.main-column {
   background-color: $color5;
   color: $text-color1;
+}
+
+$header-font-size: 16pt;
+$header-path-size: $header-font-size * 0.75;
+$header-frame-size: $header-font-size / 2;
+
+#header {
+  @include uw($num-columns);
+
+  background-color: $color2;
+
+  @each $psuedo in before, after {
+    &:#{$psuedo} {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  }
+
+}
+
+.header-text {
+  font-family: Lato;
+
+  display: inline-block;
+
+  margin: $header-frame-size;
+  padding: $header-frame-size;
+  width: calc(100% - (#{$header-frame-size} * 4));
+
+  background-color: $color1;
+
+  border-radius: 2px;
+}
+
+#header-path-head {
+  //text-shadow: 0 0 4px transparentize($color3, 0.4);
+  text-shadow: 0 0 7px $color4, 0 0 7px $color4, 0 0 7px $color4;
+}
+
+.header-path-sep {
+  //color: #B8B8B8;
+  color: #787878;
+}
+
+.header-path {
+  font-size: $header-path-size;
+
+  display: inline-block;
+  vertical-align: middle;
+
+  color: #F2F2F2;
+}
+
+.header-trademark {
+  float: right;
+
+  font-size: $header-font-size;
+
+  font-family: Arvo;
+  margin: 0 2em;
+  color: $color3;
 }
 
 /*
