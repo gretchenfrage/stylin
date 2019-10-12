@@ -11,26 +11,27 @@ $img-break-border-radius: 13px;
 @import "fonts";
 
 html {
-  font-family: Inconsolata, serif;
-  color: #1f2b38;
-  background-color: #c7c7d1;
-  //background-color: #a1a1b5;
+  font-family: Alegreya, serif;
+
+  background-color: $color1;
 }
 
 div.main-column {
-  background-color: #dbdbe1;
+  background-color: $color5;
+  color: $text-color1;
 }
 
+/*
 div.header {
   padding: 10px 5px;
   text-align: center;
   background-color: $diesel-color;
 
-  /*
+  *//*
   left: 0;
   right: 0;
   position: absolute;
-  */
+  *//*
 
   width: 100vw;
   position: relative;
@@ -39,7 +40,7 @@ div.header {
 
   color: $sunflower-color;
   font-size: 1.3rem;
-  font-family: ArvoBold;
+  font-family: ArvoBold, serif;
 
 }
 .header-sep {
@@ -63,3 +64,4 @@ div.header {
   display: inline-block;
   transform: scale(0.9, 1.0);
 }
+*/
