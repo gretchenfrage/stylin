@@ -1,8 +1,6 @@
 
 # layout level:
 
-title // article title, centered & stuff
-
 par-lhalf
 par-rhalf
 
@@ -10,12 +8,6 @@ par-inner-col // max width, margin auto, clear all
 
 img-col-(1..5)uw
 
-br-clear
-
 # content level:
 img-wrap-l(1..5)uw
 img-wrap-r(1..5)uw
-
-prompt // like, all codey style. purple? flashing!?
-
-# also, split it the stuff

@@ -94,3 +94,7 @@ div.main-column {
 @mixin uw($n) {
   width: 100% / $num-columns * $n;
 }
+
+br.clear {
+  clear: both;
+}

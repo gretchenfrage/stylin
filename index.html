@@ -13,11 +13,7 @@
     <span class="header-text">
       <span class="header-path">
         <span class="header-path-sep">ME:/ </span>
-        <a href="https://crouton.net" class="header-path-part">blog</a>
-        <span class="header-path-sep"> / </span>
-        <a href="https://crouton.net" class="header-path-part">miku files</a>
-        <span class="header-path-sep"> / </span>
-        <a href="https://crouton.net" id="header-path-head">manifesto</a>
+        <a href="index.html" id="header-path-head">home page</a>
 
       </span>
       <span class="header-trademark">Phoenix Kahlo</span>
@@ -34,19 +30,156 @@
     <div class="col-3uw">
 
       <div class="prompt">
-        <span class="prompt-arrow">></span>
-        Who?
+        <span class="prompt-arrow">></span>Who?
       </div>
+
+      My name's Phoenix.
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>What?
+      </div>
+
+      I write code.
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>What else?
+      </div>
+
+      Sometimes I make art, also sandwiches.
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>Where?
+      </div>
+
+      Madison, Wisconsin. I go to college there.
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>Why?
+      </div>
+
+      I'm trying to figure out what a computer is.
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>Ok.
+      </div>
+
+      Here's a picture I took :)
 
     </div>
     <div class="col-1uw"></div>
 
-
-    <br/>
-
     <div class="margin-container">
       <img src="images/sunset-on-campus.jpg" class="img-break-4uh img-pretty"/>
     </div>
+
+    <div class="col-1uw"></div>
+    <div class="col-3uw">
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>Nice.
+      </div>
+
+      Thanks!
+
+      <div class="prompt">
+        <span class="prompt-arrow">></span>...
+      </div>
+
+      Have a link to <a href="https://crouton.net">https://crouton.net</a>*.
+
+      <br/>
+
+      <span class="footnote">
+        * I am in no way affiliated with crouton.net.
+      </span>
+
+
+
+    </div>
+    <div class="col-1uw"></div>
+
+    <br class="clear">
+
+    <pre class="code"><code>
+impl fmt::Display for Polynomial {
+    #[allow(unused_must_use)]
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if self.0.len() == 0 {
+            return f.write_str("0");
+        }
+
+        fn digit_superscript(digit: char) -> char {
+            match digit {
+                '0' => '⁰',
+                '1' => 'ⁱ',
+                '2' => '²',
+                '3' => '³',
+                '4' => '⁴',
+                '5' => '⁵',
+                '6' => '⁶',
+                '7' => '⁷',
+                '8' => '⁸',
+                '9' => '⁹',
+                _ => panic!("unsupported digit for superscript: {}", digit)
+            }
+        }
+
+        fn power_superscript(n: usize) -> String {
+            n.to_string()
+                .chars()
+                .map(digit_superscript)
+                .collect()
+        }
+
+        let mut buf = String::new();
+
+        if self.0.len() > 1 {
+            write!(&mut buf, "(");
+        }
+
+        let mut first_term_written = false;
+        for (p, c) in self.0.iter().cloned().enumerate().rev() {
+            if c == 0.0 {
+                continue;
+            }
+
+            if first_term_written {
+                if c > 0.0 {
+                    write!(&mut buf, " + ");
+                } else {
+                    write!(&mut buf, " - ");
+                }
+            } else {
+                if c < 0.0 {
+                    write!(&mut buf, "-");
+                }
+                first_term_written = true;
+            }
+
+            if c.abs() == 1.0 {
+                match p {
+                    0 => { write!(&mut buf, "1"); },
+                    1 => { write!(&mut buf, "x"); },
+                    p => { write!(&mut buf, "x{}", power_superscript(p)); },
+                };
+            } else {
+                write!(&mut buf, "{}", c.abs());
+                match p {
+                    0 => {},
+                    1 => { write!(&mut buf, "x"); }
+                    p => { write!(&mut buf, "x{}", power_superscript(p)); },
+                };
+            }
+        }
+
+        if self.0.len() > 1 {
+            write!(&mut buf, ")");
+        }
+
+        f.write_str(&buf)
+    }
+}
+        </code></pre>
 
 
   </div>

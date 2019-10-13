@@ -1,0 +1,21 @@
+
+.footnote {
+  font-size: 0.95em;
+  color: $color1;
+
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+
+  padding-left: 1.6em;
+  padding-right: 1.6em;
+
+  background-color: transparentize($color2, 0.8);
+  border-left: 2px solid $color2;
+  border-radius: 2px;
+}
+
+span.footnote {
+  display: inline-block;
+}

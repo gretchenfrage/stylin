@@ -14,6 +14,7 @@ $img-break-padding: 20px;
 @import "header";
 @import "title";
 @import "prompt";
+@import "aside";
 
 $font-size-desktop: 13pt;
 $font-size-mobile: 22pt;
@@ -48,3 +49,17 @@ img.img-pretty {
 }
 
 
+
+$code-font-size: 0.8em;
+$code-block-padding: 1em;
+
+pre.code {
+  font-family: Ubuntu;
+  font-size: $code-font-size;
+  background-color: $color1;
+  color: darken(white, 20%);
+  padding-left: $code-block-padding;
+  padding-right: $code-block-padding;
+  padding-top: $code-block-padding - $code-font-size;
+  padding-bottom: $code-block-padding - $code-font-size;
+}
