@@ -16,6 +16,6 @@ br-clear
 img-wrap-l(1..5)uw
 img-wrap-r(1..5)uw
 
-prompt // like, all codey style. purple?
+prompt // like, all codey style. purple? flashing!?
 
 # also, split it the stuff

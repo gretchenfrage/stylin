@@ -1,0 +1,16 @@
+
+$title-text-size: 1.2rem;
+
+span.title-text {
+  border-bottom: 1px solid transparentize($color1, 0.1);
+
+  margin-top: $title-text-size / 4;
+  margin-bottom: $title-text-size / 4;
+  padding-top: $title-text-size / 4;
+  padding-bottom: $title-text-size / 4;
+
+  font-size: $title-text-size;
+  font-family: Alegreya;
+
+  text-shadow: 1px 1px 1px transparentize($color1, 0.7);
+}

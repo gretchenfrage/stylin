@@ -1,0 +1,59 @@
+
+$header-font-size: 1rem / 3 * 4;
+$header-path-size: $header-font-size * 0.75;
+$header-frame-size: $header-font-size / 2;
+
+#header {
+  @include uw($num-columns);
+
+  background-color: $color2;
+
+  @include containment-pseudotables;
+}
+
+.header-text {
+  font-family: Lato;
+
+  display: inline-block;
+
+  margin: $header-frame-size;
+  padding: $header-frame-size;
+  width: calc(100% - (#{$header-frame-size} * 4));
+
+  background-color: $color1;
+
+  border-radius: 2px;
+}
+
+.header-path {
+  font-size: $header-path-size;
+
+  display: inline-block;
+  vertical-align: middle;
+
+  color: #F2F2F2;
+}
+
+.header-path-sep {
+  color: #787878;
+}
+.header-path-part {
+  color: #F2F2F2;
+}
+
+#header-path-head {
+  //text-shadow: 0 0 4px transparentize($color3, 0.4);
+  text-shadow: 0 0 7px $color4, 0 0 7px $color4, 0 0 7px $color4;
+
+  color: #F2F2F2;
+}
+
+.header-trademark {
+  float: right;
+
+  font-size: $header-font-size;
+
+  font-family: Arvo;
+  margin: 0 2em;
+  color: $color3;
+}

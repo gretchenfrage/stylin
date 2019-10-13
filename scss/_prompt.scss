@@ -1,0 +1,25 @@
+
+.prompt {
+  font-family: Ubuntu;
+  font-size: 1.1em;
+  color: $color5;
+  background-color: $color1;
+  padding: 0.2em;
+}
+
+@keyframes prompt-arrow-blink {
+  0% {
+    color: mix($color3, $color2, 85%);
+  }
+  50% {
+    color: $color3;
+  }
+}
+
+.prompt-arrow {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+
+  animation: 4s steps(1, end) infinite prompt-arrow-blink;
+}

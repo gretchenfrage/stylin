@@ -6,7 +6,7 @@ $text-padding: 0.5em !default;
 $par-border-width: 0px !default;
 
 @for $n from 1 through $num-columns {
-  .par-#{$n}uw {
+  .col-#{$n}uw {
 
     padding: 0 $text-padding;
     margin-top: $text-padding;
