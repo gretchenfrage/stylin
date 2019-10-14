@@ -1,0 +1,15 @@
+
+$code-font-size: 0.8em;
+$code-block-padding: 1em;
+
+pre.code {
+  font-family: Ubuntu;
+  font-size: $code-font-size;
+  background-color: $color1;
+  color: darken(white, 20%);
+  padding-left: $code-block-padding;
+  padding-right: $code-block-padding;
+  padding-top: $code-block-padding - $code-font-size;
+  padding-bottom: $code-block-padding - $code-font-size;
+  overflow-x: auto;
+}

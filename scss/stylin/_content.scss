@@ -32,3 +32,13 @@ $par-border-width: 0px !default;
 
   }
 }
+
+$inner-col-max-width: 6in !default;
+
+/// Inner column with smaller maximum width.
+.inner-col {
+  width: 100%;
+  max-width: $inner-col-max-width;
+  margin: auto;
+  clear: both;
+}

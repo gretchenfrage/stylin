@@ -1,13 +1,1 @@
 
-# layout level:
-
-par-lhalf
-par-rhalf
-
-par-inner-col // max width, margin auto, clear all
-
-img-col-(1..5)uw
-
-# content level:
-img-wrap-l(1..5)uw
-img-wrap-r(1..5)uw

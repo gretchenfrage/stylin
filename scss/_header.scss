@@ -42,8 +42,9 @@ $header-frame-size: $header-font-size / 2;
 }
 
 #header-path-head {
-  //text-shadow: 0 0 4px transparentize($color3, 0.4);
-  text-shadow: 0 0 7px $color4, 0 0 7px $color4, 0 0 7px $color4;
+  @media screen {
+    text-shadow: 0 0 7px $color4, 0 0 7px $color4, 0 0 7px $color4;
+  }
 
   color: #F2F2F2;
 }

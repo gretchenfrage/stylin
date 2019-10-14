@@ -9,9 +9,38 @@ $img-break-padding: 10px !default;
     display: block;
 
     margin: $img-break-padding 50%;
-    //padding: $img-break-padding $img-break-padding;
 
     transform: translateX(-50%);
     clear: both;
+  }
+}
+
+@each $align in l, r, c {
+  @each $clear in break, wrap {
+    @for $n from 1 through $num-columns {
+
+      .img-#{$clear}-#{$n}uw-#{$align} {
+        @include uw($n);
+
+        display: block;
+
+        @if $clear == break {
+          clear: both;
+        }
+
+        @if $align == l {
+          float: left;
+          margin: $img-break-padding;
+        }
+        @if $align == r {
+          float: right;
+          margin: $img-break-padding;
+        }
+        @if $align == c {
+          margin: $img-break-padding auto;
+        }
+      }
+
+    }
   }
 }
