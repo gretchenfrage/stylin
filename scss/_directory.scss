@@ -1,0 +1,51 @@
+
+$directory-spacing: 0.4em;
+$directory-font-size: 1.1em;
+$directory-width: 2in;
+
+.directory {
+  font-family: Ubuntu;
+  font-size: $directory-font-size;
+
+  padding-left: $directory-spacing;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+@mixin directory-x-layout() {
+  border-width: 2px;
+  padding-left: 1.5em;
+  border-radius: 3px;
+  width: $directory-width;
+}
+
+.directory-header {
+  @include directory-x-layout();
+
+  margin-bottom: $directory-spacing;
+
+  &:after {
+    content: ":";
+  }
+
+  color: $color3;
+  text-shadow: 0px 0px 2px $color1, 0px 0px 2px $color1;
+}
+
+.directory-button {
+  @include directory-x-layout();
+
+  display: inline-block;
+
+
+  padding-top: $directory-spacing / 2;
+  padding-bottom: $directory-spacing / 2;
+
+  margin-top: $directory-spacing / 2;
+  margin-bottom: $directory-spacing / 2;
+
+  border: darken($color4, 40%) solid 2px;
+
+  color: $directory-link-color;
+  background-color: $color1;
+}

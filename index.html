@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>PSK | Home Page</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <div class="main-column">
+
 
   <div id="header">
     <span class="header-text">
@@ -24,13 +26,16 @@
       <span class="title-text">My Website</span>
     </div>
 
-    <div class="inner-col">
+    <br class="clear"/>
+
+    <div class="col-3uw">
 
       <div class="prompt">
         <span class="prompt-arrow">></span>Who?
       </div>
 
       My name's Phoenix.
+      I use <a href="https://pronoun.is/they" target="_blank"><i>they/them</i> pronouns.</a>
 
       <div class="prompt">
         <span class="prompt-arrow">></span>What?
@@ -56,126 +61,47 @@
 
       I'm trying to figure out what a computer is.
 
+    </div>
+
+    <div class="col-2uw">
+      <div class="inner-col directory">
+
+        <div class="directory-header">Directory</div>
+        <a href="index.html" class="directory-button">Code</a><br/>
+        <a href="index.html" class="directory-button">Stuff</a><br/>
+        <a href="index.html" class="directory-button">Art</a><br/>
+
+      </div>
+    </div>
+
+    <br class="clear"/>
+    <div class="spacer"></div>
+
+    <div class="col-3uw">
       <div class="prompt">
         <span class="prompt-arrow">></span>Ok.
       </div>
 
       Here's a picture I took :)
+    </div>
 
-      <div class="margin-container">
-        <img src="images/sunset-on-campus.jpg" class="img-break-4uh img-pretty"/>
-      </div>
+    <div class="margin-container">
+      <img src="images/sunset-on-campus.jpg" class="img-break-4uh img-pretty"/>
+    </div>
 
+    <div class="col-3uw">
       <div class="prompt">
         <span class="prompt-arrow">></span>Nice.
       </div>
 
       Thanks!
-
-      <div class="prompt">
-        <span class="prompt-arrow">></span>...
-      </div>
-
       Have a link to <a href="https://crouton.net">https://crouton.net</a>*.
-
       <br/>
-
       <span class="footnote">
         * I am in no way affiliated with crouton.net.
       </span>
 
     </div>
-
-
-    <pre class="code"><code>
-impl fmt::Display for Polynomial {
-    #[allow(unused_must_use)]
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        if self.0.len() == 0 {
-            return f.write_str("0");
-        }
-
-        fn digit_superscript(digit: char) -> char {
-            match digit {
-                '0' => '⁰',
-                '1' => 'ⁱ',
-                '2' => '²',
-                '3' => '³',
-                '4' => '⁴',
-                '5' => '⁵',
-                '6' => '⁶',
-                '7' => '⁷',
-                '8' => '⁸',
-                '9' => '⁹',
-                _ => panic!("unsupported digit for superscript: {}", digit)
-            }
-        }
-
-        fn power_superscript(n: usize) -> String {
-            n.to_string()
-                .chars()
-                .map(digit_superscript)
-                .collect()
-        }
-
-        let mut buf = String::new();
-
-        if self.0.len() > 1 {
-            write!(&mut buf, "(");
-        }
-
-        let mut first_term_written = false;
-        for (p, c) in self.0.iter().cloned().enumerate().rev() {
-            if c == 0.0 {
-                continue;
-            }
-
-            if first_term_written {
-                if c > 0.0 {
-                    write!(&mut buf, " + ");
-                } else {
-                    write!(&mut buf, " - ");
-                }
-            } else {
-                if c < 0.0 {
-                    write!(&mut buf, "-");
-                }
-                first_term_written = true;
-            }
-
-            if c.abs() == 1.0 {
-                match p {
-                    0 => { write!(&mut buf, "1"); },
-                    1 => { write!(&mut buf, "x"); },
-                    p => { write!(&mut buf, "x{}", power_superscript(p)); },
-                };
-            } else {
-                write!(&mut buf, "{}", c.abs());
-                match p {
-                    0 => {},
-                    1 => { write!(&mut buf, "x"); }
-                    p => { write!(&mut buf, "x{}", power_superscript(p)); },
-                };
-            }
-        }
-
-        if self.0.len() > 1 {
-            write!(&mut buf, ")");
-        }
-
-        f.write_str(&buf)
-    }
-}
-    </code></pre>
-
-
-    <img src="images/sunset-on-campus.jpg" class="img-break-2uw-l img-pretty"/>
-    <img src="images/sunset-on-campus.jpg" class="img-break-2uw-r img-pretty"/>
-    <img src="images/sunset-on-campus.jpg" class="img-break-2uw-c img-pretty"/>
-
-    <img src="images/sunset-on-campus.jpg" class="img-wrap-2uw-l img-pretty"/>
-    <img src="images/sunset-on-campus.jpg" class="img-wrap-2uw-r img-pretty"/>
-    <img src="images/sunset-on-campus.jpg" class="img-wrap-2uw-c img-pretty"/>
 
   </div>
 </div>

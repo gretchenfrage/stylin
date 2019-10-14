@@ -11,16 +11,20 @@ $img-break-padding: 20px;
 @import "stylin/content";
 @import "stylin/title";
 
+$directory-link-color: #F2F2F2;
+
 @import "header";
 @import "title";
 @import "prompt";
 @import "aside";
 @import "image";
 @import "code";
+@import "directory";
 
 $font-size-desktop: 13pt;
 $font-size-mobile: 22pt;
 $mobile-phone-width-cutoff: 480px;
+
 
 html {
   font-family: Alegreya, serif;
@@ -43,4 +47,8 @@ html {
   margin-bottom: 0.6in;
 
   @include containment-pseudotables;
+}
+
+div.spacer {
+  height: 3em;
 }
