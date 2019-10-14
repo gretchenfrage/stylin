@@ -15,8 +15,9 @@ $directory-width: 2in;
 @mixin directory-x-layout() {
   border-width: 2px;
   padding-left: 1.5em;
-  border-radius: 3px;
   width: $directory-width;
+  max-width: calc(100% - 1.5em - 2px - #{$directory-spacing});
+  border-radius: 3px;
 }
 
 .directory-header {
