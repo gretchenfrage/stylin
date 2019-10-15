@@ -12,12 +12,18 @@ $directory-width: 2in;
   padding-bottom: 1.5em;
 }
 
+$directory-button-border-width: 2px;
+
 @mixin directory-x-layout() {
-  border-width: 2px;
+  border-width: $directory-button-border-width;
   padding-left: 1.5em;
-  width: $directory-width;
-  max-width: calc(100% - 1.5em - 2px - #{$directory-spacing});
-  border-radius: 3px;
+  max-width: $directory-width * 1.5;
+  width: calc(
+          100%
+          - 1.5em
+          - (#{$directory-button-border-width} * 2)
+          - #{$directory-spacing}
+  );
 }
 
 .directory-header {
@@ -39,14 +45,18 @@ $directory-width: 2in;
   display: inline-block;
 
 
-  padding-top: $directory-spacing / 2;
-  padding-bottom: $directory-spacing / 2;
+  padding-top: $directory-spacing;
+  padding-bottom: $directory-spacing;
 
   margin-top: $directory-spacing / 2;
   margin-bottom: $directory-spacing / 2;
 
-  border: darken($color4, 40%) solid 2px;
+  border-style: solid;
+  //border-color: darken($color4, 40%);
 
-  color: $directory-link-color;
-  background-color: $color1;
+  color: $text-color1;
+  background-color: $color4;
+
+  border-radius: 1px;
+  border-color: gray;
 }

@@ -49,6 +49,18 @@ html {
   @include containment-pseudotables;
 }
 
+$spacer-height: 0.6in;
+
 div.spacer {
-  height: 3em;
+  height: $spacer-height;
+}
+
+hr.spacer {
+  display: block;
+  margin: $spacer-height / 2 auto;
+  border-style: solid;
+  border-color: transparentize($color2, 0.5);
+  border-width: 0.5px;
+  max-width: 10in;
+  clear: both;
 }
