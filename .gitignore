@@ -2,4 +2,5 @@
 css/*
 *.iml
 *.swp
-
+.DS_Store
+stuff
