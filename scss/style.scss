@@ -5,6 +5,7 @@
 $max-ratio-uw-uh: 1.5;
 $par-border-width: 0px;
 $img-break-padding: 20px;
+$text-padding: 2em;
 
 @import "stylin/layout";
 @import "stylin/image";
@@ -19,7 +20,6 @@ $directory-link-color: #F2F2F2;
 @import "aside";
 @import "image";
 @import "code";
-@import "directory";
 
 $font-size-desktop: 13pt;
 $font-size-mobile: 22pt;
@@ -63,4 +63,8 @@ hr.spacer {
   border-width: 0.5px;
   max-width: 10in;
   clear: both;
+}
+
+p.tab {
+  margin-left: 4em;
 }

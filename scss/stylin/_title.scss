@@ -3,13 +3,13 @@ $title-font-family: "Comic Sans MS" !default;
 $title-font-size: 1.5em !default;
 $title-underline-color: black !default;
 
-.title {
+.title-block {
   text-align: center;
   width: 100%;
 
   @include containment-pseudotables();
 }
 
-span.title-text {
+span.title {
   display: inline-block;
 }

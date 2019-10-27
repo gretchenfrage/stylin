@@ -1,7 +1,7 @@
 
 $title-text-size: 1.2rem;
 
-span.title-text {
+span.title {
   border-bottom: 1px solid transparentize($color1, 0.1);
 
   margin-top: $title-text-size / 4;
@@ -13,4 +13,62 @@ span.title-text {
   font-family: Alegreya;
 
   text-shadow: 1px 1px 1px transparentize($color1, 0.7);
+}
+
+@function header-font-size($n) {
+  @if ($n == 1) {
+    @return 2em;
+  } @else if ($n == 2) {
+    @return 1.5em;
+  } @else if ($n == 3) {
+    @return 1.17em;
+  } @else if ($n == 4) {
+    @return 1em;
+  } @else if ($n == 5) {
+    @return 0.83em;
+  } @else if ($n == 6) {
+    @return 0.67em;
+  } @else {
+    @error "illegal font size";
+  }
+}
+
+@function header-margin($n) {
+  @if ($n == 1) {
+    @return 0.67em;
+  } @else if ($n == 2) {
+    @return 0.83em;
+  } @else if ($n == 3) {
+    @return 1em;
+  } @else if ($n == 4) {
+    @return 1.33em;
+  } @else if ($n == 5) {
+    @return 0.67em;
+  } @else if ($n == 6) {
+    @return 2.33em;
+  } @else {
+    @error "illegal font size";
+  }
+}
+
+@for $n from 1 through 6 {
+  h#{$n} {
+    display: block;
+    font-size: header-font-size($n);
+    margin-top: header-margin($n);
+    margin-bottom: header-margin($n);
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h#{$n}.subheader {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+    text-align: center;
+    background-color: $color2;
+    font-family: Alegreya;
+    color: $color5;
+    border-radius: 2px;
+  }
 }
