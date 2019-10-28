@@ -22,7 +22,7 @@ $directory-link-color: #F2F2F2;
 @import "code";
 
 $font-size-desktop: 13pt;
-$font-size-mobile: 22pt;
+$font-size-mobile: 26pt;
 $mobile-phone-width-cutoff: 480px;
 
 
@@ -30,11 +30,11 @@ html {
   font-family: Alegreya, serif;
   background-color: $color2;
 
-  @media screen and (min-width: $mobile-phone-width-cutoff) {
+  @media screen and (min-device-width: $mobile-phone-width-cutoff) {
     font-size: $font-size-desktop;
   }
 
-  @media screen and (max-width: $mobile-phone-width-cutoff) {
+  @media screen and (max-device-width: $mobile-phone-width-cutoff) {
     font-size: $font-size-mobile;
   }
 }
@@ -67,4 +67,10 @@ hr.spacer {
 
 p.tab {
   margin-left: 4em;
+}
+
+.center {
+  display: block;
+  width: 100%;
+  text-align: center;
 }

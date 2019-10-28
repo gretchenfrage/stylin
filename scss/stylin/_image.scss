@@ -3,7 +3,6 @@ $img-break-padding: 10px !default;
 
 @for $n from 1 through $preferred-visible-rows - 1 {
   .img-break-#{$n}uh {
-
     @include uh($n);
 
     display: block;
