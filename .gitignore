@@ -4,3 +4,6 @@ css/*
 *.swp
 .DS_Store
 stuff
+content-nocommit
+build-site
+
