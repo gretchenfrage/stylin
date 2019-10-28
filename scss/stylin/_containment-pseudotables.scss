@@ -1,0 +1,13 @@
+
+@mixin containment-pseudotables() {
+  // layout fix, keeps images inside of this, including their margins
+  // see:
+  // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
+  @each $psuedo in before, after {
+    &:#{$psuedo} {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  }
+}

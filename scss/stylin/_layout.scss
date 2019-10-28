@@ -1,4 +1,6 @@
 
+@import "containment-pseudotables";
+
 body, html {
   // body flush with borders of screen
   padding: 0;
@@ -28,19 +30,6 @@ $min-uw: 0.5in !default;
 $num-columns: 5 !default;
 $preferred-visible-rows: 6 !default;
 $max-ratio-uw-uh: 2 !default;
-
-@mixin containment-pseudotables() {
-  // layout fix, keeps images inside of this, including their margins
-  // see:
-  // https://stackoverflow.com/questions/1762539/margin-on-child-element-moves-parent-element
-  @each $psuedo in before, after {
-    &:#{$psuedo} {
-      clear: both;
-      content: "";
-      display: table;
-    }
-  }
-}
 
 .margin-container {
   @include containment-pseudotables();

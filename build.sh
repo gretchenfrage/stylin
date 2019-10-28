@@ -28,7 +28,7 @@ echo -e "${GREEN} copying files${NC}"
 
 cp ./index.html "./${SITE_DIR}/" || exit 1
 mkdir -p  "./${SITE_DIR}/content" || exit 1
-cp ./content/* "./${SITE_DIR}/content/" || exit 1
+cp -r ./content/* "./${SITE_DIR}/content/" || exit 1
 cp -r ./fonts "./${SITE_DIR}/fonts" || exit 1
 cp -r ./images "./${SITE_DIR}/images" || exit 1
 
@@ -38,6 +38,7 @@ echo -e "${GREEN} building sass${NC}"
 
 mkdir -p "./${SITE_DIR}/css" || exit 1
 sass "scss/:${SITE_DIR}/css/" || exit 1
+rm "./${SITE_DIR}/css/*.map"
 
 echo ""
 

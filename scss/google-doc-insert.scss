@@ -1,0 +1,9 @@
+
+@import "colors";
+@import "stylin/containment-pseudotables";
+
+.paper {
+  margin: 0.5in auto;
+  box-shadow: 0 0 8px 4px transparentize($color1, 0.9);
+  @include containment-pseudotables;
+}
