@@ -47,8 +47,9 @@ echo ""
 echo -e "${YELLOW}(2)${NC} building fonts"
 bash ./fonts/minify.sh || exit 1
 mkdir -p "./${SITE_DIR}/fonts/pristine"
-cp -r "./fonts/pristine/*" "./${SITE_DIR}/fonts/pristine/"
-cp -r "./fonts/minified/*" "./${SITE_DIR}/fonts/"
+mkdir -p "./${SITE_DIR}/fonts/minified"
+cp -r ./fonts/pristine/* "./${SITE_DIR}/fonts/pristine/"  || exit 1
+cp -r ./fonts/minified/* "./${SITE_DIR}/fonts/minified/" || exit 1
 echo ""
 
 echo -e "${YELLOW}(3)${NC} building sass"

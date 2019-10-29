@@ -14,9 +14,18 @@ MINIFY_DIR="./minified"
 echo ""
 
 echo "blasting away ${PWD}/${MINIFY_DIR}"
-rm -rf 2>/dev/null "./${MINIFY_DIR}" || true
-mkdir "./${MINIFY_DIR}" || exit 1
+if [[ -d ${MINIFY_DIR} ]]; then
+    mkdir ${MINIFY_DIR}/old-tmp || true
+    rm -rf ${MINIFY_DIR}/old-tmp/* || true
+    cp ${MINIFY_DIR}/*.* ${MINIFY_DIR}/old-tmp/
+else
+    mkdir ${MINIFY_DIR} || exit 1
+fi
 echo ""
+
+#rm -rf 2>/dev/null "./${MINIFY_DIR}" || true
+#mkdir "./${MINIFY_DIR}" || exit 1
+#echo ""
 
 echo "minifying fonts"
 echo ""
@@ -38,20 +47,31 @@ do
     FLAVOR="woff2"
     OUTPUT_FILE="./minified/${xpref}.${FLAVOR}"
 
-    echo -e "${YELLOW}|${NC} to: ${OUTPUT_FILE}"
-
-    # see: https://stackoverflow.com/questions/3362920/get-just-the-filename-from-a-path-in-a-bash-script
-
-    pyftsubset "${INPUT_PATH}" "--flavor=${FLAVOR}" --unicodes=U+000-5FF "--output-file=${OUTPUT_FILE}"
-
-    if [[ $? -eq 0 ]]; then
-        echo -e "${YELLOW}|${NC} ${GREEN}successful${NC}"
+    if [[ -f "./minified/old-tmp/${xpref}.${FLAVOR}" ]]; then
+        echo -e "${YELLOW}| using cached version${NC}"
+        cp "./minified/old-tmp/${xpref}.${FLAVOR}" "${OUTPUT_FILE}" || exit 1
         echo ""
     else
-        echo -e "${YELLOW}|${NC} ${RED}error: it didn't work${NC}"
-        echo ""
-        exit 1
+        echo -e "${YELLOW}|${NC} to: ${OUTPUT_FILE}"
+
+        # see: https://stackoverflow.com/questions/3362920/get-just-the-filename-from-a-path-in-a-bash-script
+
+        pyftsubset "${INPUT_PATH}" "--flavor=${FLAVOR}" --unicodes=U+000-5FF "--output-file=${OUTPUT_FILE}"
+
+        if [[ $? -eq 0 ]]; then
+            echo -e "${YELLOW}|${NC} ${GREEN}successful${NC}"
+            echo ""
+        else
+            echo -e "${YELLOW}|${NC} ${RED}error: it didn't work${NC}"
+            echo ""
+            exit 1
+        fi
     fi
+
 done < ./fonts-we-use.txt
+
+echo "cleaning up"
+rm -rf ./minified/old-tmp 2>/dev/null || true
+echo ""
 
 echo -e "${GREEN}successfully minified fonts${NC}"
