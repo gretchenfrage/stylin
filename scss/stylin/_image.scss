@@ -2,22 +2,20 @@
 $img-break-padding: 10px !default;
 
 // cries in magic number
-$estimated-scrollbar-width: 200px;
+$estimated-scrollbar-width: 20px;
 
 @for $n from 1 through $preferred-visible-rows - 1 {
+  /*
   .img-break-#{$n}uh {
     @include uh($n);
-
-    //display: block;
-    display: none;
-
     margin: $img-break-padding 50%;
-
     transform: translateX(-50%);
     clear: both;
   }
+  */
 
   .img-break-#{$n}uh-block {
+    @include containment-pseudotables();
     @include uh($n);
     display: block;
     margin-top: $img-break-padding;
@@ -25,15 +23,15 @@ $estimated-scrollbar-width: 200px;
     width: calc(100vw - #{$estimated-scrollbar-width});
     margin-left: calc(50% - 50vw + (#{$estimated-scrollbar-width} / 2));
     clear: both;
-    background-color: red;
   }
 }
 
-img.img-break {
+img.img-break-inner {
   display: block;
   margin: auto;
-  max-width: 100%;
   height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 @each $align in l, r, c {
