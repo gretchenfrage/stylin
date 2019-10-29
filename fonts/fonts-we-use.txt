@@ -1,0 +1,4 @@
+alegreya/AlegreyaSans-Regular.ttf
+arvo/Arvo-Regular.ttf
+lato/Lato-Regular.ttf
+ubuntu/UbuntuMono-Regular.ttf

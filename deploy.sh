@@ -12,8 +12,7 @@ echo ""
 
 echo "re-building"
 
-bash ./build.sh
-
+bash ./build.sh || exit 1
 echo ""
 
 echo -e "${YELLOW}WARNING:${NC} ${RED}are you sure you want to deploy to phoenixkahlo.com?${NC}"

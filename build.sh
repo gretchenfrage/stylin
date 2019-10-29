@@ -40,13 +40,18 @@ echo -e "${YELLOW}(1)${NC} copying files"
 cp ./index.html "./${SITE_DIR}/" || exit 1
 mkdir -p  "./${SITE_DIR}/content" || exit 1
 cp -r ./content/* "./${SITE_DIR}/content/" || exit 1
-cp -r ./fonts "./${SITE_DIR}/fonts" || exit 1
 cp -r ./images "./${SITE_DIR}/images" || exit 1
 cp ./favicon.ico "./${SITE_DIR}/favicon.ico" || exit 1
-
 echo ""
 
-echo -e "${YELLOW}(2)${NC} building sass"
+echo -e "${YELLOW}(2)${NC} building fonts"
+bash ./fonts/minify.sh || exit 1
+mkdir -p "./${SITE_DIR}/fonts/pristine"
+cp -r "./fonts/pristine/*" "./${SITE_DIR}/fonts/pristine/"
+cp -r "./fonts/minified/*" "./${SITE_DIR}/fonts/"
+echo ""
+
+echo -e "${YELLOW}(3)${NC} building sass"
 
 mkdir -p "./${SITE_DIR}/css" || exit 1
 sass "scss/:${SITE_DIR}/css/" || exit 1

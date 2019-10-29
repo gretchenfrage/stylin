@@ -12,7 +12,7 @@ echo ""
 
 echo "re-building"
 
-bash ./build.sh
+bash ./build.sh || exit 1
 echo ""
 
 echo -e "${YELLOW}deploying to dev${NC}"
