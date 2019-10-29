@@ -10,6 +10,12 @@ NC='\033[0m'
 
 echo ""
 
+echo "re-building"
+
+bash ./build.sh
+
+echo ""
+
 echo -e "${YELLOW}WARNING:${NC} ${RED}are you sure you want to deploy to phoenixkahlo.com?${NC}"
 read -p "y/n: " CONFIRM
 

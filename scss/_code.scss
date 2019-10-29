@@ -13,3 +13,12 @@ pre.code {
   padding-bottom: $code-block-padding - $code-font-size;
   overflow-x: auto;
 }
+
+span.code {
+  font-family: Ubuntu;
+  background-color: $color1;
+  color: darken(white, 20%);
+  padding: 0.05em;
+  font-size: 0.9em;
+  display: inline-block;
+}

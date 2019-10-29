@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PSK | Java Class Match</title>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+<div class="main-column">
+
+
+  <header id="header">
+    <span class="header-text">
+
+      <span class="header-path">
+        <span class="header-path-sep">ME:/ </span>
+        <a href="../index.html" class="header-path-part">home page</a>
+        <span class="header-path-sep"> / </span>
+        <span class="header-path-part">half-baked</span>
+        <span class="header-path-sep"> / </span>
+        <a id="header-path-head">java class match</a>
+      </span>
+
+      <span class="header-trademark">Phoenix Kahlo</span>
+    </span>
+  </header>
+
+  <article id="content">
+
+    <header class="title-block">
+      <span class="title">Half-baked idea: Java class matching</span>
+    </header>
+
+    <div class="spacer"></div>
+
+    <div class="inner-col">
+      <div class="prompt">
+        <span class="prompt-arrow" aria-hidden="true">></span>Problem
+      </div>
+
+      Pattern-matching is useful, but Java's
+      <span class="code">if (foo instanceof Bar)</span>,
+      <span class="code">Bar bar = (Bar) foo;</span>,
+      <span class="code">bar.baz();</span>
+      syntax is painful.
+      <!--<span class="code">((Bar) foo).baz()</span> syntax is painful.-->
+
+      <div class="prompt">
+        <span class="prompt-arrow" aria-hidden="true">></span>Solution?
+      </div>
+
+      Something like this, maybe?
+      <br/>
+      What, do I look like a programmer to you?
+
+    </div>
+
+    <div class="col-5uw">
+      <pre class="code">
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.function.Function;
+
+public class ClassMatcher&lt;I, O&gt; {
+    private final Map&lt;Class&lt;? extends I&gt;, Function&lt;? extends I, O&gt;&gt; cases;
+    private Function&lt;I, O&gt; optionalDefault;
+
+    public ClassMatcher() {
+        this.cases = new HashMap&lt;&gt;();
+        this.optionalDefault = null;
+    }
+
+    public &lt;C extends I&gt; ClassMatcher&lt;I, O&gt; withCase(Class&lt;C&gt; key, Function&lt;C, O&gt; handler) {
+        this.cases.put(key, handler);
+        return this;
+    }
+
+    public ClassMatcher&lt;I, O&gt; withDefault(Function&lt;I, O&gt; handler) {
+        this.optionalDefault = handler;
+        return this;
+    }
+
+    public O match(I object) throws NoSuchElementException {
+        Function&lt;I, O&gt; handler;
+        handler = (Function&lt;I, O&gt;) cases.get(object.getClass());
+        if (handler == null) {
+            handler = optionalDefault;
+        }
+        if (handler != null) {
+            return handler.apply(object);
+        } else {
+            throw new NoSuchElementException(&quot;No case for &quot; + object);
+        }
+    }
+}
+
+      </pre>
+    </div>
+
+    <div class="inner-col">
+      <div class="prompt">
+        <span class="prompt-arrow" aria-hidden="true">></span>What does using it look like?
+      </div>
+      <p>
+      Like this!
+      </p>
+      <p>
+      I mean, you could probably speed things up by caching the classmatcher
+      instance, this is a proof of concept.
+      </p>
+    </div>
+
+    <div class="col-5uw">
+      <pre class="code">
+
+interface Shape {}
+
+class Square implements Shape {
+    double size;
+}
+
+class Circle implements Shape {
+    double radius;
+}
+
+class Rectangle implements Shape {
+    double width;
+    double height;
+}
+
+public class Main {
+    public static double area(Shape shape) {
+        return new ClassMatcher&lt;Shape, Double&gt;()
+                .withCase(Square.class, square -&gt; square.size * square.size)
+                .withCase(Circle.class, circle -&gt; circle.radius * circle.radius * Math.PI)
+                .withCase(Rectangle.class, rectangle -&gt; rectangle.width * rectangle.height)
+                .match(shape);
+    }
+
+    public static void main(String[] args) {
+        Square square = new Square();
+        square.size = 5;
+        System.out.println(area(square));
+
+        Circle circle = new Circle();
+        circle.radius = 5;
+        System.out.println(area(circle));
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.width = 5;
+        rectangle.height = 10;
+        System.out.println(area(rectangle));
+    }
+}
+
+      </pre>
+    </div>
+
+    <div class="inner-col">
+      <div class="footnote">
+        <p>
+        RE: this particular example can be easily achieved with object-oriented
+        programming
+        </p>
+        <p>
+          <q>Object-oriented programming is an exceptionally bad idea which could only have originated in California.</q>
+          <p class="tab">- Edsger Dijkstra</p>
+        </p>
+
+      </div>
+    </div>
+
+  </article>
+</div>
+</body>
+</html>
