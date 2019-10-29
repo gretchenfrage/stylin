@@ -10,36 +10,51 @@ NC='\033[0m'
 
 echo ""
 
-echo -e "${GREEN} building site in:${NC} ${PWD}"
+SITE_DIR="target"
+
+echo "building site in:"
+pwd
 
 echo ""
 
-SITE_DIR="build-site"
-
-mkdir "${SITE_DIR}" || true
-rm -rf "./${SITE_DIR}/*" || exit 1
-
-echo -e "into:"
-( cd "${SITE_DIR}"; pwd; ) || exit 1
+(
+    (
+        mkdir "${SITE_DIR}" 2>/dev/null || exit 1; echo "created build dir"
+    ) || (
+        rm -rf "./${SITE_DIR}" || exit 1
+        echo "destroyed build dir"
+        mkdir "${SITE_DIR}" || exit 1
+        echo "re-created build dir"
+    )
+) || exit 1
 
 echo ""
 
-echo -e "${GREEN} copying files${NC}"
+echo -e "building site to:"
+( cd "${SITE_DIR}"; echo -e "${YELLOW}${PWD}${NC}"; ) || exit 1
+
+echo ""
+
+echo -e "${YELLOW}(1)${NC} copying files"
 
 cp ./index.html "./${SITE_DIR}/" || exit 1
 mkdir -p  "./${SITE_DIR}/content" || exit 1
 cp -r ./content/* "./${SITE_DIR}/content/" || exit 1
 cp -r ./fonts "./${SITE_DIR}/fonts" || exit 1
 cp -r ./images "./${SITE_DIR}/images" || exit 1
+cp ./favicon.ico "./${SITE_DIR}/favicon.ico" || exit 1
 
 echo ""
 
-echo -e "${GREEN} building sass${NC}"
+echo -e "${YELLOW}(2)${NC} building sass"
 
 mkdir -p "./${SITE_DIR}/css" || exit 1
 sass "scss/:${SITE_DIR}/css/" || exit 1
-rm "./${SITE_DIR}/css/*.map"
+(
+    cd "./${SITE_DIR}/css"  || exit 1
+    rm ./*.map || exit 1
+) || exit 1
 
 echo ""
 
-echo -e "${YELLOW} success${NC}"
+echo -e "${GREEN}==== success ====${NC}"
