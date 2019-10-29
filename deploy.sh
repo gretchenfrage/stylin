@@ -24,7 +24,12 @@ if [[ "${CONFIRM}" = "y" ]]; then
     echo -e "${YELLOW}deploying, ye-haw!${NC}"
     echo ""
 
+    gsutil -m rm -r gs://phoenixkahlodotcom/*
     gsutil -m cp -r -Z ./target/* gs://phoenixkahlodotcom/ || exit 1
+
+    gsutil setmeta \
+        -h "Cache-Control:public, max-age=31536000" \
+        gs://phoenixkahlodotcom/fonts/minified/*.woff2 || exit 1
 
     echo ""
     echo -e "${GREEN}successful (I think)${NC}"
