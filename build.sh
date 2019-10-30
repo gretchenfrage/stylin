@@ -38,6 +38,7 @@ echo ""
 echo -e "${YELLOW}(1)${NC} copying files"
 
 cp ./index.html "./${SITE_DIR}/" || exit 1
+cp ./404.html "./${SITE_DIR}/" || exit 1
 mkdir -p  "./${SITE_DIR}/content" || exit 1
 cp -r ./content/* "./${SITE_DIR}/content/" || exit 1
 cp -r ./images "./${SITE_DIR}/images" || exit 1
