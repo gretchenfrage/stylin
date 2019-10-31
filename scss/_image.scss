@@ -1,5 +1,5 @@
 
 img.img-pretty {
   border-radius: 3px;
-  box-shadow: 0 0 8px 4px transparentize($color1, 0.7);
+  filter: drop-shadow(0, 0, 8px, 4px, transparentize($color1, 0.7));
 }
