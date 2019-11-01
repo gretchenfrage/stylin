@@ -1,0 +1,12 @@
+{
+  "name": "render",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node render.js"
+  },
+  "devDependencies": {
+    "nodom": "2.2.0",
+    "redom": "3.23.1",
+    "jsdom": "15.1.1"
+  }
+}
