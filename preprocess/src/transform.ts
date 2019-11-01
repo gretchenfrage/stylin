@@ -1,35 +1,41 @@
-
-import { node_is_element } from "./util";
+import {alter, flatMap, node_is_element} from "./util";
 
 /**
  * Node sequence transformation.
  */
-type Processor = (Node) => Node[];
+export type Processor = (Node) => Node[];
 
 /**
  * Optionally matching node transformation.
  */
-type ReplaceRule = (Node, Processor) => Node[] | null;
+export type ReplaceRule = (Node, Processor) => Node[] | null;
 
 /**
  * Replace rule: transform 1 elem -> 1 elem, recurse on children.
+ *
  * @param rule
  */
-function edit_rule(rule: (Element) => Element | null): ReplaceRule {
+export function edit_rule(rule: (Element) => Element | null): ReplaceRule {
     return (node, processor) => {
         if (node_is_element(node)) {
             let edit = rule(node);
             if (edit === null) {
                 return null;
             } else {
-                let new_children = Array.from(edit.children).flatMap(processor);
+                let new_children: Node[] = flatMap(Array.from(node.children), processor);
 
-                // replace the children
-                edit = <Element> edit.cloneNode(false);
-                while (edit.firstChild) {
-                    edit.firstChild.remove();
+                // replace children
+                let mount_to: Node = edit;
+                while (mount_to.childNodes.length > 0) {
+                    if (mount_to.childNodes.length == 1) {
+                        mount_to = mount_to.firstChild;
+                    } else {
+                        throw `edit_rule replacement has too many children ${mount_to}`;
+                    }
                 }
-                new_children.forEach(edit.appendChild);
+                for (let child of new_children) {
+                    mount_to.appendChild(child);
+                }
 
                 return [edit];
             }
@@ -42,7 +48,7 @@ function edit_rule(rule: (Element) => Element | null): ReplaceRule {
 /**
  * Replace rule: remove the elem if it fails a predicate.
  */
-function filter_rule(rule: (Element) => boolean): ReplaceRule {
+export function filter_rule(rule: (Element) => boolean): ReplaceRule {
     return (node, processor) => {
         if (node_is_element(node) && !rule(node)) {
             return [];
@@ -57,28 +63,35 @@ function filter_rule(rule: (Element) => boolean): ReplaceRule {
  *
  * If none match, leave as-is.
  */
-function context_free_rule_processor(rules: ReplaceRule[]): Processor {
-    return function(node: Node) {
+export function context_free_rule_processor(rules: ReplaceRule[]): Processor {
+    function self(node: Node) {
+        // try all rules
         for (let rule of rules) {
-            let replace: Node[] | null = rule(node, this);
+            let replace: Node[] | null = rule(node, self);
             if (replace !== null) {
                 return replace;
             }
         }
 
-        return [node];
-    };
+        // fall back to identity edit-rule
+        // (so that we recurse to children)
+        // but return it unaltered if it's not an element
+        // (eg. it's text)
+        return edit_rule(elem => alter(elem, {}))(node, self) || [node];
+    }
+
+    return self;
 }
 
 /**
  * Fold nodes through a sequence of processors.
  */
-function processor_pipeline(processors: Processor[]): Processor {
+export function processor_pipeline(processors: Processor[]): Processor {
     return (node: Node) => {
         let seq: Node[] = [node];
 
         for (let stage of processors) {
-            seq = seq.flatMap(stage);
+            seq = flatMap(seq, stage);
         }
 
         return seq;

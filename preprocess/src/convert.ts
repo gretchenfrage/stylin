@@ -13,21 +13,23 @@ export function init() {
     var SVGElement = window['SVGElement'];
     globalThis.document = document;
     globalThis.SVGElement = SVGElement;
+
+
 }
 
 /**
  * Read a file, parse it as jsdom DOM.
  */
-export function read_dom(file: PathLike): DocumentFragment {
+export function read_dom(file: PathLike): Node[] {
     let html = readFileSync(file, 'utf8');
-    return JSDOM.fragment(html);
+    return Array.from(JSDOM.fragment(html).childNodes);
 }
 
 /**
  * Convert a DocumentFragment into a string.
  */
-export function render_dom(dom: DocumentFragment): string {
-    return Array.from( dom.childNodes)
+export function render_dom(dom: Node[]): string {
+    return dom
         .filter(node_is_element)
         .map(node => node.outerHTML)
         .reduce((whole, part) => whole + part + '\n', '');
@@ -36,7 +38,7 @@ export function render_dom(dom: DocumentFragment): string {
 /**
  * Convert a DocumentFragment into a string, save it to a file.
  */
-export function save_dom_html(dom: DocumentFragment, file: PathLike) {
+export function save_dom_html(dom: Node[], file: PathLike) {
     let html = render_dom(dom);
     writeFileSync(file, html);
 }
