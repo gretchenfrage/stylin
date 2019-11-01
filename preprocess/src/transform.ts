@@ -1,4 +1,4 @@
-import {alter, flatMap, node_is_element} from "./util";
+import {alter, flatMap, node_is_element, println} from "./util";
 
 /**
  * Node sequence transformation.
@@ -22,7 +22,7 @@ export function edit_rule(rule: (Element) => Element | null): ReplaceRule {
             if (edit === null) {
                 return null;
             } else {
-                let new_children: Node[] = flatMap(Array.from(node.children), processor);
+                let new_children: Node[] = flatMap(Array.from(node.childNodes), processor);
 
                 // replace children
                 let mount_to: Node = edit;
@@ -77,7 +77,8 @@ export function context_free_rule_processor(rules: ReplaceRule[]): Processor {
         // (so that we recurse to children)
         // but return it unaltered if it's not an element
         // (eg. it's text)
-        return edit_rule(elem => alter(elem, {}))(node, self) || [node];
+        let fallback = edit_rule(elem => alter(elem, {}))(node, self) || [node];
+        return fallback;
     }
 
     return self;

@@ -40,17 +40,6 @@ for (let n = 1; n <= 5; n++) {
         if (elem.tagName === 'IMG'
             && Array.from(elem.classList).includes(class_name_before)) {
 
-            println(`img trans = ${
-                el(`div.${class_name_after}`,
-                    alter(elem, {
-                        tagName: 'IMG',
-                        classList: Array.from(elem.classList)
-                            .filter(c => c != class_name_before)
-                            .concat(['img-break-inner', 'img-pretty'])
-                    })
-                )
-                }`);
-
             return el(`div.${class_name_after}`,
                 alter(elem, {
                     tagName: 'IMG',
