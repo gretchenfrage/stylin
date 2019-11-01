@@ -1,10 +1,90 @@
+/**
+ * Console.log alias.
+ */
+function println(string) {
+  if (string === undefined) {
+    string = "";
+  }
+  console.log(string);
+}
 
+/**
+ * Initialize the preprocessor global state.
+ */
+function init() {
+  // import jsdom
+  let jsdom = require("jsdom");
+  const { JSDOM } = jsdom;
+  global.JSDOM = JSDOM;
+
+  // create a global fake DOM, so that redom can initialize properly
+  let window = (new JSDOM("")).window;
+  global.document = window.document;
+  global.SVGElement = window.SVGElement;
+
+  // import redom
+  global.redom = require("redom");
+
+  // import file system
+  global.fs = require("fs");
+}
+
+/**
+ * Read a file, parse it as jsdom DOM.
+ */
+function read_dom(file) {
+  let src = fs.readFileSync(file, 'utf8');
+  return JSDOM.fragment(src);
+}
+
+/**
+ * Convert a DocumentFragment into a string.
+ */
+function render_dom(dom) {
+  return Array.from(dom.childNodes)
+    .map(node => node.outerHTML)
+    .filter(part => part !== undefined)
+    .reduce((whole, part) => whole + part + '\n', '');
+}
+
+/**
+ * Convert a DocumentFragment into a string, save it to a file.
+ */
+function save_dom_html(dom, file) {
+  let html = render_dom(dom);
+  fs.writeFileSync(file, html);
+}
+
+// ===========================
+
+function replace_rule(lambda) {
+
+}
+
+// ===========================
+
+function main() {
+  println("initializing preprocessor");
+  init();
+  println();
+
+  println("reading file");
+  let dom = read_dom('do.html');
+  println();
+
+  println('writing file');
+  save_dom_html(dom, 'target.html');
+  println();
+
+  println('done!');
+}
+
+main();
+
+/*
 // set up
 function setUp() {
-  // prevent these local variables from accidentally being accessed from frontend code
-
-  // log
-  console.log('starting renderer');
+  console.log('beginning preprocessor');
 
   // read the index.html
   const fs = require('fs');
@@ -28,70 +108,10 @@ function setUp() {
 setUp();
 
 //// enter frontend-accessible code ////
-// TODO: ^ factor this out into its own file? that can just be, imported from the frontend?
-
-// redom procedural layout
-const {
-  el,
-  setChildren,
-  mount
-} = redom;
-console.log('doing layout');
-
-// instantiation helpers
-function spacer_col () {
-  return el('div', { className: 'col l2 hide-on-med-and-down' });
-}
-
-class ContentRow {
-  constructor(inner) {
-    this.el = el('div', { className: "row" },
-      spacer_col(),
-      el('div', { className: 'col s12 l8 content-block' }, inner),
-      spacer_col(),
-    );
-  }
-}
-
-// manipulation helpers
-function lookup(id) {
-  return document.getElementById(id);
-}
-
-function wrapElem (elem, wrapper) {
-  mount(elem.parentNode, wrapper(elem.cloneNode(true)), elem, true);
-}
-
-function reflWrap (reflName, wrapper) {
-  var slides = document.getElementsByClassName('refl-' + reflName);
-  for(var i = 0; i < slides.length; i++) {
-    wrapElem(slides.item(i), wrapper);
-  }
-}
-
-// procedurally setup page
-let pages = {
-  'About Me': {},
-  'Blog': {},
-  'Crates': {},
-  'Endworld': {},
-  'Sentences': {},
-  'Contact': {}
-};
-let activePage = 'About Me';
-
-reflWrap('block', function (elem) { return new ContentRow(elem) });
-
-setChildren(
-  lookup('header-list'),
-  Object.keys(pages)
-    .map(function (name) {
-      return el('li', { className: name === activePage ? 'header-active-page' : '' }, name);
-    })
-);
 
 //// exit frontend-accessible code ////
 
 // render HTMl
 console.log('rendering HTML:');
 console.log(document.body.outerHTML);
+ */
