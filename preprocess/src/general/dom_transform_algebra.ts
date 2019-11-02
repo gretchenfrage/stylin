@@ -1,4 +1,5 @@
-import {alter, flatMap, node_is_element, println} from "./util";
+import {flatMap} from "./utils";
+import {alter, node_is_element} from "./dom_edit_utils";
 
 /**
  * Node sequence transformation.

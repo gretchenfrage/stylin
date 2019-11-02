@@ -1,13 +1,4 @@
-
-import { el } from "redom";
-
-/**
- * Console.log alias.
- */
-export function println(str: any) {
-    str = str || '';
-    console.log(str);
-}
+import {el} from "redom";
 
 export function node_is_element(node: Node): node is Element {
     return 'outerHTML' in node;
@@ -32,7 +23,6 @@ export function alter(elem: Element, attrs: object): Element {
     }
 
 
-
     for (let k in attrs) {
         let v = attrs[k];
 
@@ -44,14 +34,4 @@ export function alter(elem: Element, attrs: object): Element {
     }
 
     return el(tagName, full_attrs);
-}
-
-export function flatMap<A, B>(array: A[], lambda: (A) => B[]): B[] {
-    let fmapped = [];
-    for (let a of array) {
-        for (let b of lambda(a)) {
-            fmapped.push(b);
-        }
-    }
-    return fmapped;
 }

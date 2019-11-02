@@ -2,10 +2,16 @@
     title: 'Why is it so hard to do things?'
     path: ['do']
     mini: 'Do'
+
+# copy images
 - - - copy
     - from: './*.jpg'
       to: './'
+
+# build the primary do.html
 - - - readDOM
     - file: './do.html'
-  - wrapWithBoilerplate
-  - writeHTML
+  - - wrapWithColumn
+    - column_class: col-5uw
+  - - wrapWithBoilerplate
+  - - writeHTML

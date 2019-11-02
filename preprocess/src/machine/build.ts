@@ -1,18 +1,22 @@
 import * as yaml from 'js-yaml';
 import {PathLike, readFileSync} from "fs";
-import {println} from './util';
-import {edit_rule} from "./transform";
-import { read_dom, render_dom, save_dom_html } from "./convert";
+import {println} from '../general/utils';
+import {edit_rule} from "../general/dom_transform_algebra";
+import { read_dom, render_dom, save_dom_html } from "../general/html_file_ops";
 
-type MetaData = { [key: string]: any };
-type MetaEntry = { "meta": MetaData };
 type OpCode = string;
+type MetaData = { [key: string]: any };
 type Arguments = { [key: string]: any };
-type Instr = [OpCode, Arguments] | [OpCode] | OpCode;
-type BuildScript = (MetaEntry | Instr[])[];
 type ContextRecord = { [key: string]: any };
 
-function resolve_meta(maybe: any): MetaEntry | null {
+type MetaSyntax = { "meta": MetaData };
+type OpSyntax = [OpCode, Arguments] | [OpCode] | OpCode;
+type ScriptSyntax = (MetaSyntax | OpSyntax[])[];
+
+type OpHandler = (OpContext) => void;
+type OpHandlerSet = { [code: string]: OpHandler };
+
+function resolve_meta(maybe: any): MetaSyntax | null {
     if ('meta' in maybe) {
         return maybe;
     } else {
@@ -74,7 +78,7 @@ class OpContext {
     args: Arguments;
     machine: StackMachine;
 
-    constructor(machine: StackMachine, syntax: Instr) {
+    constructor(machine: StackMachine, syntax: OpSyntax) {
         this.machine = machine;
 
         if (Array.isArray(syntax)) {
@@ -295,13 +299,12 @@ function first_present<T>(value_name: string, producers: (() => T)[]): T {
 
 // === op set
 
-type OpLambda = (OpContext) => void;
-type OpSet = { [code: string]: OpLambda };
 
-import { content_wrap, column_wrap, PageMeta } from './wrap';
+
+import { content_wrap, column_wrap, PageMeta } from '../wrap';
 import { execSync } from'child_process';
 
-const op_set: OpSet = {
+const op_set: OpHandlerSet = {
     copy: (ctx: OpContext) => {
         let from = ctx.require_arg_valid('from', req_string);
         let to = ctx.require_arg_valid('to', req_string);
@@ -314,10 +317,17 @@ const op_set: OpSet = {
 
         execSync(command, { stdio: 'inherit' });
     },
+    wrapWithColumn: (ctx: OpContext) => {
+        let content: Node[] = ctx.pop_valid('content', req_node_array);
+        let col_class = ctx.require_arg_valid('column_class', req_string);
+        println(`> wrapping with column class=${col_class}`);
+
+        let wrapped = column_wrap(content, col_class);
+        ctx.push(wrapped);
+    },
     wrapWithBoilerplate: (ctx: OpContext) => {
         let page_meta: PageMeta = ctx.meta_inline_validate('page', req_page_meta);
         let content: Node[] = ctx.pop_valid('content', req_node_array);
-
         println('> wrapping with phoenixkahlo.com boilerplate');
 
         let wrapped = content_wrap(content, page_meta);
@@ -345,7 +355,7 @@ const op_set: OpSet = {
         println(`> writing DOM to ${file}`);
 
         save_dom_html(dom, file);
-    }
+    },
 };
 
 //
@@ -362,7 +372,7 @@ export function build(src: PathLike, target: PathLike) {
         return;
     }
 
-    let script: BuildScript = yaml.safeLoad(script_str);
+    let script: ScriptSyntax = yaml.safeLoad(script_str);
 
     // edge case
     if (script.length == 0) {
@@ -370,7 +380,7 @@ export function build(src: PathLike, target: PathLike) {
     }
 
     // resolve the metadata
-    let meta_entry: MetaEntry | null = resolve_meta(script[0]);
+    let meta_entry: MetaSyntax | null = resolve_meta(script[0]);
     let meta: MetaData;
     if (meta_entry != null) {
         // remove it from the program slice
@@ -389,7 +399,7 @@ export function build(src: PathLike, target: PathLike) {
         if (!Array.isArray(script_elem)) {
             throw `illegal script elem ${script_elem}`;
         }
-        let line: Instr[] = script_elem;
+        let line: OpSyntax[] = script_elem;
 
         // create the machine
         let machine = new StackMachine(src, target, meta);

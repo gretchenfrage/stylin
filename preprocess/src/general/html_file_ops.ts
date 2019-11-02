@@ -1,7 +1,6 @@
-
-import { println, node_is_element } from './util';
-import { JSDOM } from 'jsdom';
-import { readFileSync, writeFileSync, PathLike } from "fs";
+import {JSDOM} from 'jsdom';
+import {PathLike, readFileSync, writeFileSync} from "fs";
+import {node_is_element} from "./dom_edit_utils";
 
 /**
  * Initialize the preprocessor global state.
