@@ -6,9 +6,11 @@
     "start": "tsc && node dist/app.js"
   },
   "dependencies": {
+    "@types/js-yaml": "^3.12.1",
     "@types/jsdom": "^12.2.4",
     "@types/node": "^12.12.4",
     "@types/redom": "^3.23.1",
+    "js-yaml": "^3.13.1",
     "jsdom": "15.1.1",
     "redom": "3.23.1",
     "tslint": "^5.20.0",

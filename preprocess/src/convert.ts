@@ -13,8 +13,6 @@ export function init() {
     var SVGElement = window['SVGElement'];
     globalThis.document = document;
     globalThis.SVGElement = SVGElement;
-
-
 }
 
 /**

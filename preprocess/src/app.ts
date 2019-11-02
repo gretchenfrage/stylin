@@ -13,6 +13,7 @@ import {
 } from './transform';
 import { content_wrap, column_wrap } from "./wrap";
 import { el, setAttr } from 'redom';
+import * as yaml from 'js-yaml';
 
 let dom: Node[] | Node = convert.read_dom("./do.html");
 
@@ -40,8 +41,6 @@ for (let n = 1; n <= 5; n++) {
 
         if (elem.tagName === 'IMG'
             && Array.from(elem.classList).includes(class_name_before)) {
-
-            println('yahoo!');
 
             let out = el(`div.${class_name_after}`,
                 alter(elem, {
@@ -102,6 +101,9 @@ dom = content_wrap([dom], {
 });
 dom = flatMap([dom], absolute_path_prepend('/Users/kahlo/Desktop/stylin'));
 
-convert.save_dom_html(dom, "../target/content/do/do.html");
+//convert.save_dom_html(dom, "../target/content/do/do.html");
 
+import * as fs from 'fs';
 
+let y = yaml.safeLoad(fs.readFileSync('./instrs.yaml', 'utf8'));
+println(`${JSON.stringify(y)}`);

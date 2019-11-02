@@ -7,6 +7,9 @@ export interface PageMeta {
     mini: string;
 }
 
+/**
+ * Wrap the main page content with the general phoenixkahlo.com boilerplate.
+ */
 export function content_wrap(content: Node[], meta: PageMeta): Node {
     let header_path: Node[] = [
         el('span.header-path-sep', 'ME:/ '),
@@ -55,6 +58,9 @@ export function content_wrap(content: Node[], meta: PageMeta): Node {
     );
 }
 
+/**
+ * Wrap the main content with a given column class.
+ */
 export function column_wrap(content: Node[], col_class: string): Node {
     return el('div', { className: col_class}, content);
 }
