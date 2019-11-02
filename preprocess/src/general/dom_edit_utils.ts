@@ -1,5 +1,9 @@
 import {el} from "redom";
 
+export function is_node(value: any): value is Node {
+    return 'cloneNode' in value;
+}
+
 export function node_is_element(node: Node): node is Element {
     return 'outerHTML' in node;
 }
