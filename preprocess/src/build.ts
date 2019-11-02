@@ -1,13 +1,14 @@
 import * as yaml from 'js-yaml';
 import {PathLike, readFileSync} from "fs";
 import {println} from './util';
+import {edit_rule} from "./transform";
 
 type MetaData = { [key: string]: any };
 type MetaEntry = { "meta": MetaData };
 type OpCode = string;
 type Arguments = { [key: string]: any };
 type Instr = [OpCode, Arguments] | [OpCode] | OpCode;
-type BuildScript = (MetaEntry | Instr)[];
+type BuildScript = (MetaEntry | Instr[])[];
 type ContextRecord = { [key: string]: any };
 
 function resolve_meta(maybe: any): MetaEntry | null {
@@ -124,12 +125,12 @@ class OpContext {
     _validate<T>(value: any, value_name: string, validator: CleanerValidator<T>): T{
         let value_valid: T;
         try {
-            let value_valid = validator(value);
+            value_valid = validator(value);
         } catch (e) {
             println(`unable to validate ${value_name} for op=${this.op} value=${value}`);
             throw e;
         }
-        if (value_valid) {
+        if (value_valid != null) {
             return value_valid;
         } else {
             throw `unable to validate ${value_name} for op=${this.op} value=${value}`;
@@ -166,12 +167,102 @@ class OpContext {
             return undefined;
         }
     }
+
+    meta_inline_validate<T>(subdata_name: string, validator: CleanerValidator<T>): T {
+        return this._validate(
+            this.machine.meta,
+            `metadata inline "${subdata_name}"`,
+            validator
+        );
+    }
 }
+
+// === validators
+
+function req_type<T>(type_name: string): CleanerValidator<T> {
+    return (value: any) => (typeof value == type_name) ? <T> value : undefined;
+}
+
+const req_string = req_type<string>('string');
+const req_number = req_type<number>('number');
+const req_boolean = req_type<boolean>('boolean');
+
+function req_array<T>(elem_validator: CleanerValidator<T>): CleanerValidator<T[]> {
+    return (value: any) => {
+        if (!Array.isArray(value)) {
+            throw `require array, got: ${JSON.stringify(value)}`;
+        }
+
+        let dirty_arr: any[] = <any[]> value;
+        let clean_arr: T[] = [];
+
+        for (let dirty_elem of dirty_arr) {
+            let clean_elem = elem_validator(dirty_elem);
+            if (clean_elem == null) {
+                throw `failed to validate subelement: ${JSON.stringify(dirty_elem)}`;
+            } else {
+                clean_arr.push(clean_elem);
+            }
+        }
+
+        return clean_arr;
+    };
+}
+
+function present<T>(value: T, value_name: string): T {
+    if (value != null) {
+        return value;
+    } else {
+        throw `value failed to validate: ${value_name}`;
+    }
+}
+
+function req_page_meta(value: any): PageMeta {
+    return {
+        title: present(req_string(value['title']), 'title'),
+        path: present(req_array(req_string)(value['path']), 'path'),
+        mini: present(req_string(value['mini']), 'mini'),
+    };
+}
+
+// === op set
 
 type OpLambda = (OpContext) => void;
 type OpSet = { [code: string]: OpLambda };
 
+import { content_wrap, column_wrap, PageMeta } from './wrap';
+import { execSync } from'child_process';
+// stderr is sent to stderr of parent process
+// you can set options.stdio if you want it to go elsewhere
+let stdout = execSync('ls');
+
+const op_set: OpSet = {
+    copy: (ctx: OpContext) => {
+        let from = ctx.require_arg_valid('from', req_string);
+        let to = ctx.require_arg_valid('to', req_string);
+
+        // escape whitespace instead of quoting, to expand globs
+        from = from.replace(' ', '\\ ');
+        to = to.replace(' ', '\\ ');
+
+        let command = `cp ${ctx.machine.source_dir}/${from} ${ctx.machine.target_dir}/${to}`;
+        println(`> ${command}`);
+
+        execSync(command, { stdio: 'inherit' });
+    },
+    wrap_with_boilerplate: (ctx: OpContext) => {
+        let page_meta: PageMeta = ctx.meta_inline_validate('page', req_page_meta);
+
+        println(`page_meta = ${JSON.stringify(page_meta)}`);
+
+    },
+};
+
+//
+
 export function build(src: PathLike, target: PathLike) {
+    println(`==== building ${src} -> ${target} ====`);
+
     // read the yaml
     let script_str: string = readFileSync(`${src}/build.yaml`, 'utf8');
     let script: BuildScript = yaml.safeLoad(script_str);
@@ -193,6 +284,28 @@ export function build(src: PathLike, target: PathLike) {
         meta = {};
     }
 
-    // build the machine machine state
+    // run each line
+    for (let script_elem of script) {
+        if (!Array.isArray(script_elem)) {
+            throw `illegal script elem ${script_elem}`;
+        }
+        let line: Instr[] = script_elem;
 
+        // create the machine
+        let machine = new StackMachine(src, target, meta);
+
+        // run each instruction
+        for (let instr of line) {
+            let op_context = new OpContext(machine, instr);
+
+            if (op_context.op in op_set) {
+                op_set[op_context.op](op_context);
+            } else {
+                throw `unknown instruction: ${op_context.op}`;
+            }
+        }
+    }
+
+    println(`==== success ====`);
+    // done :)
 }

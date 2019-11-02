@@ -1,0 +1,8 @@
+- meta:
+    title: 'Why is it so hard to do things?'
+    path: ['do']
+    mini: 'Do'
+- - - copy
+    - from: './*.jpg'
+      to: './'
+- - wrap_with_boilerplate

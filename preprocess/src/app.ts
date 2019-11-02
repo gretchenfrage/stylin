@@ -101,12 +101,17 @@ dom = content_wrap([dom], {
 });
 dom = flatMap([dom], absolute_path_prepend('/Users/kahlo/Desktop/stylin'));
 
+import {build} from './build';
+build('sandbox/from', 'sandbox/to');
+
+/*
 //convert.save_dom_html(dom, "../target/content/do/do.html");
 
 import * as fs from 'fs';
 
 let y = yaml.safeLoad(fs.readFileSync('./instrs.yaml', 'utf8'));
 println(`${JSON.stringify(y)}`);
+ */
 
 /*
 function foo<T extends string | undefined>(n?: T): T extends string ? number : false {
