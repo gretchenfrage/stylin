@@ -1,6 +1,6 @@
 import * as yaml from 'js-yaml';
 import {PathLike, readFileSync} from "fs";
-
+import {println} from './util';
 
 type MetaData = { [key: string]: any };
 type MetaEntry = { "meta": MetaData };
@@ -16,10 +16,6 @@ function resolve_meta(maybe: any): MetaEntry | null {
     } else {
         return null;
     }
-}
-
-interface CleanerValidator<T> {
-    (datum: any): T | undefined;
 }
 
 /**
@@ -63,6 +59,10 @@ class StackMachine {
     }
 }
 
+interface CleanerValidator<T> {
+    (datum: any): T | undefined;
+}
+
 /**
  * Context for executing an operation.
  */
@@ -101,7 +101,7 @@ class OpContext {
         if (this.args[key]) {
             return this.args[key];
         } else {
-            throw `missing required op argument${key} for op=${op}`;
+            throw `missing required op argument=${key} for op=${this.op}`;
         }
     }
 
@@ -119,6 +119,52 @@ class OpContext {
 
     contextual(key: string): any | undefined {
         return this.machine.context_record[key];
+    }
+
+    _validate<T>(value: any, value_name: string, validator: CleanerValidator<T>): T{
+        let value_valid: T;
+        try {
+            let value_valid = validator(value);
+        } catch (e) {
+            println(`unable to validate ${value_name} for op=${this.op} value=${value}`);
+            throw e;
+        }
+        if (value_valid) {
+            return value_valid;
+        } else {
+            throw `unable to validate ${value_name} for op=${this.op} value=${value}`;
+        }
+    }
+
+
+    require_arg_valid<T>(key: string, validator: CleanerValidator<T>): T {
+        let value: any = this.require_arg(key);
+        return this._validate(value, `op argument=${key}`, validator);
+    }
+
+    require_meta_valid<T>(key: string, validator: CleanerValidator<T>): T {
+        let value: any = this.require_meta(key);
+        return this._validate(value, `metadata key=${key}`, validator);
+    }
+
+    pop_valid<T>(operand_name: string, validator: CleanerValidator<T>): T {
+        let value = this.pop(operand_name);
+        return this._validate(
+            value, `stack operand "${operand_name}"`, validator
+        );
+    }
+
+    contextual_validate<T>(key: string, validator: CleanerValidator<T>): T | undefined {
+        let value = this.contextual(key);
+        if (value) {
+            return this._validate(
+                value,
+                `internal contextual value: ${key}`,
+                validator
+            );
+        } else {
+            return undefined;
+        }
     }
 }
 

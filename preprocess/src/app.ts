@@ -107,3 +107,17 @@ import * as fs from 'fs';
 
 let y = yaml.safeLoad(fs.readFileSync('./instrs.yaml', 'utf8'));
 println(`${JSON.stringify(y)}`);
+
+/*
+function foo<T extends string | undefined>(n?: T): T extends string ? number : false {
+    if (n) {
+        return <T extends string ? number : false> n.length;
+    } else {
+        return <T extends string ? number : false> false;
+    }
+}
+
+let a: number = foo("hello");
+let b: boolean = foo(undefined);
+
+ */
