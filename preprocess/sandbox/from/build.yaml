@@ -5,4 +5,7 @@
 - - - copy
     - from: './*.jpg'
       to: './'
-- - wrap_with_boilerplate
+- - - readDOM
+    - file: './do.html'
+  - wrapWithBoilerplate
+  - writeHTML
