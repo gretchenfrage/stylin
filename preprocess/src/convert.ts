@@ -38,7 +38,11 @@ export function render_dom(dom: Node[]): string {
 /**
  * Convert a DocumentFragment into a string, save it to a file.
  */
-export function save_dom_html(dom: Node[], file: PathLike) {
+export function save_dom_html(dom: Node[] | Node, file: PathLike) {
+    if (!Array.isArray(dom)) {
+        dom = [dom];
+    }
+
     let html = render_dom(dom);
     writeFileSync(file, html);
 }

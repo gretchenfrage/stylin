@@ -98,3 +98,34 @@ export function processor_pipeline(processors: Processor[]): Processor {
         return seq;
     };
 }
+
+/**
+ * A mapping on all elements, independent of children.
+ *
+ * The rule is passed the element with its children, but ignores any
+ * modification to the children in the returned element.
+ */
+export function map_elements(mapping: (Element) => Element): Processor {
+    function self(node: Node): Node {
+        if (node_is_element(node)) {
+            let mapped: Element = mapping(node);
+            let mapped_children: Node[] = Array.from(node.childNodes).map(self);
+
+            // clone because:
+            // 1. we're going to mutate it
+            // 2. to remove its children
+            mapped = <Element> mapped.cloneNode(false);
+
+            // then add the mapped children
+            for (let child of mapped_children) {
+                mapped.appendChild(child);
+            }
+
+            return mapped;
+        } else {
+            return node;
+        }
+    }
+
+    return (node) => [self(node)];
+}

@@ -18,7 +18,7 @@ export function node_is_element(node: Node): node is Element {
  */
 export function alter(elem: Element, attrs: object): Element {
     let full_attrs = {};
-    let tagName = 'div';
+    let tagName = elem.tagName;
 
     // see: https://stackoverflow.com/questions/8584098/how-to-change-an-element-type-using-jquery
     for (let k of elem.getAttributeNames()) {
