@@ -31,6 +31,8 @@ export function alter(elem: Element, attrs: object): Element {
         }
     }
 
+
+
     for (let k in attrs) {
         let v = attrs[k];
 
