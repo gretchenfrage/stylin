@@ -46,13 +46,17 @@ for f in index.html 404.html favicon.ico images; do
     cp -r ./${SOURCE_DIR}/${f} ./${SITE_DIR}/ || exit 1
 done
 
+# build/preprocess posts
+mkdir -p ./${SITE_DIR}/content
+./preprocess.sh ./${SOURCE_DIR}/content ./${SITE_DIR}/content || exit 1
+
 # build fonts
 echo -e "${YELLOW}(2)${NC} building fonts"
 bash ./${SOURCE_DIR}/fonts/minify.sh || exit 1
 mkdir -p ./${SITE_DIR}/fonts/pristine
 mkdir -p ./${SITE_DIR}/fonts/minified
-cp -r ./$SOURCE_DIR/fonts/pristine/* "./${SITE_DIR}/fonts/pristine/"  || exit 1
-cp -r ./$SOURCE_DIR/fonts/minified/* "./${SITE_DIR}/fonts/minified/" || exit 1
+cp -r ./${SOURCE_DIR}/fonts/pristine/* "./${SITE_DIR}/fonts/pristine/"  || exit 1
+cp -r ./${SOURCE_DIR}/fonts/minified/* "./${SITE_DIR}/fonts/minified/" || exit 1
 echo ""
 
 # build sass

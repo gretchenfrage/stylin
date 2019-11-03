@@ -1,0 +1,8 @@
+- - - copy
+    - from: './*.png'
+      to: './'
+
+- - - readDOM
+    - file: './reconciliation.html'
+  - - absPathRebase
+  - - writeHTML

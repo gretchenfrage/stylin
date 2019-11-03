@@ -1,5 +1,6 @@
 import {map_elements, Processor, processor_pipeline} from "./dom_transform_algebra";
 import {alter_elem} from "./dom_edit_utils";
+import {println} from "./utils";
 
 /**
  * Find any node with a src or href property that's an absolute path, and re-relativize it.
@@ -15,6 +16,8 @@ export function absolute_path_prepend(root: string, attrib_key?: string): Proces
             if (path[0] != '/') {
                 return elem;
             }
+
+            // println(`>: "${path}" -> "${root + path}"`);
 
             let patch: any = {};
             patch[attrib_key] = root + path;
