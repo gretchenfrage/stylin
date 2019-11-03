@@ -11,7 +11,10 @@
 # build the primary do.html
 - - - readDOM
     - file: './do.html'
+  - - fmtSubheadersH4
+  - - fmtImgBreaks
   - - wrapWithColumn
     - column_class: col-5uw
   - - wrapWithBoilerplate
+  - - absPathRebase
   - - writeHTML

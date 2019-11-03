@@ -1,5 +1,5 @@
-import {flatMap} from "./utils";
-import {alter, node_is_element} from "./dom_edit_utils";
+import {flat_map} from "./utils";
+import {alter_elem, node_is_element} from "./dom_edit_utils";
 
 /**
  * Node sequence transformation.
@@ -23,7 +23,7 @@ export function edit_rule(rule: (Element) => Element | null): ReplaceRule {
             if (edit === null) {
                 return null;
             } else {
-                let new_children: Node[] = flatMap(Array.from(node.childNodes), processor);
+                let new_children: Node[] = flat_map(Array.from(node.childNodes), processor);
 
                 // replace children
                 let mount_to: Node = edit;
@@ -78,7 +78,7 @@ export function context_free_rule_processor(rules: ReplaceRule[]): Processor {
         // (so that we recurse to children)
         // but return it unaltered if it's not an element
         // (eg. it's text)
-        let fallback = edit_rule(elem => alter(elem, {}))(node, self) || [node];
+        let fallback = edit_rule(elem => alter_elem(elem, {}))(node, self) || [node];
         return fallback;
     }
 
@@ -93,7 +93,7 @@ export function processor_pipeline(processors: Processor[]): Processor {
         let seq: Node[] = [node];
 
         for (let stage of processors) {
-            seq = flatMap(seq, stage);
+            seq = flat_map(seq, stage);
         }
 
         return seq;

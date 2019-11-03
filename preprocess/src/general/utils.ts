@@ -6,7 +6,7 @@ export function println(str: string | null) {
     console.log(str);
 }
 
-export function flatMap<A, B>(array: A[], lambda: (A) => B[]): B[] {
+export function flat_map<A, B>(array: A[], lambda: (A) => B[]): B[] {
     let fmapped = [];
     for (let a of array) {
         for (let b of lambda(a)) {

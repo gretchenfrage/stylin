@@ -11,7 +11,7 @@ export function node_is_element(node: Node): node is Element {
 /**
  * Clone node, remove children, replace attributes, return altered version.
  */
-export function alter(elem: Element, attrs: object): Element {
+export function alter_elem(elem: Element, attrs: object): Element {
     let full_attrs = {};
     let tagName = elem.tagName;
 

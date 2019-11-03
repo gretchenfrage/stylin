@@ -1,6 +1,6 @@
 import {is_node} from "../general/dom_edit_utils";
-import {PageMeta} from "../wrap";
 import {present} from "../general/utils";
+import {PageBoilerplateMetadata} from "../phoenixkahlo/dom_wrappers";
 
 export interface CleanerValidator<T> {
     (datum: any): T | undefined;
@@ -36,7 +36,7 @@ function req_array<T>(elem_validator: CleanerValidator<T>): CleanerValidator<T[]
     };
 }
 
-export function req_page_meta(value: any): PageMeta {
+export function req_page_meta(value: any): PageBoilerplateMetadata {
     return {
         title: present(req_string(value['title']), 'title'),
         path: present(req_array(req_string)(value['path']), 'path'),

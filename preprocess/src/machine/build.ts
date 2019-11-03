@@ -2,11 +2,11 @@ import * as yaml from 'js-yaml';
 import {PathLike, readFileSync} from "fs";
 import {first_present, println} from '../general/utils';
 import {read_dom, save_dom_html} from "../general/html_file_ops";
-import {column_wrap, content_wrap, PageMeta} from '../wrap';
 import {execSync} from 'child_process';
 import {MetaData, MetaSyntax, OpHandlerSet, OpSyntax, ScriptSyntax} from "./types";
 import {req_node_array, req_page_meta, req_string} from "./datatype_validate";
 import {OpContext, StackMachine} from "./machinery";
+import {column_wrap, content_wrap, PageBoilerplateMetadata} from "../phoenixkahlo/dom_wrappers";
 
 // === validators
 
@@ -35,7 +35,7 @@ export const std_op_set: OpHandlerSet = {
         ctx.push(wrapped);
     },
     wrapWithBoilerplate: (ctx: OpContext) => {
-        let page_meta: PageMeta = ctx.meta_inline_validate('page', req_page_meta);
+        let page_meta: PageBoilerplateMetadata = ctx.meta_inline_validate('page', req_page_meta);
         let content: Node[] = ctx.pop_valid('content', req_node_array);
         println('> wrapping with phoenixkahlo.com boilerplate');
 

@@ -1,7 +1,6 @@
+import {el} from "redom";
 
-import { el } from 'redom';
-
-export interface PageMeta {
+export interface PageBoilerplateMetadata {
     title: string;
     path: string[];
     mini: string;
@@ -10,10 +9,10 @@ export interface PageMeta {
 /**
  * Wrap the main page content with the general phoenixkahlo.com boilerplate.
  */
-export function content_wrap(content: Node[], meta: PageMeta): Node {
+export function content_wrap(content: Node[], meta: PageBoilerplateMetadata): Node {
     let header_path: Node[] = [
         el('span.header-path-sep', 'ME:/ '),
-        el('a.header-path-part', { href: '/index.html' }, 'home page'),
+        el('a.header-path-part', {href: '/index.html'}, 'home page'),
     ];
     for (let i = 0; i < meta.path.length; i++) {
         let path_part: string = meta.path[i];
@@ -28,9 +27,9 @@ export function content_wrap(content: Node[], meta: PageMeta): Node {
     }
 
 
-    return el('html', { lang: 'en' },
+    return el('html', {lang: 'en'},
         el('head',
-            el('meta', { charset: 'UTF-8' }),
+            el('meta', {charset: 'UTF-8'}),
             el('title', `PSK | ${meta.mini}`),
             el('link', {
                 rel: 'stylesheet',
@@ -52,7 +51,6 @@ export function content_wrap(content: Node[], meta: PageMeta): Node {
                     el('header.title-block', el('span.title', meta.title)),
                     content,
                 ),
-
             )
         ),
     );
@@ -62,5 +60,5 @@ export function content_wrap(content: Node[], meta: PageMeta): Node {
  * Wrap the main content with a given column class.
  */
 export function column_wrap(content: Node[], col_class: string): Node {
-    return el('div', { className: col_class}, content);
+    return el('div', {className: col_class}, content);
 }
