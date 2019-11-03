@@ -20,7 +20,7 @@ export function content_wrap(content: Node[], meta: PageBoilerplateMetadata): No
         header_path.push(el('span.header-path-sep', ' / '));
 
         if ((i + 1) == meta.path.length) {
-            header_path.push(el('span.header-path-head', path_part));
+            header_path.push(el('span#header-path-head', path_part));
         } else {
             header_path.push(el('span.header-path-part', path_part));
         }
