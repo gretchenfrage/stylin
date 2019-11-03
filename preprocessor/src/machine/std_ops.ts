@@ -28,7 +28,7 @@ export function copy(ctx: OpContext) {
     from = ctx.pathologize(from, 'source');
     to = ctx.pathologize(to, 'target');
 
-    let command = `cp -r ${from} ${to}`;
+    let command = `cp -R ${from} ${to}`;
     println(`> ${command}`);
 
     execSync(command, { stdio: 'inherit' });

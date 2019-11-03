@@ -28,8 +28,8 @@ import {absolute_path_prepend} from "./general/std_transformations";
 
 function main() {
     // parse args
-    let from: string = process.argv[1];
-    let to: string = process.argv[1];
+    let from: string = process.argv[2];
+    let to: string = process.argv[3];
 
     let abs_path_base: string | undefined = process.env['ABSOLUTE_PATH_PREPEND'];
 
@@ -82,7 +82,7 @@ function main() {
     };
 
     // run the machine
-    build.build(ops, 'sandbox/from', 'sandbox/to')
+    build.build(ops, from, to)
 }
 
 main();
