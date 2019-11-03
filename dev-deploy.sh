@@ -10,6 +10,8 @@ NC='\033[0m'
 
 echo ""
 
+unset ABSOLUTE_PATH_PREPEND
+
 if [[ "${USE_CACHED_BUILD}" = "true" ]]; then
     echo -e "${YELLOW}using cached build${NC}"
     echo ""
@@ -25,7 +27,7 @@ fi
 
 (
     gsutil -m rm -r gs://dev-phoenixkahlodotcom/*
-    gsutil -m cp -r -Z ./target/* gs://dev-phoenixkahlodotcom/ || exit 1
+    gsutil -m cp -r -Z ./build/target/* gs://dev-phoenixkahlodotcom/ || exit 1
 
     gsutil setmeta \
         -h "Cache-Control:public, max-age=31536000" \

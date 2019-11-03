@@ -10,6 +10,8 @@ NC='\033[0m'
 
 echo ""
 
+unset ABSOLUTE_PATH_PREPEND
+
 echo "re-building"
 
 bash ./build.sh || exit 1
@@ -25,7 +27,7 @@ if [[ "${CONFIRM}" = "y" ]]; then
     echo ""
 
     gsutil -m rm -r gs://phoenixkahlodotcom/*
-    gsutil -m cp -r -Z ./target/* gs://phoenixkahlodotcom/ || exit 1
+    gsutil -m cp -r -Z ./build/target/* gs://phoenixkahlodotcom/ || exit 1
 
     gsutil setmeta \
         -h "Cache-Control:public, max-age=31536000" \
