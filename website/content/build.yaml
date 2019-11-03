@@ -1,0 +1,11 @@
+# we will place redirects in the root
+
+- - - redirect
+    - from: './do.html'
+      to: '/content/do/do.html'
+  - - redirect
+    - from: './reconciliation.html'
+      to: '/content/reconciliation/reconciliation.html'
+  - - redirect
+    - from: './java_class_match.html'
+      to: '/content/half_baked/java_class_match/java_class_match.html'

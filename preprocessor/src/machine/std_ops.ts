@@ -5,6 +5,7 @@ import {execSync} from "child_process";
 import {read_dom, save_dom_html} from "../general/html_file_ops";
 import {OpHandler} from "./types";
 import {Processor} from "../general/dom_transform_algebra";
+import {html_redirect_dom} from "../general/redirect_page";
 
 // here be OpHandlers (the general ones)
 
@@ -109,4 +110,37 @@ export function apply_parametric_processor(parametrizer: (ctx: OpContext) => Pro
         let processor = parametrizer(ctx);
         return flat_map(input, processor);
     });
+}
+
+/**
+ * Write an HTML file at [args.from] which redirects to [args.to].
+ */
+export function create_redirect_page(ctx: OpContext) {
+    let from: string = ctx.require_arg_valid('from', req_string);
+    let to: string = ctx.require_arg_valid('to', req_string);
+    from = ctx.pathologize(from, 'target');
+
+    println(`> creating redirect page "${from}" -> "${to}"`);
+
+    let page: Node = html_redirect_dom(to);
+    save_dom_html(page, from);
+}
+/**
+ * Write an HTML file at [args.from] which redirects to path_prefix/[args.to]. for
+ * absolute paths, or [args.to] for relative paths.
+ */
+export function create_redirect_page_prepend(abs_path_prefix: string | null): OpHandler {
+    return (ctx: OpContext) => {
+        let from: string = ctx.require_arg_valid('from', req_string);
+        let to: string = ctx.require_arg_valid('to', req_string);
+        from = ctx.pathologize(from, 'target');
+        if (abs_path_prefix != null && to.length > 0 && to[0] == '/') {
+            to = abs_path_prefix + to;
+        }
+
+        println(`> creating redirect page "${from}" -> "${to}"`);
+
+        let page: Node = html_redirect_dom(to);
+        save_dom_html(page, from);
+    };
 }
