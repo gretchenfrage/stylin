@@ -1,8 +1,9 @@
 {
-  "name": "render",
+  "name": "preprocess",
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
+    "build": "tsc",
     "start": "mkdir -p ./sandbox/to; rm -rf ./sandbox/to/*; tsc && node dist/app.js"
   },
   "dependencies": {

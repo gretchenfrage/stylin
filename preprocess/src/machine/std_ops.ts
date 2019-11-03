@@ -9,6 +9,13 @@ import {Processor} from "../general/dom_transform_algebra";
 // here be OpHandlers (the general ones)
 
 /**
+ * A no-op.
+ */
+export const no_op: OpHandler = (ctx: OpContext): void => {
+    println('> (no-op)');
+};
+
+/**
  * The command:
  * > cp -r [args.from] [args.to]
  *

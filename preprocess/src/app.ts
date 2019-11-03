@@ -15,7 +15,7 @@ import * as std_ops from './machine/std_ops';
 import * as wrappers from './phoenixkahlo/dom_wrappers';
 import * as formatters from './phoenixkahlo/formatters';
 
-import {OpHandlerSet} from "./machine/types";
+import {OpHandler, OpHandlerSet} from "./machine/types";
 import {OpContext} from "./machine/machinery";
 import {context_free_rule_processor, Processor} from "./general/dom_transform_algebra";
 import {content_wrap, PageBoilerplateMetadata} from "./phoenixkahlo/dom_wrappers";
@@ -27,6 +27,12 @@ import {fmt_h4_subheader, fmt_img_breaks} from "./phoenixkahlo/formatters";
 import {absolute_path_prepend} from "./general/std_transformations";
 
 function main() {
+    // parse args
+    let from: string = process.argv[1];
+    let to: string = process.argv[1];
+
+    let abs_path_base: string | undefined = process.env['ABSOLUTE_PATH_PREPEND'];
+
     // construct the op handler set
     function wrapWithBoilerplate(ctx: OpContext, content: Node[]): Node {
         let page_meta: PageBoilerplateMetadata = ctx
@@ -42,6 +48,16 @@ function main() {
 
         println(`> wrapping with column class=${col_class}`);
         return column_wrap(content, col_class);
+    }
+
+    let absPathRebase: OpHandler;
+    if (abs_path_base != null) {
+        absPathRebase = std_ops.apply_processor(
+            absolute_path_prepend(abs_path_base),
+            'absolute path prepend (for local dev)'
+        );
+    } else {
+        absPathRebase = std_ops.no_op;
     }
 
     let ops: OpHandlerSet = {
@@ -62,10 +78,7 @@ function main() {
             'format img breaks',
         ),
 
-        absPathRebase: std_ops.apply_processor(
-            absolute_path_prepend('../../..'),
-            'absolute path prepend (for local dev)'
-        )
+        absPathRebase: absPathRebase,
     };
 
     // run the machine
