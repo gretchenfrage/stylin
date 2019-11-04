@@ -1,7 +1,12 @@
+# copy assets
 - - - copy
     - from: './*.png'
       to: './'
+- - - copy
+    - from: './lossless'
+      to: './'
 
+# simple copy
 - - - readDOM
     - file: './reconciliation.html'
   - - absPathRebase

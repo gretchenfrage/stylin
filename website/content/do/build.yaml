@@ -3,9 +3,12 @@
     path: ['do']
     mini: 'Do'
 
-# copy images
+# copy assets
 - - - copy
     - from: './*.jpg'
+      to: './'
+- - - copy
+    - from: './lossless'
       to: './'
 
 # build the primary do.html
