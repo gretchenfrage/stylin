@@ -1,5 +1,17 @@
-# simple copy
+- meta:
+    title: 'Half-baked idea: Java class matching'
+    path:
+      - 'half-baked'
+      - 'java class match'
+    mini: 'Java Class Match'
+
+- - - copy
+    - from: './*.java'
+      to: './'
+
 - - - readDOM
     - file: './java_class_match.html'
+  - - inlineCodeDirectives
+  - - wrapWithBoilerplate
   - - absPathRebase
   - - writeHTML

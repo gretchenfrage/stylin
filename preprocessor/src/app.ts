@@ -24,8 +24,10 @@ import {req_page_meta} from "./machine/datatype_validate";
 import {println} from "./general/utils";
 import {req_string} from "./machine/datatype_validate";
 import {column_wrap} from "./phoenixkahlo/dom_wrappers";
-import {fmt_h4_subheader, fmt_img_breaks} from "./phoenixkahlo/formatters";
+import {fmt_h4_subheader, fmt_img_breaks, fmt_inline_code_directives} from "./phoenixkahlo/formatters";
 import {absolute_path_prepend} from "./general/std_transformations";
+import {ExternalCodeRetriever} from "./phoenixkahlo/formatters";
+import {readFileSync} from "fs";
 
 function main() {
     // parse args
@@ -61,6 +63,24 @@ function main() {
         absPathRebase = std_ops.no_op;
     }
 
+    /**
+     * Process is parametric over the context, since retrieved external code files
+     * are relative to the content's build directory.
+     */
+    function inline_code_directives_processor(ctx: OpContext): Processor {
+        /**
+         * The callback we'll pass to retrieve the code.
+         */
+        function retrieve_code(path: string): string | null {
+            path = ctx.pathologize(path, 'source');
+            return readFileSync(path, 'utf8');
+        }
+
+        return context_free_rule_processor([
+            fmt_inline_code_directives(retrieve_code)]
+        );
+    }
+
     let ops: OpHandlerSet = {
         copy: std_ops.copy,
         readDOM: std_ops.readDOM,
@@ -78,10 +98,13 @@ function main() {
             context_free_rule_processor([fmt_h4_subheader]),
             'format h4 -> subheader',
         ),
-
         fmtImgBreaks: std_ops.apply_processor(
             context_free_rule_processor(fmt_img_breaks),
             'format img breaks',
+        ),
+        inlineCodeDirectives: std_ops.apply_parametric_processor(
+            inline_code_directives_processor,
+            'format directives to inline code',
         ),
 
         absPathRebase: absPathRebase,
@@ -94,6 +117,9 @@ function main() {
 try {
     main();
 } catch (e) {
+    if (typeof e !== 'string') {
+        throw e;
+    }
 
     const Reset = "\x1b[0m"
     const Bright = "\x1b[1m"

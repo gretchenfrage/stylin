@@ -154,8 +154,17 @@ export function apply_processor(processor: Processor, log_name?: string): OpHand
  * processor, this function produces an OpHandler which maps the dom through that
  * parametric processor.
  */
-export function apply_parametric_processor(parametrizer: (ctx: OpContext) => Processor): OpHandler {
+export function apply_parametric_processor(
+    parametrizer: (ctx: OpContext) => Processor,
+    log_name?: string,
+): OpHandler {
     return dom_mapping((ctx, input) => {
+        if (log_name != null) {
+            println(`> applying processor: ${log_name}`);
+        } else {
+            println(`> applying an anonymous processor`);
+        }
+
         let processor = parametrizer(ctx);
         return flat_map(input, processor);
     });

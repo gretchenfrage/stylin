@@ -1,6 +1,7 @@
-import {context_free_rule_processor, edit_rule, ReplaceRule} from "../general/dom_transform_algebra";
+import {context_free_rule_processor, edit_rule, Processor, ReplaceRule} from "../general/dom_transform_algebra";
 import {el} from "redom";
-import {alter_elem} from "../general/dom_edit_utils";
+import {alter_elem, node_is_element} from "../general/dom_edit_utils";
+import {println} from "../general/utils";
 
 /**
  * Format subheaders from <h4>
@@ -43,4 +44,37 @@ for (let n = 1; n <= 5; n++) {
         }
 
     }));
+}
+
+export type ExternalCodeRetriever = (path: string) => string | null;
+
+export function fmt_inline_code_directives(retrieve_code: ExternalCodeRetriever): ReplaceRule {
+    return (node: Node, processor: Processor): Node[] => {
+        if (!node_is_element(node)) {
+            return null;
+        }
+        let elem: Element = node;
+
+        if (Array.from(elem.classList).includes('code-inline-directive')) {
+
+            let path: string = elem.getAttribute('href');
+            if (path == null) {
+                println('>: WARN: code-inline-directive missing href');
+                return null;
+            }
+
+            let code: string = retrieve_code(path);
+            if (code == null) {
+                throw `failed to retrieve external code for inlining, path=${path}`;
+            }
+
+            // TODO: color formatting
+
+            let code_box: Element = el('pre', { class: 'code' }, code);
+
+            return [code_box];
+        } else {
+            return null;
+        }
+    }
 }
