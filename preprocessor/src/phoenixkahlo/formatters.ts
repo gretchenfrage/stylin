@@ -176,43 +176,6 @@ export function fmt_code_colorize_directives(pygment_style: PygmentStyle): Repla
         });
         let inner_dom: Node[] = eval_dom(inner_html);
 
-        /*
-        inner_dom = flat_map(
-            inner_dom,
-            (node: Node): Node[] => {
-                if (
-                    node_is_element(node)
-                    && (node.tagName === 'DIV')
-                ) {
-                    let edit: Element = alter_elem(node, {tagName: 'span'});
-                    for (let child of Array.from(node.childNodes)) {
-                        edit.appendChild(child);
-                    }
-                    return [edit];
-                } else {
-                    return [node];
-                }
-            },
-
-        );
-        */
-
-        /*
-        if (
-            (inner_dom.length == 1)
-            && (node_is_element(inner_dom[0]))
-            && (inner_dom[0].tagName === 'DIV')
-        ) {
-            println('>: yyyyyyeeee');
-            inner_dom = Array.from(inner_dom[0].childNodes);
-        } else {
-            println('>: noooo!');
-            println(`${(inner_dom.length)}`);
-            println(`${(node_is_element(inner_dom[0]))}`);
-            println(`${((<Element> inner_dom[0]).tagName === 'DIV')}`);
-        }
-        */
-
         let elem_colored: Element;
 
         elem_colored = <Element> elem.cloneNode(false);
