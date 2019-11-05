@@ -40,7 +40,7 @@ function main() {
             .meta_inline_validate('page', req_page_meta);
 
         println('> wrapping with phoenixkahlo.com boilerplate');
-        return content_wrap(content, page_meta);
+        return content_wrap(content, page_meta, ctx.args);
     }
 
     function wrapWithColumn(ctx: OpContext, content: Node[]): Node {
@@ -64,7 +64,11 @@ function main() {
     let ops: OpHandlerSet = {
         copy: std_ops.copy,
         readDOM: std_ops.readDOM,
+        readTxt: std_ops.readTxt,
         writeHTML: std_ops.writeHTML,
+        mergeCSSIntoPage: std_ops.mergeCSSIntoPage,
+        addCssRef: std_ops.addCssRef,
+
         redirect: std_ops.create_redirect_page_prepend(abs_path_base),
 
         wrapWithBoilerplate: std_ops.dom_mapping(wrapWithBoilerplate),

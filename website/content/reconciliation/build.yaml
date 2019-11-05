@@ -1,3 +1,8 @@
+- meta:
+     title: 'Short story: Reconciliation'
+     path: ['reconciliation']
+     mini: 'Reconciliation'
+
 # copy assets
 - - - copy
     - from: './*.png'
@@ -6,8 +11,22 @@
     - from: './lossless'
       to: './'
 
-# simple copy
+## simple copy
+#- - - readDOM
+#    - file: './reconciliation.html'
+#  - - absPathRebase
+#  - - writeHTML
+
+# build HTML
 - - - readDOM
     - file: './reconciliation.html'
+  - - wrapWithBoilerplate
+    - hide_title: true
+  - - readTxt
+    - file: './style.css'
+  - - mergeCSSIntoPage
+  - - addCssRef
+    - path: '/css/google-doc-insert.css'
   - - absPathRebase
   - - writeHTML
+    - file: './reconciliation.html'

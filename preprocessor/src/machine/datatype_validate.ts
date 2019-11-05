@@ -46,7 +46,7 @@ export function req_page_meta(value: any): PageBoilerplateMetadata {
 
 export function req_node_array(value: any): Node[] {
     if (Array.isArray(value)) {
-        value = <any[]>value;
+        value = <any[]> value;
         for (let elem of value) {
             if (!is_node(elem)) {
                 throw `expected node, got: ${elem}`;
@@ -59,5 +59,26 @@ export function req_node_array(value: any): Node[] {
         } else {
             throw `expected node, got: ${value}`;
         }
+    }
+}
+
+export function req_single_node(value: any): Node {
+    let single_value: any;
+
+    if (Array.isArray(value)) {
+        value = <any[]> value;
+        if (value.length == 1) {
+            single_value = value[0];
+        } else {
+            throw `expected single node, got incorrect length array: ${value}`;
+        }
+    } else {
+        single_value = value;
+    }
+
+    if (is_node(value)) {
+        return value;
+    } else {
+        throw `expected node, got: ${value}`;
     }
 }

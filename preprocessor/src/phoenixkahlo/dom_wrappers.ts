@@ -6,10 +6,18 @@ export interface PageBoilerplateMetadata {
     mini: string;
 }
 
+export interface PageBoilerplateFlags {
+    hide_title?: boolean;
+}
+
 /**
  * Wrap the main page content with the general phoenixkahlo.com boilerplate.
  */
-export function content_wrap(content: Node[], meta: PageBoilerplateMetadata): Node {
+export function content_wrap(
+    content: Node[],
+    meta: PageBoilerplateMetadata,
+    flags: PageBoilerplateFlags,
+): Node {
     let header_path: Node[] = [
         el('span.header-path-sep', 'ME:/ '),
         el('a.header-path-part', {href: '/index.html'}, 'home page'),
@@ -26,6 +34,13 @@ export function content_wrap(content: Node[], meta: PageBoilerplateMetadata): No
         }
     }
 
+
+    let title_block: Node;
+    if (flags.hide_title) {
+        title_block = null;
+    } else {
+        title_block = el('header.title-block', el('span.title', meta.title));
+    }
 
     return el('html', {lang: 'en'},
         el('head',
@@ -48,7 +63,7 @@ export function content_wrap(content: Node[], meta: PageBoilerplateMetadata): No
                 ),
 
                 el('article#content',
-                    el('header.title-block', el('span.title', meta.title)),
+                    title_block,
                     content,
                 ),
             )

@@ -1,11 +1,13 @@
 import {OpContext} from "./machinery";
-import {req_node_array, req_string} from "./datatype_validate";
+import {req_node_array, req_single_node, req_string} from "./datatype_validate";
 import {first_present, flat_map, println} from "../general/utils";
 import {execSync} from "child_process";
 import {read_dom, save_dom_html} from "../general/html_file_ops";
 import {OpHandler} from "./types";
 import {Processor} from "../general/dom_transform_algebra";
 import {html_redirect_dom} from "../general/redirect_page";
+import {readFileSync} from "fs";
+import {insertCssRefTag, insertCssTag} from "../general/std_transformations";
 
 // here be OpHandlers (the general ones)
 
@@ -52,6 +54,22 @@ export function readDOM(ctx: OpContext) {
 }
 
 /**
+ * Read some file as a UTF-8 string, push onto stack.
+ *
+ * Sets [context.last_file_read].
+ */
+export function readTxt(ctx: OpContext) {
+    let file = ctx.require_arg_valid('file', req_string);
+    ctx.remember_context('last_file_read', file);
+    file = ctx.pathologize(file, 'source');
+
+    println(`> reading UTF-8 from ${file}`);
+    let txt: string = readFileSync(file, 'utf8');
+
+    ctx.push(txt);
+}
+
+/**
  * Pop DOM from stack, render to HTML, writes to file
  * [args.file] || [context.last_file_read].
  */
@@ -67,6 +85,37 @@ export function writeHTML(ctx: OpContext) {
     println(`> writing DOM to ${file}`);
 
     save_dom_html(dom, file);
+}
+
+/**
+ * Push a CSS string from the stack into a complete HTML dom underneath
+ * it.
+ */
+export function mergeCSSIntoPage(ctx: OpContext) {
+    println('> merging CSS string into underlying HTML DOM');
+
+    let css_string: string = ctx
+        .pop_valid('css string', req_string);
+
+    let dom: Node = ctx
+        .pop_valid('HTML DOM', req_single_node);
+
+    dom = insertCssTag(dom, css_string);
+
+    ctx.push(dom);
+}
+
+/**
+ * Take a complete HTML dom on the top of the stack, and add an external CSS
+ * stylesheet reference to its head, pointing to [args.path].
+ */
+export function addCssRef(ctx: OpContext) {
+    let path: string = ctx.require_arg_valid('path', req_string);
+    println(`> adding stylesheet ref to "${path}"`);
+    let dom: Node = ctx
+        .pop_valid('HTML DOM', req_single_node);
+    dom = insertCssRefTag(dom, path);
+    ctx.push(dom);
 }
 
 /**
