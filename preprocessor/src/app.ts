@@ -24,7 +24,14 @@ import {req_any_of, req_exact_value, req_page_meta} from "./machine/datatype_val
 import {println} from "./general/utils";
 import {req_string} from "./machine/datatype_validate";
 import {column_wrap} from "./phoenixkahlo/dom_wrappers";
-import {ExternalCode, fmt_h4_subheader, fmt_img_breaks, fmt_inline_code_directives, PygmentStyle} from "./phoenixkahlo/formatters";
+import {
+    ExternalCode,
+    fmt_code_colorize_directives,
+    fmt_h4_subheader,
+    fmt_img_breaks,
+    fmt_inline_code_directives,
+    PygmentStyle
+} from "./phoenixkahlo/formatters";
 import {absolute_path_prepend, insertCssRefTag} from "./general/std_transformations";
 import {ExternalCodeRetriever} from "./phoenixkahlo/formatters";
 import {readFileSync} from "fs";
@@ -81,8 +88,6 @@ function main() {
      * are relative to the content's build directory.
      */
     function inline_code_directives_processor(ctx: OpContext): Processor {
-        println('inlining code directives');
-
         /**
          * The callback we'll pass to retrieve the code.
          */
@@ -95,6 +100,14 @@ function main() {
 
         return context_free_rule_processor([
             fmt_inline_code_directives(retrieve_code, pygment_style)
+        ]);
+    }
+
+    function colorize_code_directives_processor(ctx: OpContext): Processor {
+        let pygment_style: PygmentStyle = get_meta_pygment_style(ctx);
+
+        return context_free_rule_processor([
+            fmt_code_colorize_directives(pygment_style)
         ]);
     }
 
@@ -146,6 +159,10 @@ function main() {
         inlineCodeDirectives: std_ops.apply_parametric_processor(
             inline_code_directives_processor,
             'format directives to inline code',
+        ),
+        colorizeCodeDirectives: std_ops.apply_parametric_processor(
+            colorize_code_directives_processor,
+            'format directives to colorize code',
         ),
         addPygmentCssRef: single_node_mapping(add_pygment_css_ref),
 

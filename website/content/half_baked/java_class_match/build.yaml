@@ -13,6 +13,7 @@
 - - - readDOM
     - file: './java_class_match.html'
   - - inlineCodeDirectives
+  - - colorizeCodeDirectives
   - - wrapWithBoilerplate
   - - addPygmentCssRef
   - - absPathRebase

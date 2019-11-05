@@ -30,3 +30,11 @@ span.code {
 .override-colored-code-background-color {
   background-color: #2B2B2B !important;
 }
+
+span.code pre {
+  display: inline;
+}
+
+span.code div {
+  display: inline-block
+}

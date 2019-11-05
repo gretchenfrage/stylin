@@ -40,7 +40,7 @@ echo -e "building site to:"
 echo ""
 
 # install darcula, if not present
-if [[ ! -e "./website/css-gen/darcula-github" ]]; then
+if [[ ! -e "./website/css-gen/pygments-darcula" ]]; then
     echo -e "${YELLOW}SETUP: installing darcula theme for pygment${NC}"
     echo ""
     ./website/css-gen/install-darcula.sh || exit 1

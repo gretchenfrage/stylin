@@ -56,6 +56,14 @@ export type PygmentStyle = string | undefined | false;
 import * as proc from "child_process";
 import {eval_dom} from "../general/html_file_ops";
 
+const use_our_code_bg_color: boolean = false;
+
+function disable_bg(elem: Element): Element {
+    elem = <Element>elem.cloneNode(true);
+    elem.classList.add('override-inherit-background-color');
+    return elem;
+}
+
 export function fmt_inline_code_directives(
     retrieve_code: ExternalCodeRetriever,
     pygment_style: PygmentStyle
@@ -118,14 +126,7 @@ export function fmt_inline_code_directives(
                 let code_box: Element;
 
                 // but... make the code background color consistent
-                let use_our_bg_color: boolean = false;
-                if (use_our_bg_color) {
-                    function disable_bg(elem: Element): Element {
-                        elem = <Element>elem.cloneNode(true);
-                        elem.classList.add('override-inherit-background-color');
-                        return elem;
-                    }
-
+                if (use_our_code_bg_color) {
                     fmt_dom = flat_map(fmt_dom, map_elements(disable_bg));
 
                     code_box = el('div', {class: 'code'}, fmt_dom);
@@ -143,4 +144,90 @@ export function fmt_inline_code_directives(
             return null;
         }
     }
+}
+
+export function fmt_code_colorize_directives(pygment_style: PygmentStyle): ReplaceRule {
+    return (node: Node, processor: Processor): Node[] => {
+        if (!node_is_element(node)) {
+            return null;
+        }
+        let elem: Element = node;
+
+        if (!elem.hasAttribute('code-colorize')) {
+            return null;
+        }
+
+        if (pygment_style === false) {
+            return [node];
+        }
+
+        if (pygment_style == null) {
+            pygment_style = 'default';
+        }
+
+        let lexer = elem.getAttribute('code-colorize');
+        let code = elem.textContent;
+
+        let command = `pygmentize -f html -l ${lexer} -O style=${pygment_style}`;
+        let inner_html: string = proc.execSync(command, {
+            encoding: 'utf-8',
+            input: code,
+            stdio: 'pipe',
+        });
+        let inner_dom: Node[] = eval_dom(inner_html);
+
+        /*
+        inner_dom = flat_map(
+            inner_dom,
+            (node: Node): Node[] => {
+                if (
+                    node_is_element(node)
+                    && (node.tagName === 'DIV')
+                ) {
+                    let edit: Element = alter_elem(node, {tagName: 'span'});
+                    for (let child of Array.from(node.childNodes)) {
+                        edit.appendChild(child);
+                    }
+                    return [edit];
+                } else {
+                    return [node];
+                }
+            },
+
+        );
+        */
+
+        /*
+        if (
+            (inner_dom.length == 1)
+            && (node_is_element(inner_dom[0]))
+            && (inner_dom[0].tagName === 'DIV')
+        ) {
+            println('>: yyyyyyeeee');
+            inner_dom = Array.from(inner_dom[0].childNodes);
+        } else {
+            println('>: noooo!');
+            println(`${(inner_dom.length)}`);
+            println(`${(node_is_element(inner_dom[0]))}`);
+            println(`${((<Element> inner_dom[0]).tagName === 'DIV')}`);
+        }
+        */
+
+        let elem_colored: Element;
+
+        elem_colored = <Element> elem.cloneNode(false);
+        elem_colored.removeAttribute('code-colorize');
+
+        if (use_our_code_bg_color) {
+            inner_dom = flat_map(inner_dom, map_elements(disable_bg));
+        } else {
+            elem_colored.classList.add('override-colored-code-background-color');
+        }
+
+        for (let child of inner_dom) {
+            elem_colored.appendChild(child);
+        }
+
+        return [elem_colored];
+    };
 }
