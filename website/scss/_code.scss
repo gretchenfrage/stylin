@@ -2,7 +2,7 @@
 $code-font-size: 0.8em;
 $code-block-padding: 1em;
 
-pre.code {
+pre.code, div.code {
   font-family: Ubuntu;
   font-size: $code-font-size;
   background-color: $color1;

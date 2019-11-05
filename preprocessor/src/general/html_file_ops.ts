@@ -15,6 +15,13 @@ export function init() {
 }
 
 /**
+ * Evaluate a string as a (jsdom) DOM fragment.
+ */
+export function eval_dom(html: string): Node[] {
+    return Array.from(JSDOM.fragment(html).childNodes);
+}
+
+/**
  * Read a file, parse it as jsdom DOM.
  */
 export function read_dom(file: PathLike): Node[] {

@@ -11,8 +11,12 @@ function req_type<T>(type_name: string): CleanerValidator<T> {
 }
 
 export const req_string = req_type<string>('string');
-const req_number = req_type<number>('number');
-const req_boolean = req_type<boolean>('boolean');
+export const req_number = req_type<number>('number');
+export const req_boolean = req_type<boolean>('boolean');
+
+export function req_exact_value<T>(exact_value: T): CleanerValidator<T> {
+    return (value: any) => (value === exact_value) ? <T> value : undefined;
+}
 
 function req_array<T>(elem_validator: CleanerValidator<T>): CleanerValidator<T[]> {
     return (value: any) => {
@@ -80,5 +84,18 @@ export function req_single_node(value: any): Node {
         return value;
     } else {
         throw `expected node, got: ${value}`;
+    }
+}
+
+export function req_any_of<T>(possibilities: CleanerValidator<T>[]): CleanerValidator<T> {
+    return (value: any): T => {
+        for (let variant of possibilities) {
+            let clean: T | undefined = variant(value);
+            if (clean != null) {
+                return clean;
+            }
+        }
+
+        throw `expected any of several types, got none of them`;
     }
 }

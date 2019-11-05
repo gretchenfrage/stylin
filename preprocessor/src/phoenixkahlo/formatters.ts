@@ -1,5 +1,5 @@
 import {context_free_rule_processor, edit_rule, Processor, ReplaceRule} from "../general/dom_transform_algebra";
-import {el} from "redom";
+import {el, html} from "redom";
 import {alter_elem, node_is_element} from "../general/dom_edit_utils";
 import {println} from "../general/utils";
 
@@ -46,9 +46,20 @@ for (let n = 1; n <= 5; n++) {
     }));
 }
 
-export type ExternalCodeRetriever = (path: string) => string | null;
+export type ExternalCode =
+    string |
+    { code: string, lexer: string } |
+    { file_path: string };
+export type ExternalCodeRetriever = (path: string) => ExternalCode | undefined;
+export type PygmentStyle = string | undefined | false;
 
-export function fmt_inline_code_directives(retrieve_code: ExternalCodeRetriever): ReplaceRule {
+import * as proc from "child_process";
+import {eval_dom} from "../general/html_file_ops";
+
+export function fmt_inline_code_directives(
+    retrieve_code: ExternalCodeRetriever,
+    pygment_style: PygmentStyle
+): ReplaceRule {
     return (node: Node, processor: Processor): Node[] => {
         if (!node_is_element(node)) {
             return null;
@@ -63,16 +74,87 @@ export function fmt_inline_code_directives(retrieve_code: ExternalCodeRetriever)
                 return null;
             }
 
-            let code: string = retrieve_code(path);
+            let code: ExternalCode | undefined = retrieve_code(path);
             if (code == null) {
                 throw `failed to retrieve external code for inlining, path=${path}`;
             }
 
-            // TODO: color formatting
+            if (pygment_style === false) {
+                let code_box: Element = el('pre', { class: 'code' }, code);
 
-            let code_box: Element = el('pre', { class: 'code' }, code);
+                return [code_box];
+            } else {
+                if (pygment_style == null) {
+                    pygment_style = 'default';
+                }
 
-            return [code_box];
+                let fmt_html: string;
+                if (typeof code === 'string') {
+                    let command = `pygmentize -f html -g -O style=${pygment_style}`;
+                    fmt_html = proc.execSync(command, {
+                        encoding: 'utf-8',
+                        input: code,
+                        stdio: 'pipe',
+                    });
+                } else if ('code' in code && 'lexer' in code) {
+                    let command = `pygmentize -f html -l ${code.lexer} -O style=${pygment_style}`;
+                    fmt_html = proc.execSync(command, {
+                        encoding: 'utf-8',
+                        input: code.code,
+                        stdio: 'pipe',
+                    });
+                } else if ('file_path' in code) {
+                    let command = `pygmentize -f html -g -O style=${pygment_style} ${code.file_path}`;
+                    fmt_html = proc.execSync(command, {
+                        encoding: 'utf-8',
+                        stdio: 'pipe',
+                    });
+                } else {
+                    throw `invalid ExternalCode value: ${JSON.stringify(code)}`;
+                }
+
+                let fmt_dom: Node[] = eval_dom(fmt_html);
+
+                let code_box: Element = el('div', { class: 'code' }, fmt_dom);
+
+                return [code_box];
+
+                /*
+                // let command = `pygmentize -f html -g -O style=${pygment_style}`;
+                let command = `pygmentize -f html -g`;
+                let fmt_html: string = proc.execSync(command, {
+                    encoding: 'utf-8',
+                    input: code,
+                    stdio: 'pipe',
+                });
+                let fmt_dom: Node[] = eval_dom(fmt_html);
+
+                let code_box: Element = el('div', { class: 'code' }, fmt_dom);
+
+                return [code_box];
+
+                 */
+            }
+
+//            // TODO: color formatting
+//            /*
+//            execSync('pygmentize -f html -g -O style=tango ClassMatcher.java')
+//            */
+//            let command = `pygmentize -f html -g -O style=tango`;
+//            let html_pretty: string = proc.execSync(command, {
+//                encoding: 'utf-8',
+//                input: code,
+//                stdio: 'pipe',
+//            });
+//
+//            let dom_pretty: Node[] = eval_dom(html_pretty);
+//
+//            return [el('div', { class: 'code' }, dom_pretty)];
+//
+//            /*
+//            let code_box: Element = el('pre', { class: 'code' }, code);
+//            return [code_box];
+//            */
         } else {
             return null;
         }

@@ -105,10 +105,23 @@ export function mergeCSSIntoPage(ctx: OpContext) {
     ctx.push(dom);
 }
 
+function add_css_ref(ctx: OpContext, dom: Node): Node {
+    let path: string = ctx.require_arg_valid('path', req_string);
+
+    println(`> adding stylesheet ref to "${path}"`);
+
+    dom = insertCssRefTag(dom, path);
+    return dom;
+}
+
 /**
  * Take a complete HTML dom on the top of the stack, and add an external CSS
  * stylesheet reference to its head, pointing to [args.path].
  */
+export const addCssRef: OpHandler = single_node_mapping(add_css_ref);
+
+// TODO
+/*
 export function addCssRef(ctx: OpContext) {
     let path: string = ctx.require_arg_valid('path', req_string);
     println(`> adding stylesheet ref to "${path}"`);
@@ -117,6 +130,7 @@ export function addCssRef(ctx: OpContext) {
     dom = insertCssRefTag(dom, path);
     ctx.push(dom);
 }
+*/
 
 /**
  * Produce a OpHandler to pop a DOM from the stack, map it through a function, then
@@ -132,6 +146,16 @@ export function dom_mapping(
         let after: Node[] | Node = mapping(ctx, before);
         ctx.push(after);
     };
+}
+
+export function single_node_mapping(
+    mapping: (ctx: OpContext, input: Node) => (Node[] | Node)
+): OpHandler {
+    return (ctx: OpContext) => {
+        let before: Node = ctx.pop_valid('dom', req_single_node);
+        let after: Node[] | Node = mapping(ctx, before);
+        ctx.push(after);
+    }
 }
 
 /**

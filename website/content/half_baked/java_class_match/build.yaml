@@ -4,6 +4,7 @@
       - 'half-baked'
       - 'java class match'
     mini: 'Java Class Match'
+    pygment_style: 'darcula'
 
 - - - copy
     - from: './*.java'
@@ -13,5 +14,9 @@
     - file: './java_class_match.html'
   - - inlineCodeDirectives
   - - wrapWithBoilerplate
+  - - addPygmentCssRef
+#  - - addCssRef
+#    #- path: '/css/pygment-tango.css'
+#    - path: '/css/pygment-paraiso-dark.css'
   - - absPathRebase
   - - writeHTML

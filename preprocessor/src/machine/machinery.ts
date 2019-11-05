@@ -137,6 +137,19 @@ export class OpContext {
         }
     }
 
+    option_meta_validate<T>(key: string, validator: CleanerValidator<T>): T | undefined {
+        let value = this.machine.meta[key];
+        if (value != null) {
+            return this._validate(
+                value,
+                `optional meta key=${key}`,
+                validator,
+            )
+        } else {
+            return undefined;
+        }
+    }
+
     require_meta_valid<T>(key: string, validator: CleanerValidator<T>): T {
         let value: any = this.require_meta(key);
         return this._validate(value, `metadata key=${key}`, validator);

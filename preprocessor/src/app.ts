@@ -20,14 +20,15 @@ import {OpHandler, OpHandlerSet} from "./machine/types";
 import {OpContext} from "./machine/machinery";
 import {context_free_rule_processor, Processor} from "./general/dom_transform_algebra";
 import {content_wrap, PageBoilerplateMetadata} from "./phoenixkahlo/dom_wrappers";
-import {req_page_meta} from "./machine/datatype_validate";
+import {req_any_of, req_exact_value, req_page_meta} from "./machine/datatype_validate";
 import {println} from "./general/utils";
 import {req_string} from "./machine/datatype_validate";
 import {column_wrap} from "./phoenixkahlo/dom_wrappers";
-import {fmt_h4_subheader, fmt_img_breaks, fmt_inline_code_directives} from "./phoenixkahlo/formatters";
-import {absolute_path_prepend} from "./general/std_transformations";
+import {ExternalCode, fmt_h4_subheader, fmt_img_breaks, fmt_inline_code_directives, PygmentStyle} from "./phoenixkahlo/formatters";
+import {absolute_path_prepend, insertCssRefTag} from "./general/std_transformations";
 import {ExternalCodeRetriever} from "./phoenixkahlo/formatters";
 import {readFileSync} from "fs";
+import {single_node_mapping} from "./machine/std_ops";
 
 function main() {
     // parse args
@@ -63,22 +64,62 @@ function main() {
         absPathRebase = std_ops.no_op;
     }
 
+    function get_meta_pygment_style(ctx: OpContext): PygmentStyle {
+        return ctx.option_meta_validate(
+            'pygment_style',
+            req_any_of<PygmentStyle>([
+                req_exact_value(false),
+                req_string,
+            ])
+        );
+    }
+
     /**
+     * Inline code directives, with styling according to [meta.pygment_style].
+     *
      * Process is parametric over the context, since retrieved external code files
      * are relative to the content's build directory.
      */
     function inline_code_directives_processor(ctx: OpContext): Processor {
+        println('inlining code directives');
+
         /**
          * The callback we'll pass to retrieve the code.
          */
-        function retrieve_code(path: string): string | null {
+        function retrieve_code(path: string): ExternalCode | undefined {
             path = ctx.pathologize(path, 'source');
-            return readFileSync(path, 'utf8');
+            return { file_path: path };
         }
 
+        let pygment_style: PygmentStyle = get_meta_pygment_style(ctx);
+
         return context_free_rule_processor([
-            fmt_inline_code_directives(retrieve_code)]
-        );
+            fmt_inline_code_directives(retrieve_code, pygment_style)
+        ]);
+    }
+
+    /**
+     * Add a CSS ref to the stylesheet of [meta.pygment_style].
+     * @param ctx
+     * @param dom
+     */
+    function add_pygment_css_ref(ctx: OpContext, dom: Node): Node {
+        println('> adding pygment CSS ref');
+
+        let pygment_style: PygmentStyle = get_meta_pygment_style(ctx);
+        if (pygment_style === false) {
+            println('>: pygment_style == false, this becomes a no-op');
+            return dom;
+        }
+
+        let path: string;
+        if (pygment_style == null) {
+            pygment_style = 'default';
+        }
+        path = `/css/pygment-themes/${pygment_style}.css`;
+
+        dom = insertCssRefTag(dom, path);
+        return dom;
     }
 
     let ops: OpHandlerSet = {
@@ -106,6 +147,7 @@ function main() {
             inline_code_directives_processor,
             'format directives to inline code',
         ),
+        addPygmentCssRef: single_node_mapping(add_pygment_css_ref),
 
         absPathRebase: absPathRebase,
     };

@@ -42,7 +42,7 @@ echo ""
 # copy static stuff
 echo -e "${YELLOW}(1)${NC} copying files"
 
-for f in index.html 404.html favicon.ico images; do
+for f in index.html 404.html favicon.ico images css; do
     cp -r ./${SOURCE_DIR}/${f} ./${SITE_DIR}/ || exit 1
 done
 
