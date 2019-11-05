@@ -3,20 +3,25 @@
 SCRIPT_DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 cd "${SCRIPT_DIR}" || exit 1
 
-echo ""
-echo "=== cleaning ==="
-rm -rf ./darcula-tmp || true
-mkdir darcula-tmp || exit 1
-cd ./darcula-tmp || exit 1
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
 echo ""
-echo "=== cloning === "
+echo -e "=== ${YELLOW}cleaning${NC} ==="
+rm -rf ./pygments-darcula || true
+mkdir pygments-darcula || exit 1
+cd ./pygments-darcula || exit 1
+
+echo ""
+echo -e "=== ${YELLOW}cloning${NC} === "
 git clone git@github.com:kakawait/pygments-darcula.git || exit 1
 cd ./pygments-darcula || exit 1
 git checkout 4c05f1f4e2cf20c9ed4291351c790daf9d2199ba || exit 1
 
 echo ""
-echo "=== patching ==="
+echo -e "=== ${YELLOW}patching${NC} ==="
 (
     cd ./pygments_style_darcula                                      || exit 1
 
@@ -33,17 +38,17 @@ echo "=== patching ==="
 ) || exit 1
 
 echo ""
-echo "=== installing ==="
+echo -e "=== ${YELLOW}installing${NC} ==="
 python setup.py develop || exit 1
 
 echo ""
-echo "=== building ==="
+echo -e "=== ${YELLOW}building${NC} ==="
 ./build.sh || exit 1
 
 echo ""
-echo "=== copying ==="
+echo -e "=== ${YELLOW}copying${NC} ==="
 cp ./darcula.css ../../../css/pygment-themes/ || exit 1
 
 echo ""
-echo "> success!"
+echo -e "${GREEN}> success on installing darcula theme!${NC}"
 echo ""

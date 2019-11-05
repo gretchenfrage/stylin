@@ -22,3 +22,11 @@ span.code {
   font-size: 0.9em;
   display: inline-block;
 }
+
+.override-inherit-background-color {
+  background-color: inherit !important;
+}
+
+.override-colored-code-background-color {
+  background-color: #2B2B2B !important;
+}

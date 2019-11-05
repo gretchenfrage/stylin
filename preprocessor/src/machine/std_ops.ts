@@ -120,18 +120,6 @@ function add_css_ref(ctx: OpContext, dom: Node): Node {
  */
 export const addCssRef: OpHandler = single_node_mapping(add_css_ref);
 
-// TODO
-/*
-export function addCssRef(ctx: OpContext) {
-    let path: string = ctx.require_arg_valid('path', req_string);
-    println(`> adding stylesheet ref to "${path}"`);
-    let dom: Node = ctx
-        .pop_valid('HTML DOM', req_single_node);
-    dom = insertCssRefTag(dom, path);
-    ctx.push(dom);
-}
-*/
-
 /**
  * Produce a OpHandler to pop a DOM from the stack, map it through a function, then
  * push it back on the stack.

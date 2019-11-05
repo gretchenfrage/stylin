@@ -15,8 +15,5 @@
   - - inlineCodeDirectives
   - - wrapWithBoilerplate
   - - addPygmentCssRef
-#  - - addCssRef
-#    #- path: '/css/pygment-tango.css'
-#    - path: '/css/pygment-paraiso-dark.css'
   - - absPathRebase
   - - writeHTML

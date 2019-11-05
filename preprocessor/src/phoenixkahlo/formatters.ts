@@ -1,7 +1,7 @@
-import {context_free_rule_processor, edit_rule, Processor, ReplaceRule} from "../general/dom_transform_algebra";
+import {context_free_rule_processor, edit_rule, map_elements, Processor, ReplaceRule} from "../general/dom_transform_algebra";
 import {el, html} from "redom";
 import {alter_elem, node_is_element} from "../general/dom_edit_utils";
-import {println} from "../general/utils";
+import {flat_map, println} from "../general/utils";
 
 /**
  * Format subheaders from <h4>
@@ -112,49 +112,33 @@ export function fmt_inline_code_directives(
                 } else {
                     throw `invalid ExternalCode value: ${JSON.stringify(code)}`;
                 }
-
                 let fmt_dom: Node[] = eval_dom(fmt_html);
 
-                let code_box: Element = el('div', { class: 'code' }, fmt_dom);
+                // wrap it in our code box
+                let code_box: Element;
+
+                // but... make the code background color consistent
+                let use_our_bg_color: boolean = false;
+                if (use_our_bg_color) {
+                    function disable_bg(elem: Element): Element {
+                        elem = <Element>elem.cloneNode(true);
+                        elem.classList.add('override-inherit-background-color');
+                        return elem;
+                    }
+
+                    fmt_dom = flat_map(fmt_dom, map_elements(disable_bg));
+
+                    code_box = el('div', {class: 'code'}, fmt_dom);
+                } else {
+                    code_box = el(
+                        'div',
+                        { class: 'code override-colored-code-background-color'},
+                        fmt_dom,
+                        );
+                }
 
                 return [code_box];
-
-                /*
-                // let command = `pygmentize -f html -g -O style=${pygment_style}`;
-                let command = `pygmentize -f html -g`;
-                let fmt_html: string = proc.execSync(command, {
-                    encoding: 'utf-8',
-                    input: code,
-                    stdio: 'pipe',
-                });
-                let fmt_dom: Node[] = eval_dom(fmt_html);
-
-                let code_box: Element = el('div', { class: 'code' }, fmt_dom);
-
-                return [code_box];
-
-                 */
             }
-
-//            // TODO: color formatting
-//            /*
-//            execSync('pygmentize -f html -g -O style=tango ClassMatcher.java')
-//            */
-//            let command = `pygmentize -f html -g -O style=tango`;
-//            let html_pretty: string = proc.execSync(command, {
-//                encoding: 'utf-8',
-//                input: code,
-//                stdio: 'pipe',
-//            });
-//
-//            let dom_pretty: Node[] = eval_dom(html_pretty);
-//
-//            return [el('div', { class: 'code' }, dom_pretty)];
-//
-//            /*
-//            let code_box: Element = el('pre', { class: 'code' }, code);
-//            return [code_box];
-//            */
         } else {
             return null;
         }
