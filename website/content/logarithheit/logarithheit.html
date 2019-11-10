@@ -1,0 +1,99 @@
+<html>
+<head>
+  <link rel="stylesheet" href="http://mathquill.com/lib/mathquill.css"/>
+</head>
+<body>
+
+<h1>Proposed temperature system: <i>logarithheit</i></h1>
+<h6>Nobody asked for this</h6>
+
+<p>
+  Take these constants:
+  <ul>
+  <li>let Z = <span class="math">-459.67</span>
+    <br/>(absolute zero in fahrenheit)
+  </li>
+  <li>let A = <span class="math">\frac{100}{\ln ((100-Z)/(-Z))}</span></li>
+  <li>let B = <span class="math">-A \ln (-Z)</span></li>
+  <li>let C = <span class="math">\sqrt[A]{e}</span></li>
+  </ul>
+</p>
+<p>
+  Then, to convert from fahrenheit <i>f</i> to logarithheit <i>s</i> (for "scaled"):
+  <br/><br/>
+  <span class="math">s(f) = \log_C (f - Z) + B</span>
+  <br/><br/>
+  And back again:
+  <br/><br/>
+  <span class="math">f\left(s\right)=C^{s-B}+Z</span>
+  <br/><br/>
+</p>
+<p>
+  Cool properties:
+  <ul>
+    <li>0 degrees is the same in fahrenheit and logarithheit.</li>
+    <li>100 degress is the same in fahrenheit and logarithheit.</li>
+    <li>
+      Temperature ranges between 0 and 100 are very close between fahrenheit
+      and logarithheit.
+      <br/>
+      <img src="./figure_1.png" style="width: 2in; border: solid 1px black;"></img>
+    </li>
+    <li>
+      Absolute zero is now <span class="math">- \infinity</span>.
+      <br/>
+      (you would have to cool it infinitely to achieve that).
+      <ul><li>
+        Implication: The domain of logarithheit is now all real numbers
+        <span class="math">(- \infinity, \infinity)</span>
+      </li></ul>
+    </li>
+    <li>
+      The plank temperature is now 34,794.16 degrees logarithheit.
+      (you can reasonably write it without scientific notation)
+    </li>
+    <li>
+      Human senses are logarithmic, temperature is a sense, logarittheit is
+      a logarithmic scale, like decibels for sound. It makes sense.
+    </li>
+  </ul>
+</p>
+<div>
+  <h4>Here's the neatest thing though:</h4>
+  <p>
+    It's easy to calculate the percent change in kelvin temperature, which is
+    useful for physics. Let's say you're going from 25 to 75 degrees
+    logarithheit. The fraction change in kelvin temperature equals:
+    <br/><br/>
+    <span class="math">C^{(75-25)} = 1.1031</span>
+    <br/><br/>
+  </p>
+  <p>
+    To verify:
+    <br/><br/>
+    25 logarithheit = 23.1900 fahrenheit = 268.2533 kelvin
+    <br/><br/>
+    75 logarittheit = 73.1260 fahrenheit = 295.9975 kelvin
+    <br/><br/>
+    <span class="math">\frac{295.9975}{268.2533}=1.1031</span>
+    <br/><br/>
+  </p>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://mathquill.com/lib/mathquill.js"></script>
+<script>
+  var MQ = MathQuill.getInterface(2);
+  var x = document.getElementsByClassName("math");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    if (false) {
+      MQ.MathField(x[i]);
+    } else {
+      MQ.StaticMath(x[i]);
+    }
+  }
+</script>
+
+</body>
+</html>

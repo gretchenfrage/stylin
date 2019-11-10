@@ -1,0 +1,4 @@
+
+- - - copy
+    - from: './first_concept.jpeg'
+      to: './'
