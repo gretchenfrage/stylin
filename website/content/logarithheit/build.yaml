@@ -1,4 +1,18 @@
 
+- meta:
+    title: 'Logarithheit'
+    path: ['logarithheit']
+    mini: 'Logarithheit'
+
 - - - copy
-    - from: './*'
+    - from: './*.png'
       to: './'
+- - - readDOM
+    - file: './logarithheit.html'
+  - - fmtSubheadersH4
+  - - wrapWithColumn
+    - column_class: col-5uw
+  - - wrapWithBoilerplate
+    - hide_title: true
+  - - absPathRebase
+  - - writeHTML
