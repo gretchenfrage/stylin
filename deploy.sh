@@ -26,8 +26,9 @@ if [[ "${CONFIRM}" = "y" ]]; then
     echo -e "${YELLOW}deploying, ye-haw!${NC}"
     echo ""
 
-    gsutil -m rm -r gs://phoenixkahlodotcom/*
-    gsutil -m cp -r -Z ./build/target/* gs://phoenixkahlodotcom/ || exit 1
+    #gsutil -m rm -r gs://phoenixkahlodotcom/*
+    #gsutil -m cp -r -Z ./build/target/* gs://phoenixkahlodotcom/ || exit 1
+    gsutil -m rsync -d -r ./build/target gs://phoenixkahlodotcom || exit 1
 
     gsutil setmeta \
         -h "Cache-Control:public, max-age=31536000" \

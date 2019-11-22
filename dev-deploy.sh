@@ -26,8 +26,9 @@ else
 fi
 
 (
-    gsutil -m rm -r gs://dev-phoenixkahlodotcom/*
-    gsutil -m cp -r -Z ./build/target/* gs://dev-phoenixkahlodotcom/ || exit 1
+    #gsutil -m rm -r gs://dev-phoenixkahlodotcom/*
+    #gsutil -m cp -r -Z ./build/target/* gs://dev-phoenixkahlodotcom/ || exit 1
+    gsutil -m rsync -d -r ./build/target gs://dev-phoenixkahlodotcom || exit 1
 
     gsutil setmeta \
         -h "Cache-Control:public, max-age=31536000" \
