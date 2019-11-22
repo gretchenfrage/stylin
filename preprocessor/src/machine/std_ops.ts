@@ -1,5 +1,5 @@
 import {OpContext} from "./machinery";
-import {req_node_array, req_single_node, req_string} from "./datatype_validate";
+import {req_integer, req_node_array, req_number, req_single_node, req_string} from "./datatype_validate";
 import {first_present, flat_map, println} from "../general/utils";
 import {execSync} from "child_process";
 import {read_dom, save_dom_html} from "../general/html_file_ops";
@@ -32,6 +32,23 @@ export function copy(ctx: OpContext) {
     to = ctx.pathologize(to, 'target');
 
     let command = `cp -R ${from} ${to}`;
+    println(`> ${command}`);
+
+    execSync(command, { stdio: 'inherit' });
+}
+
+export function compressImages(ctx: OpContext) {
+    let glob = ctx.require_arg_valid('glob', req_string);
+    let width = ctx.require_arg_valid('width', req_integer);
+    let quality = ctx.option_arg_validate('quality', req_integer) || 80;
+
+    glob = ctx.pathologize(glob, 'target');
+
+    let command = `
+    for f in ${glob};
+    do convert -strip -interlace Plane -resize ${width} -quality ${quality} $f $f;
+    done;
+    `;
     println(`> ${command}`);
 
     execSync(command, { stdio: 'inherit' });

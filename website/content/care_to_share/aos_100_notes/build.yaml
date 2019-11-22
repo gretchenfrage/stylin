@@ -7,6 +7,11 @@
     - from: './*.jpg'
       to: './'
 
+- - - compressImages
+    - glob: './*.jpg'
+      width: 1600
+      quality: 85
+
 - - - readDOM
     - file: './aos_100_notes.html'
   - - fmtSubheadersH4

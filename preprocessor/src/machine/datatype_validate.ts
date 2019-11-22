@@ -14,6 +14,18 @@ export const req_string = req_type<string>('string');
 export const req_number = req_type<number>('number');
 export const req_boolean = req_type<boolean>('boolean');
 
+export function req_integer<T>(value: any): number | undefined {
+    if (typeof value == 'number') {
+        if (value % 1 == 0) {
+            return value;
+        } else {
+            throw `not an integer: ${value}`;
+        }
+    } else {
+        throw `not a number`;
+    }
+}
+
 export function req_exact_value<T>(exact_value: T): CleanerValidator<T> {
     return (value: any) => (value === exact_value) ? <T> value : undefined;
 }

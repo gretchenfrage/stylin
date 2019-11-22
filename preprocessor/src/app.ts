@@ -35,7 +35,7 @@ import {
 import {absolute_path_prepend, insertCssRefTag} from "./general/std_transformations";
 import {ExternalCodeRetriever} from "./phoenixkahlo/formatters";
 import {readFileSync} from "fs";
-import {single_node_mapping} from "./machine/std_ops";
+import {compressImages, single_node_mapping} from "./machine/std_ops";
 
 function main() {
     // parse args
@@ -142,6 +142,7 @@ function main() {
         writeHTML: std_ops.writeHTML,
         mergeCSSIntoPage: std_ops.mergeCSSIntoPage,
         addCssRef: std_ops.addCssRef,
+        compressImages: compressImages,
 
         redirect: std_ops.create_redirect_page_prepend(abs_path_base),
 
