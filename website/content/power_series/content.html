@@ -1,0 +1,266 @@
+<div id="main-article">
+<h3>Section 4-15 : Power Series and Functions</h3>
+
+
+<p>We opened the last section by saying that we were going to start thinking about applications of series and then promptly spent the section talking about convergence again.  It’s now time to actually start with the applications of series.</p>
+
+<p>With this section we will start talking about how to represent functions with power series.  The natural question of why we might want to do this will be answered in a couple of sections once we actually learn how to do this.</p>
+
+<p>Let’s start off with one that we already know how to do, although when we first ran across this series we didn’t think of it as a power series nor did we acknowledge that it represented a function.</p>
+
+<p>Recall that the geometric series is</p>
+
+\[\sum\limits_{n = 0}^\infty  {a{r^n}}  = \frac{a}{{1 - r}}\hspace{0.5in}{\mbox{provided }}\left| r \right| &lt; 1\]
+<p>Don’t forget as well that if \(\left| r \right| \ge 1\) the series diverges.</p>
+
+<p>Now, if we take \(a = 1\) and \(r = x\) this becomes,</p>
+
+\[\begin{equation}\sum\limits_{n = 0}^\infty  {{x^n}}  = \frac{1}{{1 - x}}\hspace{0.5in}{\mbox{provided }}\left| x \right| &lt; 1 \label{eq:eq1}\end{equation}\]
+
+<p>Turning this around we can see that we can represent the function</p>
+
+\[\begin{equation}f\left( x \right) = \frac{1}{{1 - x}} \label{eq:eq2}\end{equation}\]
+
+<p>with the power series</p>
+
+\[\begin{equation}\sum\limits_{n = 0}^\infty  {{x^n}} \hspace{0.5in}{\mbox{provided }}\left| x \right| &lt; 1 \label{eq:eq3}\end{equation}\]
+
+<p>This provision is important.  We can clearly plug any number other than \(x = 1\) into the function, however, we will only get a convergent power series if \(\left| x \right| &lt; 1\).  This means the equality in \(\eqref{eq:eq1}\) will only hold if \(\left| x \right| &lt; 1\).  For any other value of \(x\) the equality won’t hold.  Note as well that we can also use this to acknowledge that the radius of convergence of this power series is \(R = 1\) and the interval of convergence is \(\left| x \right| &lt; 1\).</p>
+
+<p>This idea of convergence is important here.  We will be representing many functions as power series and it will be important to recognize that the representations will often only be valid for a range of \(x\)’s and that there may be values of \(x\) that we can plug into the function that we can’t plug into the power series representation.</p>
+
+<p>In this section we are going to concentrate on representing functions with power series where the functions can be related back to \(\eqref{eq:eq2}\).</p>
+
+<p>In this way we will hopefully become familiar with some of the kinds of manipulations that we will sometimes need to do when working with power series.</p>
+
+<p>So, let’s jump into a couple of examples.</p>
+<a class="anchor" name="Series_FcnPower_Ex1"></a>
+<div class="example">
+  <span class="example-title">Example 1</span> Find a power series representation for the following function and determine its interval of convergence.
+
+  \[g\left( x \right) = \frac{1}{{1 + {x^3}}}\]
+  <div class="example-content">
+    <span id="SHLink_Soln1" class="SH-Link soln-title">Show Solution</span> <span id="SHImg_Soln1" class="fas fa-caret-right" aria-hidden="true"></span>
+    <div id="SHObj_Soln1" class="soln-content">
+      <p>What we need to do here is to relate this function back to \(\eqref{eq:eq2}\).  This is actually easier than it might look.  Recall that the \(x\) in \(\eqref{eq:eq2}\) is simply a variable and can represent anything.  So, a quick rewrite of \(g\left( x \right)\) gives,</p>
+
+      \[g\left( x \right) = \frac{1}{{1 - \left( { - {x^3}} \right)}}\]
+
+      <p>and so the \( - {x^3}\) in \(g\left( x \right)\) holds the same place as the \(x\) in \(\eqref{eq:eq2}\).  Therefore, all we need to do is replace the \(x\) in \(\eqref{eq:eq3}\) and we’ve got a power series representation for \(g\left( x \right)\).</p>
+
+      \[g\left( x \right) = \sum\limits_{n = 0}^\infty  {{{\left( { - {x^3}} \right)}^n}} \hspace{0.5in}{\mbox{provided }}\left| { - {x^3}} \right| &lt; 1\]
+
+      <p>Notice that we replaced both the \(x\) in the power series and in the interval of convergence.</p>
+
+      <p>All we need to do now is a little simplification.</p>
+
+      \[g\left( x \right) = \sum\limits_{n = 0}^\infty  {{{\left( { - 1} \right)}^n}{x^{3n}}} \hspace{0.5in}{\mbox{provided }}{\left| x \right|^3} &lt; 1\hspace{0.25in} \Rightarrow \hspace{0.25in}\left| x \right| &lt; 1\]
+
+      <p>So, in this case the interval of convergence is the same as the original power series.  This usually won’t happen.  More often than not the new interval of convergence will be different from the original interval of convergence.</p>
+    </div>
+  </div>
+</div>
+
+<a class="anchor" name="Series_FcnPower_Ex2"></a>
+<div class="example">
+  <span class="example-title">Example 2</span> Find a power series representation for the following function and determine its interval of convergence.
+
+  \[h\left( x \right) = \frac{{2{x^2}}}{{1 + {x^3}}}\]
+  <div class="example-content">
+    <span id="SHLink_Soln2" class="SH-Link soln-title">Show Solution</span> <span id="SHImg_Soln2" class="fas fa-caret-right" aria-hidden="true"></span>
+    <div id="SHObj_Soln2" class="soln-content">
+      <p>This function is similar to the previous function.  The difference is the numerator and at first glance that looks to be an important difference.  Since \(\eqref{eq:eq2}\) doesn’t have an \(x\) in the numerator it appears that we can’t relate this function back to that.</p>
+
+      <p>However, now that we’ve worked the first example this one is actually very simple since we can use the result of the answer from that example.  To see how to do this let’s first rewrite the function a little.</p>
+
+      \[h\left( x \right) = 2{x^2}\,\frac{1}{{1 + {x^3}}}\]
+
+      <p>Now, from the first example we’ve already got a power series for the second term so let’s use that to write the function as,</p>
+
+      \[h\left( x \right) = 2{x^2}\sum\limits_{n = 0}^\infty  {{{\left( { - 1} \right)}^n}{x^{3n}}} \hspace{0.5in}{\mbox{provided }}\left| x \right| &lt; 1\]
+
+      <p>Notice that the presence of \(x\)’s outside of the series will NOT affect its convergence and so the interval of convergence remains the same.</p>
+
+      <p>The last step is to bring the coefficient into the series and we’ll be done.  When we do this make sure and combine the \(x\)’s as well.  We typically only want a single \(x\) in a power series.</p>
+
+      \[h\left( x \right) = \sum\limits_{n = 0}^\infty  {2{{\left( { - 1} \right)}^n}{x^{3n + 2}}} \hspace{0.5in}{\mbox{provided }}\left| x \right| &lt; 1\]
+    </div>
+  </div>
+</div>
+
+<p>As we saw in the previous example we can often use previous results to help us out.  This is an important idea to remember as it can often greatly simplify our work.</p>
+<a class="anchor" name="Series_FcnPower_Ex3"></a>
+<div class="example">
+  <span class="example-title">Example 3</span> Find a power series representation for the following function and determine its interval of convergence.
+
+  \[f\left( x \right) = \frac{x}{{5 - x}}\]
+  <div class="example-content">
+    <span id="SHLink_Soln3" class="SH-Link soln-title">Show Solution</span> <span id="SHImg_Soln3" class="fas fa-caret-right" aria-hidden="true"></span>
+    <div id="SHObj_Soln3" class="soln-content">
+      <p>So, again, we’ve got an \(x\) in the numerator.  So, as with the last example let’s factor that out and see what we’ve got left.</p>
+
+      \[f\left( x \right) = x\,\,\frac{1}{{5 - x}}\]
+
+      <p>If we had a power series representation for</p>
+
+      \[g\left( x \right) = \frac{1}{{5 - x}}\]
+      <p>we could get a power series representation for \(f\left( x \right)\).</p>
+
+      <p>So, let’s find one.  We’ll first notice that in order to use \(\eqref{eq:eq2}\) we’ll need the number in the denominator to be a one.  That’s easy enough to get.</p>
+
+      \[g\left( x \right) = \frac{1}{5}\,\,\frac{1}{{1 - \frac{x}{5}}}\]
+      <p>Now all we need to do to get a power series representation is to replace the \(x\) in \(\eqref{eq:eq3}\) with \(\frac{x}{5}\).  Doing this gives,</p>
+
+      \[g\left( x \right) = \frac{1}{5}\,\,\sum\limits_{n = 0}^\infty  {{{\left( {\frac{x}{5}} \right)}^n}} \hspace{0.5in}{\mbox{provided  }}\left| {\frac{x}{5}} \right| &lt; 1\]
+
+      <p>Now let’s do a little simplification on the series.</p>
+
+      \[\begin{align*}g\left( x \right) & = \frac{1}{5}\,\,\sum\limits_{n = 0}^\infty  {\frac{{{x^n}}}{{{5^n}}}} \\ &amp;  = \sum\limits_{n = 0}^\infty  {\frac{{{x^n}}}{{{5^{n + 1}}}}} \end{align*}\]
+
+      <p>The interval of convergence for this series is,</p>
+
+      \[\left| {\frac{x}{5}} \right| &lt; 1\hspace{0.25in} \Rightarrow \hspace{0.25in}\frac{1}{5}\left| x \right| &lt; 1\hspace{0.25in} \Rightarrow \hspace{0.25in}\left| x \right| &lt; 5\]
+
+      <p>Okay, this was the work for the power series representation for \(g\left( x \right)\) let’s now find a power series representation for the original function.  All we need to do for this is to multiply the power series representation for \(g\left( x \right)\) by \(x\) and we’ll have it.</p>
+
+      \[\begin{align*}f\left( x \right) & = x\,\,\frac{1}{{5 - x}}\\ &amp;  = x\sum\limits_{n = 0}^\infty  {\frac{{{x^n}}}{{{5^{n + 1}}}}} \\ &amp;  = \sum\limits_{n = 0}^\infty  {\frac{{{x^{n + 1}}}}{{{5^{n + 1}}}}} \end{align*}\]
+
+      <p>The interval of convergence doesn’t change and so it will be \(\left| x \right| &lt; 5\).</p>
+    </div>
+  </div>
+</div>
+
+<p>So, hopefully we now have an idea on how to find the power series representation for some functions.  Admittedly all of the functions could be related back to \(\eqref{eq:eq2}\) but it’s a start.</p>
+
+<p>We now need to look at some further manipulation of power series that we will need to do on occasion.  We need to discuss differentiation and integration of power series.</p>
+
+<p>Let’s start with differentiation of the power series,</p>
+
+\[f\left( x \right) = \sum\limits_{n = 0}^\infty  {{c_n}{{\left( {x - a} \right)}^n}}  = {c_0} + {c_1}\left( {x - a} \right) + {c_2}{\left( {x - a} \right)^2} + {c_3}{\left( {x - a} \right)^3} +  \cdots \]
+
+<p>Now, we know that if we differentiate a finite sum of terms all we need to do is differentiate each of the terms and then add them back up.  With infinite sums there are some subtleties involved that we need to be careful with but are somewhat beyond the scope of this course.</p>
+
+<p>Nicely enough for us however, it is known that if the power series representation of \(f\left( x \right)\) has a radius of convergence of \(R &gt; 0\) then the term by term differentiation of the power series will also have a radius of convergence of \(R\) and (more importantly) will in fact be the power series representation of \(f'\left( x \right)\) provided we stay within the radius of convergence.</p>
+
+<p>Again, we should make the point that if we aren’t dealing with a power series then we may or may not be able to differentiate each term of the series to get the derivative of the series.</p>
+
+<p>So, what all this means for us is that,</p>
+
+\[f'\left( x \right) = \frac{d}{{dx}}\sum\limits_{n = 0}^\infty  {{c_n}{{\left( {x - a} \right)}^n}}  = {c_1} + 2{c_2}\left( {x - a} \right) + 3{c_3}{\left( {x - a} \right)^2} +  \cdots  = \sum\limits_{n = 1}^\infty  {n{c_n}{{\left( {x - a} \right)}^{n - 1}}} \]
+
+<p>Note the initial value of this series.  It has been changed from \(n = 0\) to \(n = 1\).  This is an acknowledgement of the fact that the derivative of the first term is zero and hence isn’t in the derivative.  Notice however, that since the <em>n=0</em> term of the above series is also zero, we could start the series at \(n = 0\) if it was required for a particular problem.  In general, however, this won’t be done in this class.</p>
+
+<p>We can now find formulas for higher order derivatives as well now.</p>
+
+\[\begin{align*}f''\left( x \right) & = \sum\limits_{n = 2}^\infty  {n\left( {n - 1} \right){c_n}{{\left( {x - a} \right)}^{n - 2}}} \\ f'''\left( x \right) & = \sum\limits_{n = 3}^\infty  {n\left( {n - 1} \right)\left( {n - 2} \right){c_n}{{\left( {x - a} \right)}^{n - 3}}} \\ &amp; etc.\end{align*}\]
+
+<p>Once again, notice that the initial value of \(n\) changes with each differentiation in order to acknowledge that a term from the original series differentiated to zero.</p>
+
+<p>Let’s now briefly talk about integration.  Just as with the differentiation, when we’ve got an infinite series we need to be careful about just integration term by term.  Much like with derivatives it turns out that as long as we’re working with power series we can just integrate the terms of the series to get the integral of the series itself.  In other words,</p>
+
+
+\[\begin{align*}\int{{f\left( x \right)\,dx}} & = \int{{\sum\limits_{n = 0}^\infty  {{c_n}{{\left( {x - a} \right)}^n}} \,dx}}\\ &amp;  = \sum\limits_{n = 0}^\infty  {\int{{{c_n}{{\left( {x - a} \right)}^n}\,dx}}} \,\\ &amp;  = C + \sum\limits_{n = 0}^\infty  {{c_n}\frac{{{{\left( {x - a} \right)}^{n + 1}}}}{{n + 1}}} \end{align*}\]
+
+<p>Notice that we pick up a constant of integration, \(C\), that is outside the series here.</p>
+
+<p>Let’s summarize the differentiation and integration ideas before moving on to an example or two.</p>
+
+<h4>Fact</h4>
+<div class="fact">
+  <p>If \(f\left( x \right) = \sum\limits_{n = 0}^\infty  {{c_n}{{\left( {x - a} \right)}^n}} \) has a radius of convergence of \(R &gt; 0\) then,</p>
+
+  \[f'\left( x \right) = \sum\limits_{n = 1}^\infty  {n{c_n}{{\left( {x - a} \right)}^{n - 1}}} \hspace{0.5in}\int{{f\left( x \right)\,dx}} = C + \sum\limits_{n = 0}^\infty  {{c_n}\frac{{{{\left( {x - a} \right)}^{n + 1}}}}{{n + 1}}} \]
+
+  <p>and both of these also have a radius of convergence of \(R\).</p>
+</div>
+
+<p>Now, let’s see how we can use these facts to generate some more power series representations of functions.</p>
+<a class="anchor" name="Series_FcnPower_Ex4"></a>
+<div class="example">
+  <span class="example-title">Example 4</span> Find a power series representation for the following function and determine its interval of convergence.
+
+  \[g\left( x \right) = \frac{1}{{{{\left( {1 - x} \right)}^2}}}\]
+  <div class="example-content">
+    <span id="SHLink_Soln4" class="SH-Link soln-title">Show Solution</span> <span id="SHImg_Soln4" class="fas fa-caret-right" aria-hidden="true"></span>
+    <div id="SHObj_Soln4" class="soln-content">
+      <p>To do this problem let’s notice that</p>
+
+      \[\frac{1}{{{{\left( {1 - x} \right)}^2}}} = \frac{d}{{dx}}\left( {\frac{1}{{1 - x}}} \right)\]
+      <p>Then since we’ve got a power series representation for</p>
+
+      \[\frac{1}{{1 - x}}\]
+      <p>all that we’ll need to do is differentiate that power series to get a power series representation for \(g\left( x \right)\).</p>
+
+      \[\begin{align*}g\left( x \right) & = \frac{1}{{{{\left( {1 - x} \right)}^2}}}\\ &amp;  = \frac{d}{{dx}}\left( {\frac{1}{{1 - x}}} \right)\\ &amp;  = \frac{d}{{dx}}\left( {\sum\limits_{n = 0}^\infty  {{x^n}} } \right)\\ &amp;  = \sum\limits_{n = 1}^\infty  {n{x^{n - 1}}} \end{align*}\]
+
+      <p>Then since the original power series had a radius of convergence of \(R = 1\) the derivative, and hence <em>g(x)</em>, will also have a radius of convergence of \(R = 1\).</p>
+    </div>
+  </div>
+</div>
+
+<a class="anchor" name="Series_FcnPower_Ex5"></a>
+<div class="example">
+  <span class="example-title">Example 5</span> Find a power series representation for the following function and determine its interval of convergence.
+
+  \[h\left( x \right) = \ln \left( {5 - x} \right)\]
+  <div class="example-content">
+    <span id="SHLink_Soln5" class="SH-Link soln-title">Show Solution</span> <span id="SHImg_Soln5" class="fas fa-caret-right" aria-hidden="true"></span>
+    <div id="SHObj_Soln5" class="soln-content">
+      <p>In this case we need to notice that</p>
+
+      \[\int{{\frac{1}{{5 - x}}\,dx}} =  - \ln \left( {5 - x} \right)\]
+      <p>and then recall that we have a power series representation for</p>
+
+      \[\frac{1}{{5 - x}}\]
+
+      <p>Remember we found a representation for this in Example 3.  So,</p>
+
+
+      \[\begin{align*}\ln \left( {5 - x} \right) & =  - \int{{\frac{1}{{5 - x}}\,dx}}\\ &amp;  =  - \int{{\sum\limits_{n = 0}^\infty  {\frac{{{x^n}}}{{{5^{n + 1}}}}} \,dx}}\\ &amp;  = C - \sum\limits_{n = 0}^\infty  {\frac{{{x^{n + 1}}}}{{\left( {n + 1} \right){5^{n + 1}}}}} \end{align*}\]
+
+      <p>We can find the constant of integration, \(C\), by plugging in a value of \(x\).  A good choice is \(x = 0\) since that will make the series easy to evaluate.</p>
+
+      \[\begin{align*}\ln \left( {5 - 0} \right) & = C - \sum\limits_{n = 0}^\infty  {\frac{{{0^{n + 1}}}}{{\left( {n + 1} \right){5^{n + 1}}}}} \\ &amp; \ln \left( 5 \right) = C\end{align*}\]
+
+      <p>So, the final answer is,</p>
+
+      \[\ln \left( {5 - x} \right) = \ln \left( 5 \right) - \sum\limits_{n = 0}^\infty  {\frac{{{x^{n + 1}}}}{{\left( {n + 1} \right){5^{n + 1}}}}} \]
+
+      <p>Note that it is okay to have the constant sitting outside of the series like this.  In fact, there is no way to bring it into the series so don’t get excited about it.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://mathquill.com/lib/mathquill.js"></script>
+<script>
+  let MQ = MathQuill.getInterface(2);
+  function math_fmt(parent) {
+    $(parent).contents().each((i, child) => {
+      if (child.nodeType === Node.ELEMENT_NODE) {
+        math_fmt(child);
+      } else if (parent.tagName === 'DIV' && child.nodeType === Node.TEXT_NODE) {
+        let fmt = $('span').append(child.cloneNode(true));
+        MQ.StaticMath(fmt.get());
+        console.log(fmt.get());
+        child.replaceWith(fmt);
+
+        //$(child).wrap('<p></p>');
+        //MQ.StaticMath(child);
+      }
+    });
+  }
+  math_fmt($('#main-article').get());
+  /*
+  var x = document.getElementsByClassName("math");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    if (false) {
+      MQ.MathField(x[i]);
+    } else {
+      MQ.StaticMath(x[i]);
+    }
+  }
+  */
+</script>

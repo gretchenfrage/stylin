@@ -1,0 +1,18 @@
+- meta:
+    title: 'ATM OCN 100 class notes'
+    path: ['care to share', 'AOS 100 notes']
+    mini: 'AOS 100'
+
+- - - copy
+    - from: './*.jpg'
+      to: './'
+
+- - - readDOM
+    - file: './aos_100_notes.html'
+  - - fmtSubheadersH4
+  - - fmtImgBreaks
+  - - wrapWithColumn
+    - column_class: col-5uw
+  - - wrapWithBoilerplate
+  - - absPathRebase
+  - - writeHTML
