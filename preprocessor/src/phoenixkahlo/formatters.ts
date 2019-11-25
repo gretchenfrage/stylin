@@ -251,6 +251,19 @@ export function fmt_code_pre_blocks(
                     );
                 }
 
+                let code_icon = elem.getAttribute('code-icon');
+                if (code_icon != null) {
+                    let icon_bar = el(
+                        'div.code-icon-bar',
+                        el(
+                            'img.code-icon',
+                            { src: code_icon }
+                        )
+                    );
+
+                    code_box.prepend(icon_bar);
+                }
+
                 return [code_box];
             }
         } else {

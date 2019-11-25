@@ -4,7 +4,7 @@
   This is beautiful:
 </p>
 
-<pre class="code" code-colorize="python">
+<pre class="code" code-colorize="python" code-icon="thumbs_up.png">
 y = (5 * x) + 9;
 </pre>
 
@@ -12,7 +12,7 @@ y = (5 * x) + 9;
   This, not so much:
 </p>
 
-<pre class="code" code-colorize="python">
+<pre class="code" code-colorize="python" code-icon="thumbs_down.png">
 y = x*cos(10.0*pow(x,2.0))/(pow(x,2.0) + 1.0);
 </pre>
 
@@ -20,18 +20,21 @@ y = x*cos(10.0*pow(x,2.0))/(pow(x,2.0) + 1.0);
   I've written worse lines myself. You can make sense of it if you squint,
   but it's hard to scan. Particularly, it's hard to tell the lexical depth at a
   glance.
-
-  <span class="footnote rightnote">
-    That line is not my work, I pulled it from a random search which led me to
-    <a href="http://ww2.odu.edu/~agodunov/computing/programs/cpp/dmc_int1.cpp"
-       target="_blank">
-      the home page of Professor Alexander L Godunov
-    </a>
-  </span>
-
 </p>
 
 <br class="clear"/>
+
+<span class="footnote rightnote">
+  That line is not my work, I pulled it from a random search which led me to
+  <a href="http://ww2.odu.edu/~agodunov/computing/programs/cpp/dmc_int1.cpp"
+     target="_blank">
+    the home page of Professor Alexander L Godunov
+  </a>.
+</span>
+
+<br class="clear"/>
+
+<div class="spacer"></div>
 
 <div class="prompt">
   <span class="prompt-arrow" aria-hidden="true">></span>How can we make this readable?
@@ -41,7 +44,7 @@ y = x*cos(10.0*pow(x,2.0))/(pow(x,2.0) + 1.0);
   I've adopted a style for managing these sort of bulky expressions:
 </p>
 
-<pre class="code" code-colorize="python">
+<pre class="code" code-colorize="python" code-icon="thumbs_up.png">
 y = (
     (
         x
@@ -72,7 +75,7 @@ y = (
   For example, I could make it look like this:
 </p>
 
-<pre class="code" code-colorize="python">
+<pre class="code" code-colorize="python" code-icon="thumbs_down.png">
 y = (
     (
         x

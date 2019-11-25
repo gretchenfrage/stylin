@@ -7,6 +7,7 @@
 - - - copy
     - from: './*.png'
       to: './'
+
 - - - readDOM
     - file: './logarithheit.html'
   - - fmtSubheadersH4

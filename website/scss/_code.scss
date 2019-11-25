@@ -38,3 +38,22 @@ span.code pre {
 span.code div {
   display: inline-block
 }
+
+$code-icon-size: 0.55in;
+
+div.code-icon-bar {
+  width: 100%;
+  height: $code-icon-size;
+  padding: 0;
+  margin: 0;
+}
+
+img.code-icon {
+  height: $code-icon-size;
+  width: $code-icon-size;
+  float: right;
+  margin: 0.5em;
+
+  -webkit-filter: drop-shadow(0 0 7px #ffffff88);
+  filter: drop-shadow(0 0 7px #ffffff88);
+}

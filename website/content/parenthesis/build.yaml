@@ -1,8 +1,12 @@
 - meta:
-    title: 'Readable large expressions'
-    path: ['readable large expressions']
+    title: 'Formatting large expressions'
+    path: ['formatting large expressions']
     mini: 'Large Expressions'
     pygment_style: 'darcula'
+
+- - - copy
+    - from: './*.png'
+      to: './'
 
 - - - readDOM
     - file: './parenthesis.html'
