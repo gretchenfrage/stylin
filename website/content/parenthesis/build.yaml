@@ -8,6 +8,11 @@
     - from: './*.png'
       to: './'
 
+- - - compressImages
+    - glob: './*.png'
+      width: 240
+      quality: 85
+
 - - - readDOM
     - file: './parenthesis.html'
   - - wrapWithColumn
