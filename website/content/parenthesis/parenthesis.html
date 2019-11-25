@@ -1,0 +1,101 @@
+<div class="spacer"></div>
+
+<p>
+  This is beautiful:
+</p>
+
+<pre class="code" code-colorize="python">
+y = (5 * x) + 9;
+</pre>
+
+<p>
+  This, not so much:
+</p>
+
+<pre class="code" code-colorize="python">
+y = x*cos(10.0*pow(x,2.0))/(pow(x,2.0) + 1.0);
+</pre>
+
+<p>
+  I've written worse lines myself. You can make sense of it if you squint,
+  but it's hard to scan. Particularly, it's hard to tell the lexical depth at a
+  glance.
+
+  <span class="footnote rightnote">
+    That line is not my work, I pulled it from a random search which led me to
+    <a href="http://ww2.odu.edu/~agodunov/computing/programs/cpp/dmc_int1.cpp"
+       target="_blank">
+      the home page of Professor Alexander L Godunov
+    </a>
+  </span>
+
+</p>
+
+<br class="clear"/>
+
+<div class="prompt">
+  <span class="prompt-arrow" aria-hidden="true">></span>How can we make this readable?
+</div>
+
+<p>
+  I've adopted a style for managing these sort of bulky expressions:
+</p>
+
+<pre class="code" code-colorize="python">
+y = (
+    (
+        x
+    ) * (
+        cos(10.0 * pow(x, 2.0))
+    ) / (
+        pow(x, 2.0) + 1.0
+    )
+);
+</pre>
+
+<p>
+  In bullet points:
+</p>
+
+<ul>
+  <li>Split into terms which make manageable one-liners</li>
+  <li>Put these terms in parenthesis</li>
+  <li>Every other line holds these one-liners</li>
+  <li>And the other lines hold the operands which combine them</li>
+  <li>Then the whole thing goes in parenthesis (plays nicer with other syntax)</li>
+</ul>
+
+<hr class="spacer"/>
+
+<p>
+  Note that I used <b>discretion</b> here; I could have split this line up more or less.
+  For example, I could make it look like this:
+</p>
+
+<pre class="code" code-colorize="python">
+y = (
+    (
+        x
+    ) * (
+        cos(
+            (
+                10.0
+            ) * (
+                pow(
+                    x,
+                    2.0
+                )
+            )
+        )
+    ) / (
+        pow(x, 2.0) + 1.0
+    )
+);
+</pre>
+
+<p>
+  But I think that goes too far, and makes the code harder to read. Use discretion.
+  Remember: humans are the adaptable element in any system.
+</p>
+
+<div class="spacer"></div>

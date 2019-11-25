@@ -18,7 +18,7 @@ import * as formatters from './phoenixkahlo/formatters';
 
 import {OpHandler, OpHandlerSet} from "./machine/types";
 import {OpContext} from "./machine/machinery";
-import {context_free_rule_processor, Processor} from "./general/dom_transform_algebra";
+import {context_free_rule_processor, map_elements, Processor, ReplaceRule} from "./general/dom_transform_algebra";
 import {content_wrap, PageBoilerplateMetadata} from "./phoenixkahlo/dom_wrappers";
 import {req_any_of, req_exact_value, req_page_meta} from "./machine/datatype_validate";
 import {println} from "./general/utils";
@@ -26,11 +26,11 @@ import {req_string} from "./machine/datatype_validate";
 import {column_wrap} from "./phoenixkahlo/dom_wrappers";
 import {
     ExternalCode,
-    fmt_code_colorize_directives,
+    fmt_code_colorize_directives, fmt_code_pre_blocks,
     fmt_h4_subheader,
     fmt_img_breaks,
     fmt_inline_code_directives,
-    PygmentStyle
+    PygmentStyle,
 } from "./phoenixkahlo/formatters";
 import {absolute_path_prepend, insertCssRefTag} from "./general/std_transformations";
 import {ExternalCodeRetriever} from "./phoenixkahlo/formatters";
@@ -111,6 +111,14 @@ function main() {
         ]);
     }
 
+    function fmt_code_pre_blocks_processor(ctx: OpContext): Processor {
+        let pygment_style: PygmentStyle = get_meta_pygment_style(ctx);
+
+        return context_free_rule_processor([
+            fmt_code_pre_blocks(pygment_style)
+        ]);
+    }
+
     /**
      * Add a CSS ref to the stylesheet of [meta.pygment_style].
      * @param ctx
@@ -165,6 +173,11 @@ function main() {
             colorize_code_directives_processor,
             'format directives to colorize code',
         ),
+        fmtCodePreBlocks: std_ops.apply_parametric_processor(
+            fmt_code_pre_blocks_processor,
+            'format code pre blocks',
+        ),
+
         addPygmentCssRef: single_node_mapping(add_pygment_css_ref),
 
         absPathRebase: absPathRebase,

@@ -194,3 +194,101 @@ export function fmt_code_colorize_directives(pygment_style: PygmentStyle): Repla
         return [elem_colored];
     };
 }
+
+export function fmt_code_pre_blocks(
+    pygment_style: PygmentStyle,
+): ReplaceRule {
+    return (node: Node, processor: Processor): Node[] | null => {
+        if (!node_is_element(node)) {
+            return null;
+        }
+        let elem: Element = node;
+
+        if (
+            elem.tagName === 'PRE'
+            &&
+            Array.from(elem.classList).includes('code')
+        ) {
+            let code = elem.textContent.trim();
+            let lexer = elem.getAttribute('code-colorize');
+
+            if (pygment_style === false) {
+                let code_box: Element = el('pre', { class: 'code' }, code);
+
+                return [code_box];
+            } else {
+                let fmt_html: string;
+                if (lexer != null) {
+                    let command = `pygmentize -f html -l ${lexer} -O style=${pygment_style}`;
+                    fmt_html = proc.execSync(command, {
+                        encoding: 'utf-8',
+                        input: code,
+                        stdio: 'pipe',
+                    });
+                } else {
+                    let command = `pygmentize -f html -g -O style=${pygment_style}`;
+                    fmt_html = proc.execSync(command, {
+                        encoding: 'utf-8',
+                        input: code,
+                        stdio: 'pipe',
+                    });
+                }
+                let fmt_dom: Node[] = eval_dom(fmt_html);
+
+                // wrap it in our code box
+                let code_box: Element;
+
+                // but... make the code background color consistent
+                if (use_our_code_bg_color) {
+                    fmt_dom = flat_map(fmt_dom, map_elements(disable_bg));
+
+                    code_box = el('div', {class: 'code'}, fmt_dom);
+                } else {
+                    code_box = el(
+                        'div',
+                        { class: 'code override-colored-code-background-color'},
+                        fmt_dom,
+                    );
+                }
+
+                return [code_box];
+            }
+        } else {
+            return null;
+        }
+    };
+}
+
+
+/*
+function trim_code_snippet(elem: Element): Element | null {
+    if (elem.tagName === 'PRE' && Array.from(elem.classList).includes('code')) {
+        let elem2 = <Element> elem.cloneNode(true);
+        println(`text content = ${elem2.textContent}`);
+        elem2.textContent = elem2.textContent.trim();
+        println(`text content trimmed = ${elem2.textContent}`);
+        println('TRIMMIN');
+        return elem2;
+    } else {
+        return null;
+    }
+}
+
+export const trim_code_snippet_rule: ReplaceRule = (
+    node: Node,
+    processor: Processor
+): Node[] | null => {
+    if (node_is_element(node)) {
+        let trimmed = trim_code_snippet(node);
+        if (trimmed === null) {
+            return null;
+        } else {
+            return [trimmed];
+        }
+    } else {
+        return null;
+    }
+};
+
+
+ */

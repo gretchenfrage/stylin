@@ -1,0 +1,15 @@
+- meta:
+    title: 'Readable large expressions'
+    path: ['readable large expressions']
+    mini: 'Large Expressions'
+    pygment_style: 'darcula'
+
+- - - readDOM
+    - file: './parenthesis.html'
+  - - wrapWithColumn
+    - column_class: inner-col
+  - - fmtCodePreBlocks
+  - - wrapWithBoilerplate
+  - - addPygmentCssRef
+  - - absPathRebase
+  - - writeHTML
