@@ -1,3 +1,16 @@
-- - - copy
-    - from: './bitpit.html'
-      to: './'
+- meta:
+    title: 'Bitpit'
+    path: ['bitpit']
+    mini: 'Bitpit'
+
+- - - readDOM
+    - file: './bitpit.html'
+  - - wrapWithHTMLNode
+#  - - readTxt
+#    - file: './alegreya.css'
+#  - - mergeCSSIntoPage
+  - - addCssRef
+    - path: '/css/alegreya.css'
+  - - absPathRebase
+  - - writeHTML
+    - file: './bitpit.html'

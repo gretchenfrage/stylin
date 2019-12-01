@@ -19,7 +19,7 @@ import * as formatters from './phoenixkahlo/formatters';
 import {OpHandler, OpHandlerSet} from "./machine/types";
 import {OpContext} from "./machine/machinery";
 import {context_free_rule_processor, map_elements, Processor, ReplaceRule} from "./general/dom_transform_algebra";
-import {content_wrap, PageBoilerplateMetadata} from "./phoenixkahlo/dom_wrappers";
+import {content_wrap, html_node_wrap, PageBoilerplateMetadata} from "./phoenixkahlo/dom_wrappers";
 import {req_any_of, req_exact_value, req_page_meta} from "./machine/datatype_validate";
 import {println} from "./general/utils";
 import {req_string} from "./machine/datatype_validate";
@@ -59,6 +59,11 @@ function main() {
 
         println(`> wrapping with column class=${col_class}`);
         return column_wrap(content, col_class);
+    }
+
+    function wrapWithHtmlNode(ctx: OpContext, content: Node[]): Node {
+        println(`> wrapping with HTML node`);
+        return html_node_wrap(content);
     }
 
     let absPathRebase: OpHandler;
@@ -156,6 +161,7 @@ function main() {
 
         wrapWithBoilerplate: std_ops.dom_mapping(wrapWithBoilerplate),
         wrapWithColumn: std_ops.dom_mapping(wrapWithColumn),
+        wrapWithHTMLNode: std_ops.dom_mapping(wrapWithHtmlNode),
 
         fmtSubheadersH4: std_ops.apply_processor(
             context_free_rule_processor([fmt_h4_subheader]),

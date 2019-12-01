@@ -11,12 +11,6 @@
     - from: './lossless'
       to: './'
 
-## simple copy
-#- - - readDOM
-#    - file: './reconciliation.html'
-#  - - absPathRebase
-#  - - writeHTML
-
 # build HTML
 - - - readDOM
     - file: './reconciliation.html'

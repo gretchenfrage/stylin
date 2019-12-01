@@ -77,3 +77,10 @@ export function content_wrap(
 export function column_wrap(content: Node[], col_class: string): Node {
     return el('div', {className: col_class}, content);
 }
+
+/**
+ * Wrap a node array with an HTML node.
+ */
+export function html_node_wrap(content: Node[]): Node {
+    return el('html', {lang: 'en'}, content);
+}
