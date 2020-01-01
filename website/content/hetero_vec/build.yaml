@@ -1,0 +1,13 @@
+- meta:
+    title: 'Heterogenously Sized Vector'
+    path: ['heterovec']
+    mini: 'HeteroSizedVec'
+
+- - - readDOM
+    - file: './hetero_vec.html'
+  - - fmtSubheadersH4
+  - - wrapWithColumn
+    - column_class: inner-col
+  - - wrapWithBoilerplate
+  - - absPathRebase
+  - - writeHTML
